@@ -1,6 +1,5 @@
 import ply.lex as lex
 import re
-
 class NotalScanner(object):
     def t_newline(self, t):
         r'\n+'
@@ -22,4 +21,3 @@ class NotalScanner(object):
             print(token)
 
 if __name__ == "__main__":
-    
