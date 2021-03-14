@@ -4,10 +4,9 @@ r'\<\=' S_LESS_THAN_EQUAL
 r'\>\=' S_GREATER_THAN_EQUAL
 r'(\!\=|\≠)' S_NOT_EQUAL
 r'(\:\=|\<\-)' S_ASSIGNMENT
-r'\<\>' S_NOT_EQUAL
-r'\.\.' S_UP_TO
+r'\.{2}' S_UP_TO
 r'\-\>' S_RETURN
-r'\=' S_EQUAL_BOOL
+r'\=' S_EQUAL
 r'\+\=' S_PLUS_EQUAL
 r'\-\=' S_MINUS_EQUAL
 r'\*\=' S_TIMES_REQUAL
@@ -22,7 +21,7 @@ r'\^'   S_POWER
 r'\<'   S_LESS_THAN
 r'\>'   S_GREATER_THAN
 r'\:'   S_COLON
-r'\;'   S_SEMICOLON
+r'\;'   S_SEMI_COLON
 r'\"'   S_DOUBLE_QUOTE
 r'\''   S_SINGLE_QUOTE
 r'\['   S_LEFT_SQUARE_BRACKET
@@ -31,6 +30,7 @@ r'\{'   S_LEFT_CURLY_BRACKET
 r'\}'   S_RIGHT_CURLY_BRACKET
 r'\&'   S_CONCATENATION
 r'\∈'   S_ELEMENT_OF
+r'\.'   S_DOT
 r'[jJ][uU][dD][uU][lL]' RW_JUDUL
 r'[kK][aA][mM][uU][sS][\s]+[lL][oO][kK][aA][lL]'    RW_KAMUS_LOKAL
 r'[kK][aA][mM][uU][sS]' RW_KAMUS
