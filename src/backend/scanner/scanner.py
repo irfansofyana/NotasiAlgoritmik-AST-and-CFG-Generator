@@ -32,9 +32,62 @@ class NotalScanner(object):
         'S_RIGHT_CURLY_BRACKET',
         'S_CONCATENATION',
         'S_ELEMENT_OF',
-        'S_DOT'
+        'S_DOT',
+        'RW_JUDUL',
+        'RW_KAMUS',
+        'RW_ALGORITMA',
+        'RW_TYPE',
+        'RW_CONSTANT',
+        'RW_FUNCTION',
+        'RW_PROCEDURE',
+        'RW_PROGRAM',
+        'RW_MODUL',
+        'RW_AND',
+        'RW_OR',
+        'RW_XOR',
+        'RW_EQ',
+        'RW_NEQ',
+        'RW_INPUT',
+        'RW_OUTPUT',
+        'RW_IF',
+        'RW_THEN',
+        'RW_ELSE',
+        'RW_DIV',
+        'RW_MOD',
+        'RW_ABS',
+        'RW_SUCC',
+        'RW_PRED',
+        'RW_SIN',
+        'RW_COS',
+        'RW_TAN',
+        'RW_REPEAT',
+        'RW_TIMES',
+        'RW_UNTIL',
+        'RW_WHILE',
+        'RW_DO',
+        'RW_TRAVERSAL',
+        'RW_ITERATE',
+        'RW_STOP',
+        'RW_REAL',
+        'RW_ARRAY',
+        'RW_OF',
+        'RW_SEQFILE',
+        'RW_OPEN',
+        'RW_READ',
+        'RW_REWRITE',
+        'RW_CLOSE',
+        'RW_CHARACTER',
+        'RW_INTEGER',
+        'RW_BOOLEAN',
+        'RW_STRING',
+        'L_TRUE',
+        'L_FALSE',
+        'L_REAL_NUMBER',
+        'L_INTEGER_NUMBER',
+        'L_IDENTIFIER'
     )
 
+    t_ignore                        = ' \t'
     t_S_LESS_THAN_EQUAL             = r'(\<\=|\≤)'
     t_S_GREATER_THAN_EQUAL          = r'(\>\=|\≥)'
     t_S_NOT_EQUAL                   = r'(\!\=|\≠)'
@@ -73,7 +126,63 @@ class NotalScanner(object):
     def t_error(self, t):
         print(f"Illegal character '{t.value[0]}'")
         t.lexer.skip(1)
+    
+    def t_L_IDENTIFIER(self, t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
         
+        reserved = {
+            'judul'         : 'RW_JUDUL',
+            'kamus'         : 'RW_KAMUS',
+            'algoritma'     : 'RW_ALGORITMA',
+            'type'          : 'RW_TYPE',
+            'constant'      : 'RW_CONSTANT',
+            'function'      : 'RW_FUNCTION',
+            'procedure'     : 'RW_PROCEDURE',
+            'program'       : 'RW_PROGRAM',
+            'modul'         : 'RW_MODUL',
+            'and'           : 'RW_AND',
+            'or'            : 'RW_OR',
+            'xor'           : 'RW_XOR',
+            'eq'            : 'RW_EQ',
+            'neq'           : 'RW_NEQ',
+            'input'         : 'RW_INPUT',
+            'output'        : 'RW_OUTPUT',
+            'if'            : 'RW_IF',
+            'then'          : 'RW_THEN',
+            'else'          : 'RW_ELSE',
+            'div'           : 'RW_DIV',
+            'mod'           : 'RW_MOD',
+            'abs'           : 'RW_ABS',
+            'succ'          : 'RW_SUCC',
+            'pred'          : 'RW_PRED',
+            'sin'           : 'RW_SIN',
+            'cos'           : 'RW_COS',
+            'tan'           : 'RW_TAN',
+            'repeat'        : 'RW_REPEAT',
+            'times'         : 'RW_TIMES',
+            'until'         : 'RW_UNTIL',
+            'while'         : 'RW_WHILE',
+            'do'            : 'RW_DO',
+            'traversal'     : 'RW_TRAVERSAL',
+            'iterate'       : 'RW_ITERATE',
+            'stop'          : 'RW_STOP',
+            'real'          : 'RW_REAL',
+            'array'         : 'RW_ARRAY',
+            'of'            : 'RW_OF',
+            'seqfile'       : 'RW_SEQFILE',
+            'open'          : 'RW_OPEN',
+            'read'          : 'RW_READ',
+            'rewrite'       : 'RW_REWRITE',
+            'close'         : 'RW_CLOSE',
+            'character'     : 'RW_CHARACTER',
+            'integer'       : 'RW_INTEGER',
+            'boolean'       : 'RW_BOOLEAN',
+            'string'        : 'RW_STRING',
+        }
+
+        t.type = reserved.get(t.value.lower(),'L_IDENTIFIER')
+        return t
+
     def build(self,**kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
     
@@ -88,4 +197,4 @@ class NotalScanner(object):
 if __name__ == "__main__":
     scanner = NotalScanner()
     scanner.build()
-    scanner.scan('(+-')
+    scanner.scan('judul judul judul kamus')
