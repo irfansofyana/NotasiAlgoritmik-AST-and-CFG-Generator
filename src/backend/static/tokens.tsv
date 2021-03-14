@@ -85,4 +85,4 @@ r'[tT][rR][uU][eE]' L_TRUE
 r'[fF][aA][lL][sS][eE]' L_FALSE
 r'[+-]?([0-9]*[.])[0-9]*'   L_REAL_NUMBER
 r'([1-9][0-9]*)|([0])'  L_INTEGER_NUMBER
-r'[\_]*[a-zA-Z]+[a-zA-Z0-9]*'   IDENTIFIER
+r'[a-zA-Z_][a-zA-Z_0-9]*'   L_IDENTIFIER
