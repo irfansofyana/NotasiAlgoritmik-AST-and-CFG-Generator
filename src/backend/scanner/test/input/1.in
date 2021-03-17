@@ -1,0 +1,7 @@
+PROGRAM
+
+KAMUS
+    x: integer
+
+ALGORITMA
+    x <- 10

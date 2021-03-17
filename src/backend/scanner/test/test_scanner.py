@@ -1,6 +1,8 @@
 import unittest
-
-# TODO: Import Scanner module here
+import os
+import json
+import re
+from src.backend.scanner.notal_scanner import NotalScanner
 
 
 class TestScanner(unittest.TestCase):
@@ -8,14 +10,23 @@ class TestScanner(unittest.TestCase):
         """
         Test the result of process scanning
         """
+        notal_scanner = NotalScanner()
 
-        # TODO: Get input files
-        """ 
-            For each input file:
-                scanner_result = Scan(input)
-                read expected output
-                Check if the results obtained = Expected Ouput
-        """
+        input_folder_dir = "input"
+        output_folder_dir = "output"
+
+        input_files = os.listdir(input_folder_dir)
+        for input_file_name in input_files:
+            with open(f"{input_folder_dir}/{input_file_name}", "r") as f:
+                input_src = f.read()
+            notal_scanner.scan_for_tokens(input_src)
+            generated_tokens = notal_scanner.get_tokens_in_json()
+
+            output_file_name = re.sub(".in", ".json", input_file_name)
+            with open(f"{output_folder_dir}/{output_file_name}", "r") as f:
+                expected_tokens = json.load(f)
+
+            self.assertEqual(generated_tokens, expected_tokens)
 
 
 if __name__ == "__main__":
