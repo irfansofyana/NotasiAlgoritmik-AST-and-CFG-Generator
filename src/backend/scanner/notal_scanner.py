@@ -85,7 +85,8 @@ class NotalScanner(object):
         "L_REAL_NUMBER",
         "L_INTEGER_NUMBER",
         "L_IDENTIFIER",
-        "L_STRING"
+        "L_STRING",
+        "L_CHARACTER"
     )
 
     t_ignore = " \t"
@@ -204,33 +205,14 @@ class NotalScanner(object):
         t.value = int(t.value)
         return t
 
-    STRING_LITERAL_REGEX = (r"""
-    [uU]?[rR]?
-      (?:              # Single-quote (') strings
-      '''(?:                 # Triple-quoted can contain...
-          [^'\\]             | # a non-quote, non-backslash
-          \\.                | # a backslash followed by something
-          '{1,2}(?!')          # one or two quotes
-        )*''' |
-      '(?:                   # Non-triple quoted can contain...
-         [^'\n\\]            | # non-quote, non-backslash, non-NL
-         \\.                   # a backslash followed by something
-      )*' | """+
-    r'''               # Double-quote (") strings
-      """(?:                 # Triple-quoted can contain...
-          [^"\\]             | # a non-quote, non-backslash
-          \\.                | # a backslash followed by something
-          "{1,2}(?!")          # one or two quotes
-        )*""" |
-      "(?:                   # Non-triple quoted can contain...
-         [^"\n\\]            | # non-quote, non-backslash, non-NL
-         \\.                   # a backslash followed by something
-      )*"
-    )''')
-
-    @lex.TOKEN(STRING_LITERAL_REGEX)
     def t_L_STRING(self, t):
+        r'"[^"]*"'
         t.type = "L_STRING"
+        return t
+
+    def t_L_CHARACTER(self, t):
+        r"'[^']{1}'"
+        t.type = "L_CHARACTER"
         return t
 
     def __init__(self, **kwargs):
@@ -268,6 +250,6 @@ class NotalScanner(object):
 
 if __name__ == "__main__":
     scanner = NotalScanner()
-    scanner.scan_for_tokens("x <- 'irfan'; y <- 'testing'")
+    scanner.scan_for_tokens("x <- 'a' ")
     tokens = scanner.get_tokens_in_json()
     print(tokens)
