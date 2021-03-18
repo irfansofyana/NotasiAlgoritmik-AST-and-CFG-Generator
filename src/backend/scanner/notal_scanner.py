@@ -1,6 +1,5 @@
 import ply.lex as lex
 
-
 class NotalScanner(object):
     tokens = (
         "S_LESS_THAN_EQUAL",
@@ -81,11 +80,12 @@ class NotalScanner(object):
         "RW_INTEGER",
         "RW_BOOLEAN",
         "RW_STRING",
-        "L_TRUE",
-        "L_FALSE",
+        "L_TRUE_BOOLEAN",
+        "L_FALSE_BOOLEAN",
         "L_REAL_NUMBER",
         "L_INTEGER_NUMBER",
         "L_IDENTIFIER",
+        "L_STRING"
     )
 
     t_ignore = " \t"
@@ -119,8 +119,6 @@ class NotalScanner(object):
     t_S_CONCATENATION = r"\&"
     t_S_ELEMENT_OF = r"\∈"
     t_S_DOT = r"\."
-    t_L_REAL_NUMBER = r"[+-]?([0-9]*[.])[0-9]*"
-    t_L_INTEGER_NUMBER = r"([1-9][0-9]*)|([0])"
 
     def t_newline(self, t):
         r"\n+"
@@ -183,9 +181,56 @@ class NotalScanner(object):
             "integer": "RW_INTEGER",
             "boolean": "RW_BOOLEAN",
             "string": "RW_STRING",
+            "true": "L_TRUE_BOOLEAN",
+            "false": "L_FALSE_BOOLEAN"
         }
 
-        t.type = reserved.get(t.value.lower(), "L_IDENTIFIER")
+        t.type = reserved.get(str(t.value).lower(), "L_IDENTIFIER")
+
+        if t.type == "L_TRUE_BOOLEAN":
+            t.value = True
+        elif t.type == "L_FALSE_BOOLEAN":
+            t.value = False
+
+        return t
+
+    def t_L_REAL_NUMBER(self, t):
+        r"[+-]?([0-9]*[.])[0-9]*"
+        t.value = float(t.value)
+        return t
+
+    def t_L_INTEGER_NUMBER(self, t):
+        r"([1-9][0-9]*)|([0])"
+        t.value = int(t.value)
+        return t
+
+    STRING_LITERAL_REGEX = (r"""
+    [uU]?[rR]?
+      (?:              # Single-quote (') strings
+      '''(?:                 # Triple-quoted can contain...
+          [^'\\]             | # a non-quote, non-backslash
+          \\.                | # a backslash followed by something
+          '{1,2}(?!')          # one or two quotes
+        )*''' |
+      '(?:                   # Non-triple quoted can contain...
+         [^'\n\\]            | # non-quote, non-backslash, non-NL
+         \\.                   # a backslash followed by something
+      )*' | """+
+    r'''               # Double-quote (") strings
+      """(?:                 # Triple-quoted can contain...
+          [^"\\]             | # a non-quote, non-backslash
+          \\.                | # a backslash followed by something
+          "{1,2}(?!")          # one or two quotes
+        )*""" |
+      "(?:                   # Non-triple quoted can contain...
+         [^"\n\\]            | # non-quote, non-backslash, non-NL
+         \\.                   # a backslash followed by something
+      )*"
+    )''')
+
+    @lex.TOKEN(STRING_LITERAL_REGEX)
+    def t_L_STRING(self, t):
+        t.type = "L_STRING"
         return t
 
     def __init__(self, **kwargs):
@@ -223,6 +268,6 @@ class NotalScanner(object):
 
 if __name__ == "__main__":
     scanner = NotalScanner()
-    scanner.scan_for_tokens("10 10.0")
+    scanner.scan_for_tokens("x <- 'irfan'; y <- 'testing'")
     tokens = scanner.get_tokens_in_json()
     print(tokens)
