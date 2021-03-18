@@ -1,5 +1,4 @@
 import ply.lex as lex
-import re
 
 
 class NotalScanner(object):
@@ -128,7 +127,9 @@ class NotalScanner(object):
         t.lexer.lineno += len(t.value)
 
     def t_error(self, t):
-        print(f"Illegal character '{t.value[0]}'")
+        print(
+            f"Illegal character '{t.value[0]}' at line {t.lineno} column {self.find_column_position(t)}"
+        )
         t.lexer.skip(1)
 
     def t_L_IDENTIFIER(self, t):
@@ -190,13 +191,20 @@ class NotalScanner(object):
     def __init__(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
 
-    def scan_for_tokens(self, data):
-        self.lexer.input(data)
+    def find_column_position(self, token):
+        start_line = self.source.rfind("\n", 0, token.lexpos) + 1
+        return token.lexpos - start_line + 1
+
+    def scan_for_tokens(self, source):
+        self.source = source
+        self.lexer.input(source)
         self.tokens = []
         while True:
             token = self.lexer.token()
             if not token:
                 break
+            else:
+                token.lexpos = (token.lexpos, self.find_column_position(token))
             self.tokens.append(token)
 
     def get_tokens_in_json(self):
@@ -204,8 +212,9 @@ class NotalScanner(object):
             {
                 "type": token.type,
                 "value": token.value,
-                "lineno": token.lineno,
-                "lexpos": token.lexpos,
+                "line_position": token.lineno,
+                "lex_position": token.lexpos[0],
+                "column_position": token.lexpos[1],
             }
             for token in self.tokens
         ]

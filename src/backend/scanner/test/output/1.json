@@ -2,55 +2,64 @@
    {
       "type":"RW_PROGRAM",
       "value":"PROGRAM",
-      "lineno":1,
-      "lexpos":0
+      "line_position":1,
+      "lex_position":0,
+      "column_position":1
    },
    {
       "type":"RW_KAMUS",
       "value":"KAMUS",
-      "lineno":3,
-      "lexpos":9
+      "line_position":3,
+      "lex_position":9,
+      "column_position":1
    },
    {
       "type":"L_IDENTIFIER",
       "value":"x",
-      "lineno":4,
-      "lexpos":19
+      "line_position":4,
+      "lex_position":19,
+      "column_position":5
    },
    {
       "type":"S_COLON",
       "value":":",
-      "lineno":4,
-      "lexpos":20
+      "line_position":4,
+      "lex_position":20,
+      "column_position":6
    },
    {
       "type":"RW_INTEGER",
       "value":"integer",
-      "lineno":4,
-      "lexpos":22
+      "line_position":4,
+      "lex_position":22,
+      "column_position":8
    },
    {
       "type":"RW_ALGORITMA",
       "value":"ALGORITMA",
-      "lineno":6,
-      "lexpos":31
+      "line_position":6,
+      "lex_position":31,
+      "column_position":1
    },
    {
       "type":"L_IDENTIFIER",
       "value":"x",
-      "lineno":7,
-      "lexpos":45
+      "line_position":7,
+      "lex_position":45,
+      "column_position":5
    },
    {
       "type":"S_ASSIGNMENT",
       "value":"<-",
-      "lineno":7,
-      "lexpos":47
+      "line_position":7,
+      "lex_position":47,
+      "column_position":7
    },
    {
       "type":"L_INTEGER_NUMBER",
       "value":"10",
-      "lineno":7,
-      "lexpos":50
+      "line_position":7,
+      "lex_position":50,
+      "column_position":10
    }
 ]
