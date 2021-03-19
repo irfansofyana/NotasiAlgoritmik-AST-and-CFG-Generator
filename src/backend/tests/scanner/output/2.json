@@ -15,7 +15,7 @@
    },
    {
       "type":"L_IDENTIFIER",
-      "value":"x",
+      "value":"str_var",
       "line_position":4,
       "lex_position":19,
       "column_position":5
@@ -24,42 +24,42 @@
       "type":"S_COLON",
       "value":":",
       "line_position":4,
-      "lex_position":20,
-      "column_position":6
+      "lex_position":26,
+      "column_position":12
    },
    {
-      "type":"RW_INTEGER",
-      "value":"integer",
+      "type":"RW_STRING",
+      "value":"string",
       "line_position":4,
-      "lex_position":22,
-      "column_position":8
+      "lex_position":28,
+      "column_position":14
    },
    {
       "type":"RW_ALGORITMA",
       "value":"ALGORITMA",
-      "line_position":6,
-      "lex_position":31,
+      "line_position":7,
+      "lex_position":37,
       "column_position":1
    },
    {
       "type":"L_IDENTIFIER",
-      "value":"x",
-      "line_position":7,
-      "lex_position":45,
+      "value":"str_var",
+      "line_position":8,
+      "lex_position":51,
       "column_position":5
    },
    {
       "type":"S_ASSIGNMENT",
-      "value":"<-",
-      "line_position":7,
-      "lex_position":47,
-      "column_position":7
+      "value":"←",
+      "line_position":8,
+      "lex_position":59,
+      "column_position":13
    },
    {
-      "type":"L_INTEGER_NUMBER",
-      "value":"10",
-      "line_position":7,
-      "lex_position":50,
-      "column_position":10
+      "type":"L_STRING",
+      "value":"\"ini adalah string\"",
+      "line_position":8,
+      "lex_position":61,
+      "column_position":15
    }
 ]
