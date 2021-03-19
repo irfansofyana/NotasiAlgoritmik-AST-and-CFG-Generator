@@ -57,7 +57,7 @@
    },
    {
       "type":"L_INTEGER_NUMBER",
-      "value":"10",
+      "value":10,
       "line_position":7,
       "lex_position":50,
       "column_position":10
