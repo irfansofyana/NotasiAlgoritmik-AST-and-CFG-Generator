@@ -22,8 +22,6 @@ class TestScanner(unittest.TestCase):
             notal_scanner.scan_for_tokens(input_src)
             generated_tokens = notal_scanner.get_tokens_in_json()
 
-            print(generated_tokens)
-
             output_file_name = re.sub(".in", ".json", input_file_name)
             with open(f"{output_folder_dir}/{output_file_name}", encoding='utf-8') as f:
                 expected_tokens = json.load(f)
