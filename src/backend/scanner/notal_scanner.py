@@ -250,6 +250,12 @@ class NotalScanner(object):
 
 if __name__ == "__main__":
     scanner = NotalScanner()
-    scanner.scan_for_tokens("x <- 'a' ")
-    tokens = scanner.get_tokens_in_json()
-    print(tokens)
+
+    input_directory_folder = 'input'
+    input_file_name = '1.in'
+    with open(f'{input_directory_folder}/{input_file_name}', encoding='utf-8') as f:
+        src_input = f.read()
+
+        scanner.scan_for_tokens(src_input)
+        tokens = scanner.get_tokens_in_json()
+        print(tokens)
