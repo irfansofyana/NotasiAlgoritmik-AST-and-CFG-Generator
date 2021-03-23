@@ -86,7 +86,8 @@ class NotalScanner(object):
         "L_INTEGER_NUMBER",
         "L_IDENTIFIER",
         "L_STRING",
-        "L_CHARACTER"
+        "L_CHARACTER",
+        "COMMENT"
     )
 
     t_ignore = " \t"
@@ -120,6 +121,41 @@ class NotalScanner(object):
     t_S_CONCATENATION = r"\&"
     t_S_ELEMENT_OF = r"\∈"
     t_S_DOT = r"\."
+
+
+    states = (
+        ('COMMENT', 'exclusive'),
+    )
+
+    def t_COMMENT(self, t):
+        r'\{'
+        t.lexer.code_start = t.lexer.lexpos
+        t.lexer.level = 1
+        t.lexer.begin('COMMENT')
+
+    def t_COMMENT_L_BRACE(self, t):
+        r'\{'
+        t.lexer.level += 1
+
+    def t_COMMENT_R_BRACE(self, t):
+        r'\}'
+        t.lexer.level -= 1
+
+        if t.lexer.level == 0:
+            t.type = 'COMMENT'
+            t.value = t.lexer.lexdata[t.lexer.code_start + 1 : t.lexer.lexpos]
+            t.lexer.lineno += t.value.count('\n')
+            t.lexer.begin('INITIAL')
+
+            return t
+
+    def t_COMMENT_NONSPACE(self, t):
+        r'[^\s\{\}\'\"]+'
+
+    t_COMMENT_ignore = " \t\n"
+
+    def t_COMMENT_error(self, t):
+        t.lexer.skip(1)
 
     def t_newline(self, t):
         r"\n+"
@@ -252,7 +288,7 @@ if __name__ == "__main__":
     scanner = NotalScanner()
 
     input_directory_folder = 'input'
-    input_file_name = '1.in'
+    input_file_name = '2.in'
     with open(f'{input_directory_folder}/{input_file_name}', encoding='utf-8') as f:
         src_input = f.read()
 

@@ -1,0 +1,7 @@
+PROGRAM testing_2
+{ Ini adalah contoh komentar { ya } {nested nested} }
+
+KAMUS
+
+ALGORITMA
+    output("Ini adalah contoh program nomor 2")
