@@ -84,7 +84,7 @@ class NotalScanner(object):
         "L_FALSE_BOOLEAN",
         "L_REAL_NUMBER",
         "L_INTEGER_NUMBER",
-        "L_IDENTIFIER",
+        "IDENTIFIER",
         "L_STRING",
         "L_CHARACTER",
         "COMMENT"
@@ -167,7 +167,7 @@ class NotalScanner(object):
         )
         t.lexer.skip(1)
 
-    def t_L_IDENTIFIER(self, t):
+    def t_IDENTIFIER(self, t):
         r"[a-zA-Z_][a-zA-Z_0-9]*"
 
         reserved = {
@@ -222,7 +222,7 @@ class NotalScanner(object):
             "false": "L_FALSE_BOOLEAN"
         }
 
-        t.type = reserved.get(str(t.value).lower(), "L_IDENTIFIER")
+        t.type = reserved.get(str(t.value).lower(), "IDENTIFIER")
 
         if t.type == "L_TRUE_BOOLEAN":
             t.value = True
