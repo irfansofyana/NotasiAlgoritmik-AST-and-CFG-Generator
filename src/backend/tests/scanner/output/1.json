@@ -14,7 +14,7 @@
       "column_position":1
    },
    {
-      "type":"L_IDENTIFIER",
+      "type":"IDENTIFIER",
       "value":"x",
       "line_position":4,
       "lex_position":19,
@@ -42,7 +42,7 @@
       "column_position":1
    },
    {
-      "type":"L_IDENTIFIER",
+      "type":"IDENTIFIER",
       "value":"x",
       "line_position":7,
       "lex_position":45,
