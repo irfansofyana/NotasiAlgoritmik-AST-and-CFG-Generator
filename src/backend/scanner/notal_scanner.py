@@ -80,8 +80,7 @@ class NotalScanner(object):
         "RW_INTEGER",
         "RW_BOOLEAN",
         "RW_STRING",
-        "L_TRUE_BOOLEAN",
-        "L_FALSE_BOOLEAN",
+        "L_BOOLEAN",
         "L_REAL_NUMBER",
         "L_INTEGER_NUMBER",
         "IDENTIFIER",
@@ -218,16 +217,14 @@ class NotalScanner(object):
             "integer": "RW_INTEGER",
             "boolean": "RW_BOOLEAN",
             "string": "RW_STRING",
-            "true": "L_TRUE_BOOLEAN",
-            "false": "L_FALSE_BOOLEAN"
+            "true": "L_BOOLEAN",
+            "false": "L_BOOLEAN"
         }
 
         t.type = reserved.get(str(t.value).lower(), "IDENTIFIER")
 
-        if t.type == "L_TRUE_BOOLEAN":
-            t.value = True
-        elif t.type == "L_FALSE_BOOLEAN":
-            t.value = False
+        if t.type == "L_BOOLEAN":
+            t.value = True if str(t.value).lower() == "true" else False
 
         return t
 
@@ -282,16 +279,3 @@ class NotalScanner(object):
             for token in self.tokens
         ]
         return tokens_in_json
-
-
-if __name__ == "__main__":
-    scanner = NotalScanner()
-
-    input_directory_folder = 'input'
-    input_file_name = '2.in'
-    with open(f'{input_directory_folder}/{input_file_name}', encoding='utf-8') as f:
-        src_input = f.read()
-
-        scanner.scan_for_tokens(src_input)
-        tokens = scanner.get_tokens_in_json()
-        print(tokens)
