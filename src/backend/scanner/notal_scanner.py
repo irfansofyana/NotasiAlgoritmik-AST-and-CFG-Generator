@@ -87,6 +87,7 @@ class NotalScanner(object):
         "IDENTIFIER",
         "L_STRING",
         "L_CHARACTER",
+        "L_NIL",
         "COMMENT"
     )
 
@@ -220,7 +221,8 @@ class NotalScanner(object):
             "boolean": "RW_BOOLEAN",
             "string": "RW_STRING",
             "true": "L_BOOLEAN",
-            "false": "L_BOOLEAN"
+            "false": "L_BOOLEAN",
+            "nil": "L_NIL",
         }
 
         t.type = reserved.get(str(t.value).lower(), "IDENTIFIER")
