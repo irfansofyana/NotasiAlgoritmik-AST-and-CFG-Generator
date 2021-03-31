@@ -23,6 +23,7 @@ class NotalScanner(object):
         "S_LESS_THAN",
         "S_GREATER_THAN",
         "S_COLON",
+        "S_COMMA",
         "S_SEMI_COLON",
         "S_DOUBLE_QUOTE",
         "S_SINGLE_QUOTE",
@@ -114,6 +115,7 @@ class NotalScanner(object):
     t_S_GREATER_THAN = r"\>"
     t_S_COLON = r"\:"
     t_S_SEMI_COLON = r"\;"
+    t_S_COMMA = r"\,"
     t_S_DOUBLE_QUOTE = r"\""
     t_S_SINGLE_QUOTE = r"\'"
     t_S_LEFT_SQUARE_BRACKET = r"\["
@@ -234,12 +236,12 @@ class NotalScanner(object):
         return t
 
     def t_L_REAL_NUMBER(self, t):
-        r"[+-]?([0-9]*[.])[0-9]*"
+        r"([0-9]*[.])[0-9]*"
         t.value = float(t.value)
         return t
 
     def t_L_INTEGER_NUMBER(self, t):
-        r"[-]?([1-9][0-9]*)|([0])"
+        r"([1-9][0-9]*)|([0])"
         t.value = int(t.value)
         return t
 

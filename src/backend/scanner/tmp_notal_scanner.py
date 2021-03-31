@@ -15,6 +15,8 @@ class TMPScanner(object):
         "S_LESS_THAN",
         "S_GREATER_THAN",
         "S_ELEMENT_OF",
+        "S_DOT",
+        "S_COMMA",
         "RW_AND",
         "RW_OR",
         "RW_XOR",
@@ -30,6 +32,7 @@ class TMPScanner(object):
         "IDENTIFIER",
         "L_STRING",
         "L_CHARACTER",
+        "L_NIL",
     )
 
     t_ignore = " \t"
@@ -46,6 +49,8 @@ class TMPScanner(object):
     t_S_LESS_THAN = r"\<"
     t_S_GREATER_THAN = r"\>"
     t_S_ELEMENT_OF = r"\∈"
+    t_S_DOT = r"\."
+    t_S_COMMA = r"\,"
 
     # states = (
     #     ('COMMENT', 'exclusive'),
@@ -144,7 +149,8 @@ class TMPScanner(object):
             "boolean": "RW_BOOLEAN",
             "string": "RW_STRING",
             "true": "L_BOOLEAN_TRUE",
-            "false": "L_BOOLEAN_FALSE"
+            "false": "L_BOOLEAN_FALSE",
+            "nil": "L_NIL",
         }
 
         t.type = reserved.get(str(t.value).lower(), "IDENTIFIER")
@@ -155,12 +161,12 @@ class TMPScanner(object):
         return t
 
     def t_L_REAL_NUMBER(self, t):
-        r"[-]?([0-9]*[.])[0-9]*"
+        r"([0-9]*[.])[0-9]*"
         t.value = float(t.value)
         return t
 
     def t_L_INTEGER_NUMBER(self, t):
-        r"[-]?([1-9][0-9]*)|([0])"
+        r"([1-9][0-9]*)|([0])"
         t.value = int(t.value)
         return t
 
