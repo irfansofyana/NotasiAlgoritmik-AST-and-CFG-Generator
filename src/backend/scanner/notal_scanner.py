@@ -239,7 +239,7 @@ class NotalScanner(object):
         return t
 
     def t_L_INTEGER_NUMBER(self, t):
-        r"[+-]?([1-9][0-9]*)|([0])"
+        r"[-]?([1-9][0-9]*)|([0])"
         t.value = int(t.value)
         return t
 
