@@ -81,7 +81,8 @@ class NotalScanner(object):
         "RW_INTEGER",
         "RW_BOOLEAN",
         "RW_STRING",
-        "L_BOOLEAN",
+        "L_BOOLEAN_TRUE",
+        "L_BOOLEAN_FALSE",
         "L_REAL_NUMBER",
         "L_INTEGER_NUMBER",
         "IDENTIFIER",
@@ -220,8 +221,8 @@ class NotalScanner(object):
             "integer": "RW_INTEGER",
             "boolean": "RW_BOOLEAN",
             "string": "RW_STRING",
-            "true": "L_BOOLEAN",
-            "false": "L_BOOLEAN",
+            "true": "L_BOOLEAN_TRUE",
+            "false": "L_BOOLEAN_FALSE",
             "nil": "L_NIL",
         }
 

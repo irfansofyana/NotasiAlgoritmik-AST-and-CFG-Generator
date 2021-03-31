@@ -1,170 +1,170 @@
 [
-  {
-    "type": "RW_PROGRAM",
-    "value": "PROGRAM",
-    "line_position": 1,
-    "lex_position": 0,
-    "column_position": 1
-  },
-  {
-    "type": "IDENTIFIER",
-    "value": "contoh_boolean",
-    "line_position": 1,
-    "lex_position": 8,
-    "column_position": 9
-  },
-  {
-    "type": "RW_KAMUS",
-    "value": "KAMUS",
-    "line_position": 3,
-    "lex_position": 24,
-    "column_position": 1
-  },
-  {
-    "type": "IDENTIFIER",
-    "value": "bool_var",
-    "line_position": 4,
-    "lex_position": 34,
-    "column_position": 5
-  },
-  {
-    "type": "S_COLON",
-    "value": ":",
-    "line_position": 4,
-    "lex_position": 42,
-    "column_position": 13
-  },
-  {
-    "type": "RW_BOOLEAN",
-    "value": "boolean",
-    "line_position": 4,
-    "lex_position": 44,
-    "column_position": 15
-  },
-  {
-    "type": "RW_ALGORITMA",
-    "value": "ALGORITMA",
-    "line_position": 6,
-    "lex_position": 53,
-    "column_position": 1
-  },
-  {
-    "type": "IDENTIFIER",
-    "value": "bool_var",
-    "line_position": 7,
-    "lex_position": 67,
-    "column_position": 5
-  },
-  {
-    "type": "S_ASSIGNMENT",
-    "value": "<-",
-    "line_position": 7,
-    "lex_position": 76,
-    "column_position": 14
-  },
-  {
-    "type": "L_BOOLEAN",
-    "value": true,
-    "line_position": 7,
-    "lex_position": 79,
-    "column_position": 17
-  },
-  {
-    "type": "RW_IF",
-    "value": "if",
-    "line_position": 8,
-    "lex_position": 88,
-    "column_position": 5
-  },
-  {
-    "type": "S_LEFT_BRACKET",
-    "value": "(",
-    "line_position": 8,
-    "lex_position": 91,
-    "column_position": 8
-  },
-  {
-    "type": "IDENTIFIER",
-    "value": "bool_var",
-    "line_position": 8,
-    "lex_position": 92,
-    "column_position": 9
-  },
-  {
-    "type": "S_RIGHT_BRACKET",
-    "value": ")",
-    "line_position": 8,
-    "lex_position": 100,
-    "column_position": 17
-  },
-  {
-    "type": "RW_THEN",
-    "value": "then",
-    "line_position": 8,
-    "lex_position": 102,
-    "column_position": 19
-  },
-  {
-    "type": "RW_OUTPUT",
-    "value": "output",
-    "line_position": 9,
-    "lex_position": 115,
-    "column_position": 9
-  },
-  {
-    "type": "S_LEFT_BRACKET",
-    "value": "(",
-    "line_position": 9,
-    "lex_position": 121,
-    "column_position": 15
-  },
-  {
-    "type": "L_STRING",
-    "value": "\"Benar\"",
-    "line_position": 9,
-    "lex_position": 122,
-    "column_position": 16
-  },
-  {
-    "type": "S_RIGHT_BRACKET",
-    "value": ")",
-    "line_position": 9,
-    "lex_position": 129,
-    "column_position": 23
-  },
-  {
-    "type": "RW_ELSE",
-    "value": "else",
-    "line_position": 10,
-    "lex_position": 135,
-    "column_position": 5
-  },
-  {
-    "type": "RW_OUTPUT",
-    "value": "output",
-    "line_position": 11,
-    "lex_position": 148,
-    "column_position": 9
-  },
-  {
-    "type": "S_LEFT_BRACKET",
-    "value": "(",
-    "line_position": 11,
-    "lex_position": 154,
-    "column_position": 15
-  },
-  {
-    "type": "L_STRING",
-    "value": "\"Salah\"",
-    "line_position": 11,
-    "lex_position": 155,
-    "column_position": 16
-  },
-  {
-    "type": "S_RIGHT_BRACKET",
-    "value": ")",
-    "line_position": 11,
-    "lex_position": 162,
-    "column_position": 23
-  }
+   {
+      "type":"RW_PROGRAM",
+      "value":"PROGRAM",
+      "line_position":1,
+      "lex_position":0,
+      "column_position":1
+   },
+   {
+      "type":"IDENTIFIER",
+      "value":"contoh_boolean",
+      "line_position":1,
+      "lex_position":8,
+      "column_position":9
+   },
+   {
+      "type":"RW_KAMUS",
+      "value":"KAMUS",
+      "line_position":3,
+      "lex_position":24,
+      "column_position":1
+   },
+   {
+      "type":"IDENTIFIER",
+      "value":"bool_var",
+      "line_position":4,
+      "lex_position":34,
+      "column_position":5
+   },
+   {
+      "type":"S_COLON",
+      "value":":",
+      "line_position":4,
+      "lex_position":42,
+      "column_position":13
+   },
+   {
+      "type":"RW_BOOLEAN",
+      "value":"boolean",
+      "line_position":4,
+      "lex_position":44,
+      "column_position":15
+   },
+   {
+      "type":"RW_ALGORITMA",
+      "value":"ALGORITMA",
+      "line_position":6,
+      "lex_position":53,
+      "column_position":1
+   },
+   {
+      "type":"IDENTIFIER",
+      "value":"bool_var",
+      "line_position":7,
+      "lex_position":67,
+      "column_position":5
+   },
+   {
+      "type":"S_ASSIGNMENT",
+      "value":"<-",
+      "line_position":7,
+      "lex_position":76,
+      "column_position":14
+   },
+   {
+      "type":"L_BOOLEAN_TRUE",
+      "value":"True",
+      "line_position":7,
+      "lex_position":79,
+      "column_position":17
+   },
+   {
+      "type":"RW_IF",
+      "value":"if",
+      "line_position":8,
+      "lex_position":88,
+      "column_position":5
+   },
+   {
+      "type":"S_LEFT_BRACKET",
+      "value":"(",
+      "line_position":8,
+      "lex_position":91,
+      "column_position":8
+   },
+   {
+      "type":"IDENTIFIER",
+      "value":"bool_var",
+      "line_position":8,
+      "lex_position":92,
+      "column_position":9
+   },
+   {
+      "type":"S_RIGHT_BRACKET",
+      "value":")",
+      "line_position":8,
+      "lex_position":100,
+      "column_position":17
+   },
+   {
+      "type":"RW_THEN",
+      "value":"then",
+      "line_position":8,
+      "lex_position":102,
+      "column_position":19
+   },
+   {
+      "type":"RW_OUTPUT",
+      "value":"output",
+      "line_position":9,
+      "lex_position":115,
+      "column_position":9
+   },
+   {
+      "type":"S_LEFT_BRACKET",
+      "value":"(",
+      "line_position":9,
+      "lex_position":121,
+      "column_position":15
+   },
+   {
+      "type":"L_STRING",
+      "value":"\"Benar\"",
+      "line_position":9,
+      "lex_position":122,
+      "column_position":16
+   },
+   {
+      "type":"S_RIGHT_BRACKET",
+      "value":")",
+      "line_position":9,
+      "lex_position":129,
+      "column_position":23
+   },
+   {
+      "type":"RW_ELSE",
+      "value":"else",
+      "line_position":10,
+      "lex_position":135,
+      "column_position":5
+   },
+   {
+      "type":"RW_OUTPUT",
+      "value":"output",
+      "line_position":11,
+      "lex_position":148,
+      "column_position":9
+   },
+   {
+      "type":"S_LEFT_BRACKET",
+      "value":"(",
+      "line_position":11,
+      "lex_position":154,
+      "column_position":15
+   },
+   {
+      "type":"L_STRING",
+      "value":"\"Salah\"",
+      "line_position":11,
+      "lex_position":155,
+      "column_position":16
+   },
+   {
+      "type":"S_RIGHT_BRACKET",
+      "value":")",
+      "line_position":11,
+      "lex_position":162,
+      "column_position":23
+   }
 ]

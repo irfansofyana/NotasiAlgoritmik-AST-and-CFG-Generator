@@ -11,8 +11,8 @@ class TestScanner(unittest.TestCase):
         Test the result of process scanning
         """
 
-        input_folder_dir = "scanner/input"
-        output_folder_dir = "scanner/output"
+        input_folder_dir = "input"
+        output_folder_dir = "output"
 
         input_files = os.listdir(input_folder_dir)
         for input_file_name in input_files:
