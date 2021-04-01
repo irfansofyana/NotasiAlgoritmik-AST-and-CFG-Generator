@@ -36,6 +36,7 @@ class NotalScanner(object):
         "S_DOT",
         "RW_JUDUL",
         "RW_KAMUS",
+        "RW_LOKAL",
         "RW_ALGORITMA",
         "RW_TYPE",
         "RW_CONSTANT",
@@ -177,6 +178,7 @@ class NotalScanner(object):
         reserved = {
             "judul": "RW_JUDUL",
             "kamus": "RW_KAMUS",
+            "lokal": "RW_LOKAL",
             "algoritma": "RW_ALGORITMA",
             "type": "RW_TYPE",
             "constant": "RW_CONSTANT",

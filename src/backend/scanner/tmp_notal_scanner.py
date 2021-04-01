@@ -17,6 +17,8 @@ class TMPScanner(object):
         "S_ELEMENT_OF",
         "S_DOT",
         "S_COMMA",
+        "RW_KAMUS",
+        "RW_LOKAL",
         "RW_AND",
         "RW_OR",
         "RW_XOR",
@@ -102,6 +104,7 @@ class TMPScanner(object):
         reserved = {
             "judul": "RW_JUDUL",
             "kamus": "RW_KAMUS",
+            "lokal": "RW_LOKAL",
             "algoritma": "RW_ALGORITMA",
             "type": "RW_TYPE",
             "constant": "RW_CONSTANT",
