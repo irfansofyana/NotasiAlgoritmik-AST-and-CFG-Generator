@@ -1,9 +1,9 @@
 import ply.yacc as yacc
-from src.backend.scanner.tmp_notal_scanner import TMPScanner
+from src.backend.scanner.notal_scanner import NotalScanner
 
 class NotalParser(object):
-    tokens = TMPScanner.tokens
-    start = 'expression'
+    tokens = NotalScanner.tokens
+    start = 'file'
 
     def p_file(self, p):
         """file :   program
@@ -24,12 +24,12 @@ class NotalParser(object):
 
     def p_block_1(self, p):
         """block_1  :   block_2
-                    |   type_declaration block_2
+                    |   constant_declaration block_2
         """
 
     def p_block_2(self, p):
         """block_2  :   block_3
-                    |   constant_declaration block_3
+                    |   type_declaration block_3
         """
 
     def p_block_3(self, p):
@@ -97,26 +97,45 @@ class NotalParser(object):
         """
 
     def p_variable_sub_declaration(self, p):
-        """variable_sub_declaration :   identifier_list S_COLON type_denoter
+        """variable_sub_declaration :   identifier_list S_COLON type_denoter S_EQUAL constant
+        """
+
+    def p_constant_declaration(self, p):
+        """constant_declaration :   constant_declaration constant_sub_declaration
+                                |   constant_sub_declaration
+        """
+
+    def p_constant_sub_declaration(self, p):
+        """constant_sub_declaration :   RW_CONSTANT IDENTIFIER S_COLON type_denoter
+        """
+
+    def p_type_declaration(self, p):
+        """type_declaration :   type_declaration type_sub_declaration
+                            |   type_sub_declaration
+        """
+
+    def p_type_sub_declaration(self, p):
+        """type_sub_declaration :   RW_TYPE identifier S_COLON type_variety
+        """
+
+    def p_type_variety(self, p):
+        """type_variety : type_denoter
         """
 
     def p_unsigned_constant(self, p):
-        """unsigned_constant : L_INTEGER_NUMBER
-                    | L_STRING
-                    | L_REAL_NUMBER
-                    | L_BOOLEAN_TRUE
-                    | L_BOOLEAN_FALSE
-                    | L_CHARACTER
-                    | L_NIL
+        """unsigned_constant :  numerical_constant
+                            |   string_char_constant
+                            |   boolean_constant
+                            |   L_NIL
         """
 
     def p_constant(self, p):
-        """constant :   L_STRING
-                    |   L_CHARACTER
-                    |   constant_non_string
-                    |   sign constant_non_string
-                    |   L_BOOLEAN_TRUE
-                    |   L_BOOLEAN_FALSE
+        """constant :   string_char_constant
+                    |   numerical_constant
+                    |   sign numerical_constant
+                    |   boolean_constant
+                    |   variable
+                    |   L_NIL
         """
 
     def p_sign(self, p):
@@ -124,10 +143,19 @@ class NotalParser(object):
                     |   S_MINUS
         """
 
-    def p_constant_non_string(self, p):
-        """constant_non_string  :   L_INTEGER_NUMBER
+    def p_boolean_constant(self, p):
+        """boolean_constant :   L_BOOLEAN_TRUE
+                            |   L_BOOLEAN_FALSE
+        """
+
+    def p_numerical_constant(self, p):
+        """numerical_constant  :   L_INTEGER_NUMBER
                                 |   L_REAL_NUMBER
-                                |   variable
+        """
+
+    def p_string_char_constant(self, p):
+        """string_char_constant :   L_STRING
+                                |   L_CHARACTER
         """
 
     def p_variable(self, p):
@@ -202,7 +230,7 @@ class NotalParser(object):
         print("Syntax error on input!")
 
     def __init__(self):
-        self.lexer = TMPScanner()
+        self.lexer = NotalScanner()
         self.parser = yacc.yacc(module=self)
 
     def parse(self, source):
