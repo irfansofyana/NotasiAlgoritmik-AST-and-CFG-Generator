@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 from src.backend.scanner.notal_scanner import NotalScanner
 
+
 class NotalParser(object):
     tokens = NotalScanner.tokens
     start = 'file'
@@ -97,7 +98,12 @@ class NotalParser(object):
         """
 
     def p_variable_sub_declaration(self, p):
-        """variable_sub_declaration :   identifier_list S_COLON type_denoter S_EQUAL constant
+        """variable_sub_declaration :   identifier_list S_COLON type_denoter
+        """
+
+    def p_variable_declaration_comma(self, p):
+        """variable_declaration_comma   :   variable_sub_declaration
+                                        |   variable_sub_declaration S_COMMA variable_declaration_comma
         """
 
     def p_constant_declaration(self, p):
@@ -106,7 +112,7 @@ class NotalParser(object):
         """
 
     def p_constant_sub_declaration(self, p):
-        """constant_sub_declaration :   RW_CONSTANT IDENTIFIER S_COLON type_denoter
+        """constant_sub_declaration :   RW_CONSTANT IDENTIFIER S_COLON type_denoter S_EQUAL constant
         """
 
     def p_type_declaration(self, p):
@@ -119,7 +125,12 @@ class NotalParser(object):
         """
 
     def p_type_variety(self, p):
-        """type_variety : type_denoter
+        """type_variety :   type_denoter
+                        |   type_user_defined
+        """
+
+    def p_type_user_defined(self, p):
+        """type_user_defined    :   S_LESS_THAN variable_declaration_comma S_GREATER_THAN
         """
 
     def p_unsigned_constant(self, p):
