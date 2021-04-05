@@ -121,7 +121,7 @@ class NotalParser(object):
         """
 
     def p_type_sub_declaration(self, p):
-        """type_sub_declaration :   RW_TYPE identifier S_COLON type_variety
+        """type_sub_declaration :   RW_TYPE IDENTIFIER S_COLON type_variety
         """
 
     def p_type_variety(self, p):
