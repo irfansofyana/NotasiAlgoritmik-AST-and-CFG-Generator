@@ -1,1 +1,6 @@
-10
+PROGRAM contoh
+
+KAMUS
+    a, b : integer
+
+ALGORITMA

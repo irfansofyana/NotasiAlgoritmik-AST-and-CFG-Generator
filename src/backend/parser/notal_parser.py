@@ -133,6 +133,42 @@ class NotalParser(object):
         """type_user_defined    :   S_LESS_THAN variable_declaration_comma S_GREATER_THAN
         """
 
+    def p_procedure_and_function_declaration(self, p):
+        """procedure_and_function_declaration   :   procedure_and_function_declaration procedure_and_function_sub_declaration
+                                                |   procedure_and_function_sub_declaration
+        """
+
+    def p_procedure_and_function_sub_declaration(self, p):
+        """procedure_and_function_sub_declaration   :   procedure_declaration
+                                                    |   function_declaration
+        """
+
+    def p_procedure_declaration(self, p):
+        """procedure_declaration    :
+        """
+
+    def p_function_declaration(self, p):
+        """function_declaration :   RW_FUNCTION IDENTIFIER S_LEFT_BRACKET function_parameter_list_option S_RIGHT_BRACKET S_RETURN type_denoter
+        """
+
+    def p_function_parameter_list_option(self, p):
+        """function_parameter_list_option   :   function_parameter_list
+                                            |   empty
+        """
+
+    def p_function_parameter_list(self, p):
+        """function_parameter_list  :   function_parameter_declaration S_SEMI_COLON function_parameter_list
+                                    |   function_parameter_declaration
+        """
+
+    def p_function_parameter_declaration(self, p):
+        """function_parameter_declaration   :   variable_sub_declaration
+        """
+
+    def p_statement_list(self, p):
+        """statement_list   :
+        """
+
     def p_unsigned_constant(self, p):
         """unsigned_constant :  numerical_constant
                             |   string_char_constant
@@ -239,6 +275,11 @@ class NotalParser(object):
 
     def p_error(self, p):
         print("Syntax error on input!")
+
+    def p_empty(self, p):
+        """empty    :
+        """
+        pass
 
     def __init__(self):
         self.lexer = NotalScanner()
