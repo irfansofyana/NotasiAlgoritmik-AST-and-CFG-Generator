@@ -243,7 +243,7 @@ class NotalParser(object):
         """
 
     def p_field_designator(self, p):
-        """variable_access S_DOT IDENTIFIER
+        """field_designator :   variable_access S_DOT IDENTIFIER
         """
 
     def p_expression(self, p):
@@ -309,10 +309,6 @@ class NotalParser(object):
         """primary_expression : variable_access
                             | unsigned_constant
                             | S_LEFT_BRACKET expression S_RIGHT_BRACKET
-        """
-
-    def p_field_id(self, p):
-        """field_id : IDENTIFIER
         """
 
     def p_error(self, p):
