@@ -192,7 +192,7 @@ class NotalParser(object):
         """
 
     def p_unsigned_constant(self, p):
-        """unsigned_constant :  numerical_constant
+        """unsigned_constant :  non_string_constant
                             |   string_char_constant
                             |   boolean_constant
                             |   L_NIL
@@ -200,10 +200,9 @@ class NotalParser(object):
 
     def p_constant(self, p):
         """constant :   string_char_constant
-                    |   numerical_constant
-                    |   sign numerical_constant
+                    |   non_string_constant
+                    |   sign non_string_constant
                     |   boolean_constant
-                    |   variable
                     |   L_NIL
         """
 
@@ -217,9 +216,10 @@ class NotalParser(object):
                             |   L_BOOLEAN_FALSE
         """
 
-    def p_numerical_constant(self, p):
-        """numerical_constant  :   L_INTEGER_NUMBER
-                                |   L_REAL_NUMBER
+    def p_non_string_constant(self, p):
+        """non_string_constant  :    L_INTEGER_NUMBER
+                       |    L_REAL_NUMBER
+                       |    IDENTIFIER
         """
 
     def p_string_char_constant(self, p):
@@ -227,9 +227,23 @@ class NotalParser(object):
                                 |   L_CHARACTER
         """
 
-    def p_variable(self, p):
-        """variable : IDENTIFIER
-                    | variable S_DOT field_id
+    def p_variable_access(self, p):
+        """variable_access : IDENTIFIER
+                            | indexed_variable
+                            | field_designator
+        """
+
+    def p_indexed_variable(self, p):
+        """indexed_variable :   variable_access S_LEFT_BRACKET index_expression_list S_RIGHT_BRACKET
+        """
+
+    def p_index_expression_list(self, p):
+        """index_expression_list    :   index_expression_list S_COMMA expression
+                                    |   expression
+        """
+
+    def p_field_designator(self, p):
+        """variable_access S_DOT IDENTIFIER
         """
 
     def p_expression(self, p):
@@ -290,8 +304,9 @@ class NotalParser(object):
             |   RW_NOT
         """
 
+    # TODO: Add other necessary rule (related to function)
     def p_primary_expression(self, p):
-        """primary_expression : variable
+        """primary_expression : variable_access
                             | unsigned_constant
                             | S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
