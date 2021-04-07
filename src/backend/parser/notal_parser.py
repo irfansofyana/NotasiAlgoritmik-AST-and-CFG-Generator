@@ -144,11 +144,33 @@ class NotalParser(object):
         """
 
     def p_procedure_declaration(self, p):
-        """procedure_declaration    :
+        """procedure_declaration    :   RW_PROCEDURE IDENTIFIER
+                                    |   RW_PROCEDURE IDENTIFIER S_LEFT_BRACKET procedure_parameter_list_option S_RIGHT_BRACKET
+        """
+
+    def p_procedure_parameter_list_option(self, p):
+        """procedure_parameter_list_option  :   procedure_parameter_list
+                                            |   empty
+        """
+
+    def p_procedure_parameter_list(self, p):
+        """procedure_parameter_list :   procedure_parameter_declaration S_SEMI_COLON procedure_parameter_list
+                                    |   procedure_parameter_declaration
+        """
+
+    def p_procedure_parameter_declaration(self, p):
+        """procedure_parameter_declaration  :   procedure_parameter_type  variable_sub_declaration
+        """
+
+    def p_procedure_parameter_type(self, p):
+        """procedure_parameter_type :   RW_INPUT
+                                    |   RW_OUTPUT
+                                    |   RW_INPUT S_DIVIDE RW_OUTPUT
         """
 
     def p_function_declaration(self, p):
         """function_declaration :   RW_FUNCTION IDENTIFIER S_LEFT_BRACKET function_parameter_list_option S_RIGHT_BRACKET S_RETURN type_denoter
+                                |   RW_FUNCTION IDENTIFIER S_RETURN type_denoter
         """
 
     def p_function_parameter_list_option(self, p):
@@ -166,7 +188,7 @@ class NotalParser(object):
         """
 
     def p_statement_list(self, p):
-        """statement_list   :
+        """statement_list   :   empty
         """
 
     def p_unsigned_constant(self, p):
@@ -274,6 +296,7 @@ class NotalParser(object):
         """
 
     def p_error(self, p):
+        print(p)
         print("Syntax error on input!")
 
     def p_empty(self, p):
