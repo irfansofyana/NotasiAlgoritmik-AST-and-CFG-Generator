@@ -276,7 +276,12 @@ class NotalParser(object):
 
     def p_unary_expression(self, p):
         """unary_expression : unary_op unary_expression
-                        |   primary_expression
+                        |   exponentiation_expression
+        """
+
+    def p_exponentiation_expression(self, p):
+        """exponentiation_expression    :   primary_expression
+                                        |   primary_expression S_POWER exponentiation_expression
         """
 
     def p_unary_op(self, p):
