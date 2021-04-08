@@ -331,5 +331,4 @@ class NotalParser(object):
 
     def parse(self, source):
         self.source = self.get_cleaner_source(source)
-        print(self.source)
         return self.parser.parse(self.source, self.lexer)
