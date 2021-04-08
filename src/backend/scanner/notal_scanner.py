@@ -1,4 +1,6 @@
 import ply.lex as lex
+import copy
+
 
 class NotalScanner(object):
     tokens = (
@@ -91,7 +93,8 @@ class NotalScanner(object):
         "L_STRING",
         "L_CHARACTER",
         "L_NIL",
-        "COMMENT"
+        "COMMENT",
+        "WHITESPACE"
     )
 
     t_ignore = " \t"
@@ -127,7 +130,6 @@ class NotalScanner(object):
     t_S_ELEMENT_OF = r"\∈"
     t_S_DOT = r"\."
 
-
     states = (
         ('COMMENT', 'exclusive'),
     )
@@ -162,9 +164,11 @@ class NotalScanner(object):
     def t_COMMENT_error(self, t):
         t.lexer.skip(1)
 
-    def t_newline(self, t):
-        r"\n+"
-        t.lexer.lineno += len(t.value)
+    def t_WHITESPACE(self, t):
+        r"\n[ ]*"
+        t.lexer.lineno += 1
+        t.type = 'WHITESPACE'
+        return t
 
     def t_error(self, t):
         print(
@@ -248,7 +252,7 @@ class NotalScanner(object):
         return t
 
     def t_L_STRING(self, t):
-        r'"[^"]*"'
+        r'"[^\n"]*"'
         t.type = "L_STRING"
         return t
 
@@ -260,21 +264,113 @@ class NotalScanner(object):
     def __init__(self, **kwargs):
         self.lexer = lex.lex(module=self, **kwargs)
 
-    def find_column_position(self, token):
-        start_line = self.source.rfind("\n", 0, token.lexpos) + 1
-        return token.lexpos - start_line + 1
+    def input(self, *args, **kwds):
+        self.lexer.input(*args, **kwds)
+
+    def token(self):
+        return self.lexer.token()
+
+
+class IndentLexer(object):
+    """
+    A second lexing stage that interprets WHITESPACE
+    Manages Off-Side Rule for indentation
+    """
+    def __init__(self, lexer):
+        self.indents = [0]  # indentation stack
+        self.tokens = []    # token queue
+        self.lexer = lexer
+        self.source = None
+        self.notal_tokens = []
+
+    def input(self, *args, **kwds):
+        self.lexer.input(*args, **kwds)
+
+    # Iterator interface
+    def __iter__(self):
+        return self
+
+    def next(self):
+        t = self.token()
+        if t is None:
+            raise StopIteration
+        return t
+
+    __next__ = next
+
+    def token(self):
+        # empty our buffer first
+        if self.tokens:
+            return self.tokens.pop(0)
+
+        # loop until we find a valid token
+        while 1:
+            # grab the next from first stage
+            token = self.lexer.token()
+
+            # we only care about whitespace
+            if not token or token.type != 'WHITESPACE':
+                return token
+
+            # check for new indent/dedent
+            whitespace = token.value[1:]  # strip \n
+            change = self._calc_indent(whitespace)
+            if change:
+                break
+
+        # indentation change
+        if change == 1:
+            token.type = 'INDENT'
+            return token
+
+        # dedenting one or more times
+        assert change < 0
+        change += 1
+        token.type = 'DEDENT'
+
+        # buffer any additional DEDENTs
+        while change:
+            self.tokens.append(copy.copy(token))
+            change += 1
+
+        return token
+
+    def _calc_indent(self, whitespace):
+        "returns a number representing indents added or removed"
+        n = len(whitespace) # number of spaces
+        indents = self.indents # stack of space numbers
+        if n > indents[-1]:
+            indents.append(n)
+            return 1
+
+        # we are at the same level
+        if n == indents[-1]:
+            return 0
+
+        # dedent one or more times
+        i = 0
+        while n < indents[-1]:
+            indents.pop()
+            if n > indents[-1]:
+                raise SyntaxError("wrong indentation level")
+            i -= 1
+        return i
 
     def scan_for_tokens(self, source):
         self.source = source
-        self.lexer.input(source)
-        self.tokens = []
+        self.input(source)
+        self.notal_tokens = []
         while True:
-            token = self.lexer.token()
+            token = self.token()
             if not token:
                 break
             else:
                 token.lexpos = (token.lexpos, self.find_column_position(token))
-            self.tokens.append(token)
+            self.notal_tokens.append(token)
+
+    def find_column_position(self, token):
+        start_line = self.source.rfind("\n", 0, token.lexpos) + 1
+        return token.lexpos - start_line + 1
 
     def get_tokens_in_json(self):
         tokens_in_json = [
@@ -285,6 +381,6 @@ class NotalScanner(object):
                 "lex_position": token.lexpos[0],
                 "column_position": token.lexpos[1],
             }
-            for token in self.tokens
+            for token in self.notal_tokens
         ]
         return tokens_in_json
