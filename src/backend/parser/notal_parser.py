@@ -145,13 +145,20 @@ class NotalParser(object):
         """
 
     def p_procedure_declaration(self, p):
-        """procedure_declaration    :   RW_PROCEDURE IDENTIFIER
-                                    |   RW_PROCEDURE IDENTIFIER S_LEFT_BRACKET procedure_parameter_list_option S_RIGHT_BRACKET
+        """procedure_declaration    :  procedure_identification formal_parameter_list
         """
 
-    def p_procedure_parameter_list_option(self, p):
-        """procedure_parameter_list_option  :   procedure_parameter_list
-                                            |   empty
+    def p_procedure_identification(self, p):
+        """procedure_identification :   RW_PROCEDURE IDENTIFIER
+        """
+
+    def p_formal_parameter_list(self, p):
+        """formal_parameter_list    :   S_LEFT_BRACKET formal_parameter_section_list S_RIGHT_BRACKET
+        """
+
+    def p_formal_parameter_section_list(self, p):
+        """formal_parameter_section_list    :   empty
+                                            |   procedure_parameter_list
         """
 
     def p_procedure_parameter_list(self, p):
