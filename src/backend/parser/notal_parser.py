@@ -1,4 +1,5 @@
 import ply.yacc as yacc
+import re
 from src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
 
 
@@ -325,6 +326,10 @@ class NotalParser(object):
         self.lexer = IndentLexer(self.lexer)
         self.parser = yacc.yacc(module=self)
 
+    def get_cleaner_source(self, source):
+        return re.sub(r"\n{2,}", "\n", source)
+
     def parse(self, source):
-        self.source = source
-        return self.parser.parse(source, self.lexer)
+        self.source = self.get_cleaner_source(source)
+        print(self.source)
+        return self.parser.parse(self.source, self.lexer)
