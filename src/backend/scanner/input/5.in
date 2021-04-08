@@ -6,11 +6,7 @@ KAMUS
     constant C3 : integer = 1000
     type T1 : < x: integer, y: real>
     type T2 : (senin, selasa, rabu)
-    x, y : integer
+    x : integer
 
 ALGORITMA
-    x <- 12 + 13 * 10
-
-    input(y)
-
-    output(x, y)
+    x <- 12

@@ -45,7 +45,7 @@ class NotalParser(object):
         """
 
     def p_block_5(self, p):
-        """block_5  :   RW_ALGORITMA INDENT statement_list DEDENT
+        """block_5  :   RW_ALGORITMA statement_part
         """
 
     def p_type_denoter(self, p):
@@ -188,8 +188,64 @@ class NotalParser(object):
         """function_parameter_declaration   :   variable_sub_declaration
         """
 
-    def p_statement_list(self, p):
-        """statement_list   :   empty
+    def p_statement_part(self, p):
+        """statement_part   :   compound_statement
+        """
+
+    def p_compound_statement(self, p):
+        """compound_statement   :   INDENT  statement_sequence  DEDENT
+        """
+
+    def p_statement_sequence(self, p):
+        """statement_sequence   :   statement_sequence S_SEMI_COLON statement
+                                |   statement_sequence statement
+                                |   statement
+        """
+
+    # TODO: ADD structured statement
+    def p_statement(self, p):
+        """statement    :   simple_statement
+        """
+
+    def p_simple_statement(self, p):
+        """simple_statement :   assignment_statement
+                            |   procedure_statement
+        """
+
+    def p_assignment_statement(self, p):
+        """assignment_statement :   variable_access S_ASSIGNMENT expression
+        """
+
+    # TODO: Complete procedure statement rule
+    def p_procedure_statement(self, p):
+        """ procedure_statement :   input_output_procedure_statement
+        """
+
+    def p_input_output_procedure_statement(self, p):
+        """input_output_procedure_statement :   input_statement
+                                            |   output_statement
+        """
+
+    def p_input_statement(self, p):
+        """input_statement  :   RW_INPUT S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET
+        """
+
+    def p_input_statement_parameter_list(self, p):
+        """input_statement_parameter_list   :   input_statement_parameter_list S_COMMA variable_access
+                                            |   variable_access
+        """
+
+    def p_output_statement(self, p):
+        """output_statement  :   RW_OUTPUT S_LEFT_BRACKET output_statement_parameter_list S_RIGHT_BRACKET
+        """
+
+    def p_output_statement_parameter_list(self, p):
+        """output_statement_parameter_list  :   output_statement_parameter_list S_COMMA output_statement_parameter
+                                            |   output_statement_parameter
+        """
+
+    def p_output_statement_parameter(self, p):
+        """output_statement_parameter   :   expression
         """
 
     def p_unsigned_constant(self, p):
@@ -219,8 +275,7 @@ class NotalParser(object):
 
     def p_non_string_constant(self, p):
         """non_string_constant  :    L_INTEGER_NUMBER
-                       |    L_REAL_NUMBER
-                       |    IDENTIFIER
+                                |    L_REAL_NUMBER
         """
 
     def p_string_char_constant(self, p):
