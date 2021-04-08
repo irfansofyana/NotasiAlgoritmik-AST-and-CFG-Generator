@@ -11,8 +11,5 @@ ALGORITMA
     str_var <- "ini adalah string"
         a <- 12
         b <- 12
-    c <- 12
-        d <- 10
-        e <- 10
-            f <- 10
-    g <- 14
+
+        c <- 12

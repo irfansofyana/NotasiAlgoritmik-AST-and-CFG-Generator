@@ -94,7 +94,9 @@ class NotalScanner(object):
         "L_CHARACTER",
         "L_NIL",
         "COMMENT",
-        "WHITESPACE"
+        "WHITESPACE",
+        "INDENT",
+        "DEDENT"
     )
 
     t_ignore = " \t"
@@ -172,7 +174,7 @@ class NotalScanner(object):
 
     def t_error(self, t):
         print(
-            f"Illegal character '{t.value[0]}' at line {t.lineno} column {self.find_column_position(t)}"
+            f"Illegal character '{t.value[0]}' at line {t.lineno}"
         )
         t.lexer.skip(1)
 

@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from src.backend.scanner.notal_scanner import NotalScanner
+from src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
 
 
 class NotalParser(object):
@@ -20,7 +20,7 @@ class NotalParser(object):
         """
 
     def p_block(self, p):
-        """block    :   RW_KAMUS block_1
+        """block    :   RW_KAMUS INDENT block_1
         """
 
     def p_block_1(self, p):
@@ -39,12 +39,12 @@ class NotalParser(object):
         """
 
     def p_block_4(self, p):
-        """block_4  :   block_5
-                    |   procedure_and_function_declaration block_5
+        """block_4  :   DEDENT block_5
+                    |   procedure_and_function_declaration DEDENT block_5
         """
 
     def p_block_5(self, p):
-        """block_5  :   RW_ALGORITMA statement_list
+        """block_5  :   RW_ALGORITMA INDENT statement_list DEDENT
         """
 
     def p_type_denoter(self, p):
@@ -322,8 +322,9 @@ class NotalParser(object):
 
     def __init__(self):
         self.lexer = NotalScanner()
+        self.lexer = IndentLexer(self.lexer)
         self.parser = yacc.yacc(module=self)
 
     def parse(self, source):
         self.source = source
-        return self.parser.parse(source)
+        return self.parser.parse(source, self.lexer)
