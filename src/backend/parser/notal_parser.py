@@ -177,8 +177,20 @@ class NotalParser(object):
         """
 
     def p_function_declaration(self, p):
-        """function_declaration :   RW_FUNCTION IDENTIFIER S_LEFT_BRACKET function_parameter_list_option S_RIGHT_BRACKET S_RETURN type_denoter
-                                |   RW_FUNCTION IDENTIFIER S_RETURN type_denoter
+        """function_declaration :   function_identification function_formal_parameter_list function_return_type
+                                |   function_identification function_return_type
+        """
+
+    def p_function_identification(self, p):
+        """function_identification  :   RW_FUNCTION IDENTIFIER
+        """
+
+    def p_function_return_type(self, p):
+        """function_return_type :   S_RETURN type_denoter
+        """
+
+    def p_function_formal_parameter_list(self, p):
+        """function_formal_parameter_list   :   S_LEFT_BRACKET function_parameter_list_option S_RIGHT_BRACKET
         """
 
     def p_function_parameter_list_option(self, p):
