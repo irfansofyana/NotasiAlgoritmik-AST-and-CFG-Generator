@@ -375,8 +375,8 @@ class NotalParser(object):
         """
 
     def p_error(self, p):
-        print(p)
-        print("Syntax error on input!")
+        print("Syntax error on token: ", p)
+        exit()
 
     def p_empty(self, p):
         """empty    :
@@ -393,4 +393,4 @@ class NotalParser(object):
 
     def parse(self, source):
         self.source = self.get_cleaner_source(source)
-        return self.parser.parse(self.source, self.lexer)
+        return "Parsing Success!" if (self.parser.parse(self.source, self.lexer) is None) else "Parsing failed!"
