@@ -158,16 +158,16 @@ class NotalParser(object):
 
     def p_formal_parameter_section_list(self, p):
         """formal_parameter_section_list    :   empty
-                                            |   procedure_parameter_list
+                                            |   formal_parameter_section
         """
 
-    def p_procedure_parameter_list(self, p):
-        """procedure_parameter_list :   procedure_parameter_declaration S_SEMI_COLON procedure_parameter_list
-                                    |   procedure_parameter_declaration
+    def p_formal_parameter_section(self, p):
+        """formal_parameter_section :   parameter_specification S_SEMI_COLON formal_parameter_section
+                                    |   parameter_specification
         """
 
-    def p_procedure_parameter_declaration(self, p):
-        """procedure_parameter_declaration  :   procedure_parameter_type  variable_sub_declaration
+    def p_parameter_specification(self, p):
+        """parameter_specification  :   procedure_parameter_type  variable_sub_declaration
         """
 
     def p_procedure_parameter_type(self, p):
@@ -223,9 +223,19 @@ class NotalParser(object):
         """assignment_statement :   variable_access S_ASSIGNMENT expression
         """
 
-    # TODO: Complete procedure statement rule
     def p_procedure_statement(self, p):
-        """ procedure_statement :   input_output_procedure_statement
+        """procedure_statement :   input_output_procedure_statement
+                                |   IDENTIFIER S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
+                                |   IDENTIFIER
+        """
+
+    def p_actual_parameter_list(self, p):
+        """actual_parameter_list    :   actual_parameter_list S_COMMA actual_parameter
+                                    |   actual_parameter
+        """
+
+    def p_actual_parameter(self, p):
+        """actual_parameter :   expression
         """
 
     def p_input_output_procedure_statement(self, p):
