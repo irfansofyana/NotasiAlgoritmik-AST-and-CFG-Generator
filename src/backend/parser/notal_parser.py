@@ -297,7 +297,7 @@ class NotalParser(object):
         """
 
     def p_indexed_variable(self, p):
-        """indexed_variable :   variable_access S_LEFT_BRACKET index_expression_list S_RIGHT_BRACKET
+        """indexed_variable :   variable_access S_LEFT_SQUARE_BRACKET index_expression_list S_RIGHT_SQUARE_BRACKET
         """
 
     def p_index_expression_list(self, p):

@@ -10,7 +10,5 @@ KAMUS
 
 ALGORITMA
     x <- 12 + 13 * 10
-
     input(y)
-
     output(x, y)
