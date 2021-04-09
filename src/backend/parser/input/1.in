@@ -7,8 +7,18 @@ KAMUS
     type T1 : < x: integer, y: real>
     type T2 : (senin, selasa, rabu)
     x, y : integer
+    name: string
+
+    function F1(x, y: integer) -> integer
+    function F2(s : string; n: integer) -> string
+
+    procedure P1()
+    procedure P2(input s1, s2: string; output s3: string)
 
 ALGORITMA
     x <- 12 + 13 * 10
     input(y)
     output(x, y)
+
+    P1
+    P2("irfan", "sofyana", name)
