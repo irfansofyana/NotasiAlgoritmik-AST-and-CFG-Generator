@@ -224,11 +224,13 @@ class NotalParser(object):
     # TODO: ADD structured statement
     def p_statement(self, p):
         """statement    :   simple_statement
+                        |   structured_statement
         """
 
     def p_simple_statement(self, p):
         """simple_statement :   assignment_statement
                             |   procedure_statement
+                            |   simple_if_statement
         """
 
     def p_assignment_statement(self, p):
@@ -275,6 +277,24 @@ class NotalParser(object):
 
     def p_output_statement_parameter(self, p):
         """output_statement_parameter   :   expression
+        """
+
+    def p_structured_statement(self, p):
+        """structured_statement :   compound_statement
+                                |   structured_if_statement
+        """
+
+    def p_structured_if_statement(self, p):
+        """structured_if_statement  : RW_IF boolean_expression RW_THEN structured_statement RW_ELSE structured_statement
+        """
+
+    def p_simple_if_statement(self, p):
+        """simple_if_statement  :   RW_IF boolean_expression RW_THEN statement
+                                |   RW_IF boolean_expression RW_THEN structured_statement RW_ELSE simple_statement
+        """
+
+    def p_boolean_expression(self, p):
+        """boolean_expression   :   expression
         """
 
     def p_unsigned_constant(self, p):

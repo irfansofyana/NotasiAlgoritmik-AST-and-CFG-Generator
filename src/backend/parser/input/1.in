@@ -22,3 +22,14 @@ ALGORITMA
 
     P1
     P2("irfan", "sofyana", name)
+
+    if (name = "TA") then
+        x <- 10
+    else if (name = "TA1") then
+        output("Bisa")
+    if (1 = 1) then
+        output("Yes sir")
+    else
+        output("Aha")
+
+    output("Done")
