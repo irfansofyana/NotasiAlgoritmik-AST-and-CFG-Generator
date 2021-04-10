@@ -32,4 +32,18 @@ ALGORITMA
     else
         output("Aha")
 
+    i <- 10
+    repeat i times
+        output(i)
+        output("Ini repeat n times")
+
+    j <- 1
+    while (j < 100) do
+        output(aye)
+        j <- j + 1
+        k <- 1
+        while (k < 3) do
+            output(k)
+            k <- k + 1
+
     output("Done")

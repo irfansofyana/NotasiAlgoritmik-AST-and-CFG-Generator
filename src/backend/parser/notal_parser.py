@@ -221,7 +221,6 @@ class NotalParser(object):
                                 |   statement
         """
 
-    # TODO: ADD structured statement
     def p_statement(self, p):
         """statement    :   simple_statement
                         |   structured_statement
@@ -231,6 +230,7 @@ class NotalParser(object):
         """simple_statement :   assignment_statement
                             |   procedure_statement
                             |   simple_if_statement
+                            |   simple_while_statement
         """
 
     def p_assignment_statement(self, p):
@@ -279,9 +279,12 @@ class NotalParser(object):
         """output_statement_parameter   :   expression
         """
 
+    # TODO: ADD DEPEND ON statement
     def p_structured_statement(self, p):
         """structured_statement :   compound_statement
                                 |   structured_if_statement
+                                |   repeat_statement
+                                |   structured_while_statement
         """
 
     def p_structured_if_statement(self, p):
@@ -295,6 +298,27 @@ class NotalParser(object):
 
     def p_boolean_expression(self, p):
         """boolean_expression   :   expression
+        """
+
+    def p_repeat_statement(self, p):
+        """repeat_statement :   repeat_until_statement
+                            |   repeat_times_statement
+        """
+
+    def p_repeat_until_statement(self, p):
+        """repeat_until_statement   :   RW_REPEAT statement_sequence RW_UNTIL boolean_expression
+        """
+
+    def p_repeat_times_statement(self, p):
+        """repeat_times_statement   :   RW_REPEAT IDENTIFIER RW_TIMES structured_statement
+        """
+
+    def p_structured_while_statement(self, p):
+        """structured_while_statement   :   RW_WHILE boolean_expression RW_DO structured_statement
+        """
+
+    def p_simple_while_statement(self, p):
+        """simple_while_statement   :   RW_WHILE boolean_expression RW_DO simple_statement
         """
 
     def p_unsigned_constant(self, p):
