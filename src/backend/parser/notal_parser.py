@@ -49,8 +49,7 @@ class NotalParser(object):
         """
 
     def p_type_denoter(self, p):
-        """type_denoter :   IDENTIFIER
-                        |   ordinal_type
+        """type_denoter :   ordinal_type
                         |   structured_type
                         |   RW_INTEGER
                         |   RW_REAL
@@ -62,15 +61,24 @@ class NotalParser(object):
     def p_ordinal_type(self, p):
         """ordinal_type :   enumerated_type
                         |   subrange_type
+                        |   IDENTIFIER
         """
 
     def p_enumerated_type(self, p):
         """enumerated_type  :   S_LEFT_BRACKET identifier_list S_RIGHT_BRACKET
         """
 
-    # TODO: Fix a bug here
     def p_subrange_type(self, p):
-        """subrange_type    :   constant S_UP_TO constant
+        """subrange_type    :  subrange_type_option
+        """
+
+    def p_subrange_type_option(self, p):
+        """subrange_type_option    :   subrange_option S_UP_TO subrange_option
+        """
+
+    def p_subrange_option(self, p):
+        """subrange_option  :   IDENTIFIER
+                            |   constant
         """
 
     def p_structured_type(self, p):
@@ -78,7 +86,11 @@ class NotalParser(object):
         """
 
     def p_array_type(self, p):
-        """array_type   :   RW_ARRAY S_LEFT_SQUARE_BRACKET index_list S_RIGHT_SQUARE_BRACKET RW_OF component_type
+        """array_type   :   RW_ARRAY array_index RW_OF component_type
+        """
+
+    def p_array_index(self, p):
+        """array_index  :   S_LEFT_SQUARE_BRACKET index_list S_RIGHT_SQUARE_BRACKET
         """
 
     def p_index_list(self, p):
@@ -88,7 +100,6 @@ class NotalParser(object):
 
     def p_index_type(self, p):
         """index_type   :   ordinal_type
-                        |   IDENTIFIER
         """
 
     def p_component_type(self, p):
@@ -329,7 +340,11 @@ class NotalParser(object):
         """
 
     def p_traversal_statement(self, p):
-        """traversal_statement  :   control_variable RW_TRAVERSAL S_LEFT_SQUARE_BRACKET ordinal_type S_RIGHT_SQUARE_BRACKET structured_statement
+        """traversal_statement  :   control_variable RW_TRAVERSAL traversal_range_value structured_statement
+        """
+
+    def p_traversal_range_value(self, p):
+        """traversal_range_value    :   S_LEFT_SQUARE_BRACKET subrange_type S_RIGHT_SQUARE_BRACKET
         """
 
     def p_control_variable(self, p):

@@ -54,7 +54,7 @@ ALGORITMA
         i <- i + 1
 
     n <- 10
-    j traversal [(sabtu, minggu)]
+    j traversal [1..n]
         output ("Traversal statement")
 
     output("Done")
