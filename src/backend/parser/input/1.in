@@ -6,7 +6,7 @@ KAMUS
     constant C3 : integer = 1000
     type T1 : < x: integer, y: real>
     type T2 : (senin, selasa, rabu)
-    x, y : integer
+    x, y, n, i, j, k: integer
     name: string
 
     function F1(x, y: integer) -> integer
@@ -45,5 +45,16 @@ ALGORITMA
         while (k < 3) do
             output(k)
             k <- k + 1
+
+    i <- 10
+    iterate
+        output(i)
+        output("Ini iterate stop statement")
+    stop (i = N)
+        i <- i + 1
+
+    n <- 10
+    j traversal [(sabtu, minggu)]
+        output ("Traversal statement")
 
     output("Done")

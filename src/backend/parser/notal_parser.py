@@ -68,6 +68,7 @@ class NotalParser(object):
         """enumerated_type  :   S_LEFT_BRACKET identifier_list S_RIGHT_BRACKET
         """
 
+    # TODO: Fix a bug here
     def p_subrange_type(self, p):
         """subrange_type    :   constant S_UP_TO constant
         """
@@ -285,6 +286,8 @@ class NotalParser(object):
                                 |   structured_if_statement
                                 |   repeat_statement
                                 |   structured_while_statement
+                                |   iterate_stop_statement
+                                |   traversal_statement
         """
 
     def p_structured_if_statement(self, p):
@@ -310,7 +313,7 @@ class NotalParser(object):
         """
 
     def p_repeat_times_statement(self, p):
-        """repeat_times_statement   :   RW_REPEAT IDENTIFIER RW_TIMES structured_statement
+        """repeat_times_statement   :   RW_REPEAT control_variable RW_TIMES structured_statement
         """
 
     def p_structured_while_statement(self, p):
@@ -319,6 +322,18 @@ class NotalParser(object):
 
     def p_simple_while_statement(self, p):
         """simple_while_statement   :   RW_WHILE boolean_expression RW_DO simple_statement
+        """
+
+    def p_iterate_stop_statement(self, p):
+        """iterate_stop_statement   :   RW_ITERATE structured_statement RW_STOP boolean_expression structured_statement
+        """
+
+    def p_traversal_statement(self, p):
+        """traversal_statement  :   control_variable RW_TRAVERSAL S_LEFT_SQUARE_BRACKET ordinal_type S_RIGHT_SQUARE_BRACKET structured_statement
+        """
+
+    def p_control_variable(self, p):
+        """control_variable :   IDENTIFIER
         """
 
     def p_unsigned_constant(self, p):
