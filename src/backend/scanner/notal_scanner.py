@@ -11,10 +11,6 @@ class NotalScanner(object):
         "S_UP_TO",
         "S_RETURN",
         "S_EQUAL",
-        "S_PLUS_EQUAL",
-        "S_MINUS_EQUAL",
-        "S_TIMES_EQUAL",
-        "S_DIVIDE_EQUAL",
         "S_PLUS",
         "S_MINUS",
         "S_TIMES",
@@ -109,9 +105,6 @@ class NotalScanner(object):
     t_S_UP_TO = r"\.{2}"
     t_S_RETURN = r"(\-\>|\→)"
     t_S_EQUAL = r"\="
-    t_S_PLUS_EQUAL = r"\+\="
-    t_S_MINUS_EQUAL = r"\-\="
-    t_S_DIVIDE_EQUAL = r"\/\="
     t_S_PLUS = r"\+"
     t_S_MINUS = r"\-"
     t_S_TIMES = r"\*"
