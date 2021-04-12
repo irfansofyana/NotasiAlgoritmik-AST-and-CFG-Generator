@@ -1,4 +1,5 @@
 from notal_parser import NotalParser
+from src.backend.parser.ast import AST
 
 if __name__=="__main__":
     parser = NotalParser()
@@ -9,4 +10,4 @@ if __name__=="__main__":
         src_input = f.read()
 
         parsing_result = parser.parse(src_input)
-        print(parsing_result)
+        print(parsing_result.get_ast_in_json())

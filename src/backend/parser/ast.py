@@ -7,17 +7,17 @@ class AST:
             self.children = []
         self.parent = parent
 
+    def get_ast_in_json(self):
+        ast = {
+            "type": self.type,
+            "parent": self.parent
+        }
+        if len(self.children) == 0:
+            return ast
 
-def get_ast_in_json(node):
-    ast = {
-        "type": node.type,
-        "parent": node.parent
-    }
-    if len(node.children) == 0:
+        ast['children'] = []
+        for child in self.children:
+            if child:
+                ast_child = child.get_ast_in_json()
+                ast['children'].append(ast_child)
         return ast
-
-    ast['children'] = []
-    for child in node.children:
-        ast_child = get_ast_in_json(child)
-        ast['children'].append(ast_child)
-    return ast

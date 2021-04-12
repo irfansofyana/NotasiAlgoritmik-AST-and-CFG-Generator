@@ -1,7 +1,7 @@
 import ply.yacc as yacc
 import re
 from src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
-
+from src.backend.parser.ast import AST
 
 class NotalParser(object):
     tokens = NotalScanner.tokens
@@ -10,6 +10,7 @@ class NotalParser(object):
     def p_file(self, p):
         """file :   program
         """
+        p[0] = AST("notal_file", [p[1]], None)
 
     def p_program(self, p):
         """program  :   RW_PROGRAM IDENTIFIER block
@@ -641,4 +642,4 @@ class NotalParser(object):
 
     def parse(self, source):
         self.source = self.get_cleaner_source(source)
-        return "Parsing Success!" if (self.parser.parse(self.source, self.lexer) is None) else "Parsing failed!"
+        return self.parser.parse(self.source, self.lexer)
