@@ -1,0 +1,9 @@
+program contoh
+
+kamus
+    A: array [1..10] of integer
+    x: float
+
+algoritma
+    A[0] <- 10
+    x <- 15.00
