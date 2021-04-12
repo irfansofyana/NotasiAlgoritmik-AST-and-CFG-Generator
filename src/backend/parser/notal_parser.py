@@ -21,7 +21,7 @@ class NotalParser(object):
         """
 
     def p_block(self, p):
-        """block    :   RW_KAMUS INDENT block_1
+        """block    :   RW_KAMUS INDENT block_1 block_6
         """
 
     def p_block_1(self, p):
@@ -46,6 +46,38 @@ class NotalParser(object):
 
     def p_block_5(self, p):
         """block_5  :   RW_ALGORITMA statement_part
+        """
+
+    def p_block_6(self, p):
+        """block_6  :   empty
+                    |   procedure_implementation_list
+                    |   function_implementation_list
+        """
+
+    def p_procedure_implementation_list(self, p):
+        """procedure_implementation_list    :   procedure_implementation_list procedure_implementation
+                                            |   procedure_implementation
+        """
+
+    def p_procedure_implementation(self, p):
+        """procedure_implementation :   procedure_declaration   procedure_implementation_block
+        """
+
+    def p_procedure_implementation_block(self, p):
+        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT block_1
+        """
+
+    def p_function_implementation_list(self, p):
+        """function_implementation_list :   function_implementation_list function_implementation
+                                        |   function_implementation
+        """
+
+    def p_function_implementation(self, p):
+        """function_implementation  :   function_declaration function_implementation_block
+        """
+
+    def p_function_implementation_block(self, p):
+        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT block_1
         """
 
     def p_type_denoter(self, p):
