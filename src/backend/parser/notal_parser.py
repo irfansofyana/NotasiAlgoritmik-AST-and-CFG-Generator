@@ -252,6 +252,7 @@ class NotalParser(object):
     def p_procedure_statement(self, p):
         """procedure_statement :   input_output_procedure_statement
                                 |   IDENTIFIER S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
+                                |   IDENTIFIER
         """
 
     def p_actual_parameter_list(self, p):
