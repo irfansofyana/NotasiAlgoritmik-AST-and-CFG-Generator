@@ -20,7 +20,6 @@ ALGORITMA
     input(y)
     output(x, y)
 
-    P1
     P2("irfan", "sofyana", name)
 
     if (name = "TA") then
@@ -56,5 +55,12 @@ ALGORITMA
     n <- 10
     j traversal [1..n]
         output ("Traversal statement")
+
+    depend on (n)
+        (n > 10) : output("yes");
+        (n < 10) : output("no");
+        (n = 10) :
+                    output("yesno")
+                    output("yes")
 
     output("Done")

@@ -252,7 +252,6 @@ class NotalParser(object):
     def p_procedure_statement(self, p):
         """procedure_statement :   input_output_procedure_statement
                                 |   IDENTIFIER S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
-                                |   IDENTIFIER
         """
 
     def p_actual_parameter_list(self, p):
@@ -291,7 +290,7 @@ class NotalParser(object):
         """output_statement_parameter   :   expression
         """
 
-    # TODO: ADD DEPEND ON statement
+    # TODO: Fix depend on statement
     def p_structured_statement(self, p):
         """structured_statement :   compound_statement
                                 |   structured_if_statement
@@ -299,6 +298,20 @@ class NotalParser(object):
                                 |   structured_while_statement
                                 |   iterate_stop_statement
                                 |   traversal_statement
+                                |   depend_on_statement
+        """
+
+    def p_depend_on_statement(self, p):
+        """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_statement_list_list DEDENT
+        """
+
+    def p_depend_on_statement_list_list(self, p):
+        """depend_on_statement_list_list    :   depend_on_statement_list_list S_SEMI_COLON depend_on_statement_list
+                                            |   depend_on_statement_list
+        """
+
+    def p_depend_on_statement_list(self, p):
+        """depend_on_statement_list :   expression S_COLON statement
         """
 
     def p_structured_if_statement(self, p):
