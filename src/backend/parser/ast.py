@@ -1,16 +1,16 @@
 class AST:
-    def __init__(self, type, children=None, parent=None):
+    def __init__(self, type, children=None, info=None):
         self.type = type
         if children:
             self.children = children
         else:
             self.children = []
-        self.parent = parent
+        self.info = info
 
     def get_ast_in_json(self):
         ast = {
             "type": self.type,
-            "parent": self.parent
+            "info": self.info
         }
         if len(self.children) == 0:
             return ast
@@ -21,3 +21,12 @@ class AST:
                 ast_child = child.get_ast_in_json()
                 ast['children'].append(ast_child)
         return ast
+
+    def get_children(self):
+        return self.children
+
+    def get_type(self):
+        return self.type
+
+    def get_info(self):
+        return self.info

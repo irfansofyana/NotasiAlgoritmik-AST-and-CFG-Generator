@@ -1,0 +1,8 @@
+PROGRAM contoh_2
+
+KAMUS
+    constant x : integer = 10
+    constant y : string  = "ini notasi algoritmik!"
+
+ALGORITMA
+    output(x, ' ', y)

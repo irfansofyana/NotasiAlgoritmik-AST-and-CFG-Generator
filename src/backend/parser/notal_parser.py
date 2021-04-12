@@ -3,6 +3,7 @@ import re
 from src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
 from src.backend.parser.ast import AST
 
+
 class NotalParser(object):
     tokens = NotalScanner.tokens
     start = 'file'
@@ -10,25 +11,40 @@ class NotalParser(object):
     def p_file(self, p):
         """file :   program
         """
-        p[0] = AST("notal_file", [p[1]], None)
+        p[0] = AST("notal_file", [p[1]])
 
     def p_program(self, p):
         """program  :   RW_PROGRAM IDENTIFIER block
         """
+        info = {
+            'program_name': p[2]
+        }
+        p[0] = AST("program_declaration", [p[3]], info)
 
     def p_identifier_list(self, p):
         """identifier_list  : identifier_list S_COMMA IDENTIFIER
                             | IDENTIFIER
         """
+        if len(p) == 2:
+            p[0] = AST("identifier", [p[1]])
+        else:
+            curr_children = p[1].get_children() if p[1] else None
+            p[0] = AST("identifier", [*curr_children, p[3]])
 
     def p_block(self, p):
         """block    :   RW_KAMUS INDENT block_1 block_6
         """
+        p[0] = AST("program_block", [p[3], p[4]])
 
     def p_block_1(self, p):
         """block_1  :   block_2
                     |   constant_declaration block_2
         """
+        if len(p) == 2:
+            p[0] = AST("constant_declaration_block", [p[1]])
+        else:
+            curr_children = p[1].get_children() if p[1] else None
+            p[0] = AST("constant_declaration_block", [*curr_children, p[2]])
 
     def p_block_2(self, p):
         """block_2  :   block_3
@@ -156,10 +172,22 @@ class NotalParser(object):
         """constant_declaration :   constant_declaration constant_sub_declaration
                                 |   constant_sub_declaration
         """
+        if len(p) == 2:
+            p[0] = AST("constant_declaration", [p[1]])
+        else:
+            curr_child = p[1].get_children() if p[1] is not None else None
+            p[0] = AST("constant_declaration", [*curr_child, p[2]])
+
 
     def p_constant_sub_declaration(self, p):
         """constant_sub_declaration :   RW_CONSTANT IDENTIFIER S_COLON type_denoter S_EQUAL constant
         """
+        info = {
+            "constant_name": p[2],
+            "constant_type": p[4],
+            "constant_value": p[6]
+        }
+        p[0] = AST("constant_declaration", None, info)
 
     def p_type_declaration(self, p):
         """type_declaration :   type_declaration type_sub_declaration
