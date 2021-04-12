@@ -83,6 +83,14 @@ class NotalScanner(object):
         "RW_STRING",
         "RW_DEPEND",
         "RW_ON",
+        "RW_REALTOINTEGER",
+        "RW_INTEGERTOREAL",
+        "RW_AWAL",
+        "RW_AKHIR",
+        "RW_FIRSTCHAR",
+        "RW_LASTCHAR",
+        "RW_LONG",
+        "RW_ISKOSONG",
         "L_BOOLEAN_TRUE",
         "L_BOOLEAN_FALSE",
         "L_REAL_NUMBER",
@@ -147,7 +155,7 @@ class NotalScanner(object):
 
         if t.lexer.level == 0:
             t.type = 'COMMENT'
-            t.value = t.lexer.lexdata[t.lexer.code_start + 1 : t.lexer.lexpos]
+            t.value = t.lexer.lexdata[t.lexer.code_start + 1: t.lexer.lexpos]
             t.lexer.lineno += t.value.count('\n')
             t.lexer.begin('INITIAL')
 
@@ -228,6 +236,14 @@ class NotalScanner(object):
             "string": "RW_STRING",
             "depend": "RW_DEPEND",
             "on": "RW_ON",
+            "realtointeger": "RW_REALTOINTEGER",
+            "inttoreal": "RW_INTEGERTOREAL",
+            "awal": "RW_AWAL",
+            "akhir": "RW_AKHIR",
+            "firstchar": "RW_FIRSTCHAR",
+            "lastchar": "RW_LASTCHAR",
+            "long": "RW_LONG",
+            "iskosong": "RW_ISKOSONG",
             "true": "L_BOOLEAN_TRUE",
             "false": "L_BOOLEAN_FALSE",
             "nil": "L_NIL",
@@ -275,9 +291,10 @@ class IndentLexer(object):
     A second lexing stage that interprets WHITESPACE
     Manages Off-Side Rule for indentation
     """
+
     def __init__(self, lexer):
         self.indents = [0]  # indentation stack
-        self.tokens = []    # token queue
+        self.tokens = []  # token queue
         self.lexer = lexer
         self.source = None
         self.notal_tokens = []
@@ -336,8 +353,8 @@ class IndentLexer(object):
 
     def _calc_indent(self, whitespace):
         "returns a number representing indents added or removed"
-        n = len(whitespace) # number of spaces
-        indents = self.indents # stack of space numbers
+        n = len(whitespace)  # number of spaces
+        indents = self.indents  # stack of space numbers
         if n > indents[-1]:
             indents.append(n)
             return 1
