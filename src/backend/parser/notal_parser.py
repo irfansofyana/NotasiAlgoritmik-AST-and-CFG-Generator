@@ -463,11 +463,117 @@ class NotalParser(object):
             |   RW_NOT
         """
 
-    # TODO: Add other necessary rule (related to function)
     def p_primary_expression(self, p):
         """primary_expression : variable_access
                             | unsigned_constant
                             | S_LEFT_BRACKET expression S_RIGHT_BRACKET
+                            | set_constructor
+                            | function_designator
+        """
+
+    def p_set_constructor(self, p):
+        """set_constructor  :   S_LEFT_SQUARE_BRACKET member_designator_list S_RIGHT_SQUARE_BRACKET
+                            |   S_LEFT_SQUARE_BRACKET S_RIGHT_SQUARE_BRACKET
+        """
+
+    def p_member_designator_list(self, p):
+        """member_designator_list   :   member_designator_list  S_COMMA member_designator
+                                    |   member_designator
+        """
+
+    def p_member_designator(self, p):
+        """member_designator    :   member_designator S_UP_TO   expression
+                                |   expression
+        """
+
+    def p_function_designator(self, p):
+        """function_designator  :    user_defined_function_call
+                                |   math_function_call
+                                |   string_function_call
+                                |   converter_function_call
+        """
+
+    def p_user_defined_function_call(self, p):
+        """user_defined_function_call    :   function_identification function_formal_parameter_list
+        """
+
+    def p_math_function_call(self, p):
+        """math_function_call   :   abs_function
+                                |   sin_function
+                                |   cos_function
+                                |   tan_function
+                                |   succ_function
+                                |   pred_function
+        """
+
+    def p_abs_function(self, p):
+        """abs_function : RW_ABS S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+        """
+
+    def p_sin_function(self, p):
+        """sin_function :   RW_SIN S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+        """
+
+    def p_cos_function(self, p):
+        """cos_function :   RW_COS S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+        """
+
+    def p_tan_function(self, p):
+        """tan_function :   RW_TAN S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+        """
+
+    def p_succ_function(self, p):
+        """succ_function    :   RW_SUCC S_LEFT_BRACKET L_INTEGER_NUMBER S_RIGHT_BRACKET
+        """
+
+    def p_pred_function(self, p):
+        """pred_function    :   RW_PRED S_LEFT_BRACKET L_INTEGER_NUMBER S_RIGHT_BRACKET
+        """
+
+    def p_string_function_call(self, p):
+        """string_function_call :   awal_function
+                                |   akhir_function
+                                |   firstchar_function
+                                |   lastchar_function
+                                |   long_function
+                                |   iskosong_function
+        """
+
+    def p_awal_function(self, p):
+        """awal_function    :   RW_AWAL S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """
+
+    def p_akhir_function(self, p):
+        """akhir_function    :   RW_AKHIR S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """
+
+    def p_firstchar_function(self, p):
+        """firstchar_function    :   RW_FIRSTCHAR S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """
+
+    def p_lastchar_function(self, p):
+        """lastchar_function    :   RW_LASTCHAR S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """
+
+    def p_long_function(self, p):
+        """long_function    :   RW_LONG S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """
+
+    def p_iskosong_function(self, p):
+        """iskosong_function    :   RW_ISKOSONG S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """
+
+    def p_converter_function_call(self, p):
+        """converter_function_call  :   integer_to_real
+                                    |   real_to_integer
+        """
+
+    def p_integer_to_real(self, p):
+        """integer_to_real  :   RW_INTEGERTOREAL S_LEFT_BRACKET L_INTEGER_NUMBER S_RIGHT_BRACKET
+        """
+
+    def p_real_to_integer(self, p):
+        """real_to_integer  :   RW_REALTOINTEGER S_LEFT_BRACKET L_REAL_NUMBER S_RIGHT_BRACKET
         """
 
     def p_error(self, p):
