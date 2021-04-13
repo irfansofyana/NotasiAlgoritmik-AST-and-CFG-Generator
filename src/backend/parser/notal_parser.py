@@ -14,19 +14,16 @@ class NotalParser(object):
         p[0] = AST("notal_file", [p[1]])
 
     def p_program(self, p):
-        """program  :   RW_PROGRAM IDENTIFIER block
+        """program  :   RW_PROGRAM identifier block
         """
-        info = {
-            'program_name': p[2]
-        }
-        p[0] = AST("program_declaration", [p[3]], info)
+        p[0] = AST("program_declaration", [p[2], p[3]])
 
     def p_identifier_list(self, p):
-        """identifier_list  : identifier_list S_COMMA IDENTIFIER
-                            | IDENTIFIER
+        """identifier_list  : identifier_list S_COMMA identifier
+                            | identifier
         """
         if len(p) == 2:
-            p[0] = AST("identifier", [p[1]])
+            p[0] = p[1]
         else:
             curr_children = p[1].get_children() if p[1] else None
             p[0] = AST("identifier", [*curr_children, p[3]])
@@ -110,7 +107,7 @@ class NotalParser(object):
     def p_ordinal_type(self, p):
         """ordinal_type :   enumerated_type
                         |   subrange_type
-                        |   IDENTIFIER
+                        |   identifier
         """
 
     def p_enumerated_type(self, p):
@@ -126,7 +123,7 @@ class NotalParser(object):
         """
 
     def p_subrange_option(self, p):
-        """subrange_option  :   IDENTIFIER
+        """subrange_option  :   identifier
                             |   constant
         """
 
@@ -180,14 +177,9 @@ class NotalParser(object):
 
 
     def p_constant_sub_declaration(self, p):
-        """constant_sub_declaration :   RW_CONSTANT IDENTIFIER S_COLON type_denoter S_EQUAL constant
+        """constant_sub_declaration :   RW_CONSTANT identifier S_COLON type_denoter S_EQUAL constant
         """
-        info = {
-            "constant_name": p[2],
-            "constant_type": p[4],
-            "constant_value": p[6]
-        }
-        p[0] = AST("constant_declaration", None, info)
+        p[0] = AST("constant_declaration", [p[2], p[4], p[6]])
 
     def p_type_declaration(self, p):
         """type_declaration :   type_declaration type_sub_declaration
@@ -195,7 +187,7 @@ class NotalParser(object):
         """
 
     def p_type_sub_declaration(self, p):
-        """type_sub_declaration :   RW_TYPE IDENTIFIER S_COLON type_variety
+        """type_sub_declaration :   RW_TYPE identifier S_COLON type_variety
         """
 
     def p_type_variety(self, p):
@@ -222,7 +214,7 @@ class NotalParser(object):
         """
 
     def p_procedure_identification(self, p):
-        """procedure_identification :   RW_PROCEDURE IDENTIFIER
+        """procedure_identification :   RW_PROCEDURE identifier
         """
 
     def p_formal_parameter_list(self, p):
@@ -255,7 +247,7 @@ class NotalParser(object):
         """
 
     def p_function_identification(self, p):
-        """function_identification  :   RW_FUNCTION IDENTIFIER
+        """function_identification  :   RW_FUNCTION identifier
         """
 
     def p_function_return_type(self, p):
@@ -312,8 +304,8 @@ class NotalParser(object):
 
     def p_procedure_statement(self, p):
         """procedure_statement :   input_output_procedure_statement
-                                |   IDENTIFIER S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
-                                |   IDENTIFIER
+                                |   identifier S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
+                                |   identifier
         """
 
     def p_actual_parameter_list(self, p):
@@ -423,7 +415,7 @@ class NotalParser(object):
         """
 
     def p_control_variable(self, p):
-        """control_variable :   IDENTIFIER
+        """control_variable :   identifier
         """
 
     def p_unsigned_constant(self, p):
@@ -462,7 +454,7 @@ class NotalParser(object):
         """
 
     def p_variable_access(self, p):
-        """variable_access : IDENTIFIER
+        """variable_access : identifier
                             | indexed_variable
                             | field_designator
         """
@@ -477,7 +469,7 @@ class NotalParser(object):
         """
 
     def p_field_designator(self, p):
-        """field_designator :   variable_access S_DOT IDENTIFIER
+        """field_designator :   variable_access S_DOT identifier
         """
 
     def p_expression(self, p):
@@ -659,6 +651,14 @@ class NotalParser(object):
         """empty    :
         """
         pass
+
+    def p_identifier(self, p):
+        """identifier   :   IDENTIFIER
+        """
+        info = {
+            'identifier_name':  p[1]
+        }
+        p[0] = AST("identifier", None, info)
 
     def __init__(self):
         self.lexer = NotalScanner()
