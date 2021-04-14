@@ -25,7 +25,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = p[1].get_children() if p[1] else None
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
             p[0] = AST("identifier", [*curr_children, p[3]])
 
     def p_block(self, p):
@@ -40,13 +40,19 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = AST("constant_declaration_block", [p[1]])
         else:
-            curr_children = p[1].get_children() if p[1] else None
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
             p[0] = AST("constant_declaration_block", [*curr_children, p[2]])
 
     def p_block_2(self, p):
         """block_2  :   block_3
                     |   type_declaration block_3
         """
+        if len(p) == 2:
+            p[0] = AST("type_declaration_block", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("type_declaration_block", [*curr_children, p[2]])
+
 
     def p_block_3(self, p):
         """block_3  :   block_4
@@ -103,29 +109,41 @@ class NotalParser(object):
                         |   RW_CHARACTER
                         |   RW_BOOLEAN
         """
+        if isinstance(p[1], str):
+            info = {
+                'type_name': p[1]
+            }
+            p[0] = AST("type_denoter", None, info)
+        else:
+            p[0] = AST("type_denoter", [p[1]])
 
     def p_ordinal_type(self, p):
         """ordinal_type :   enumerated_type
                         |   subrange_type
                         |   identifier
         """
+        p[0] = AST("ordinal_type", [p[1]])
 
     def p_enumerated_type(self, p):
         """enumerated_type  :   S_LEFT_BRACKET identifier_list S_RIGHT_BRACKET
         """
+        p[0] = AST("enumerated_type", [p[2]])
 
     def p_subrange_type(self, p):
         """subrange_type    :  subrange_type_option
         """
+        p[0] = p[1]
 
     def p_subrange_type_option(self, p):
         """subrange_type_option    :   subrange_option S_UP_TO subrange_option
         """
+        p[0] = AST("subrange_type", [p[1], p[3]])
 
     def p_subrange_option(self, p):
         """subrange_option  :   identifier
                             |   constant
         """
+        p[0] = AST("subrange_value", [p[1]])
 
     def p_structured_type(self, p):
         """structured_type  :   array_type
@@ -155,15 +173,27 @@ class NotalParser(object):
         """variable_declaration :  variable_declaration variable_sub_declaration
                                 |   variable_sub_declaration
         """
+        if len(p) == 2:
+            p[0] = AST("variable_declaration", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("variable_declaration", [*curr_children, p[2]])
 
     def p_variable_sub_declaration(self, p):
         """variable_sub_declaration :   identifier_list S_COLON type_denoter
         """
+        p[0] = AST("variable_declaration", [p[1], p[3]])
+
 
     def p_variable_declaration_comma(self, p):
         """variable_declaration_comma   :   variable_sub_declaration
                                         |   variable_sub_declaration S_COMMA variable_declaration_comma
         """
+        if len(p) == 2:
+            p[0] = AST("attribute_declaration", [p[1]])
+        else:
+            curr_children = [] if p[3] is None else p[3].get_children_or_itself()
+            p[0] = AST("attribute_declaration", [*curr_children, p[1]])
 
     def p_constant_declaration(self, p):
         """constant_declaration :   constant_declaration constant_sub_declaration
@@ -172,9 +202,8 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = AST("constant_declaration", [p[1]])
         else:
-            curr_child = p[1].get_children() if p[1] is not None else None
-            p[0] = AST("constant_declaration", [*curr_child, p[2]])
-
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("constant_declaration", [*curr_children, p[2]])
 
     def p_constant_sub_declaration(self, p):
         """constant_sub_declaration :   RW_CONSTANT identifier S_COLON type_denoter S_EQUAL constant
@@ -185,19 +214,27 @@ class NotalParser(object):
         """type_declaration :   type_declaration type_sub_declaration
                             |   type_sub_declaration
         """
+        if len(p) == 2:
+            p[0] = AST("type_declaration", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("type_declaration", [*curr_children, p[2]])
 
     def p_type_sub_declaration(self, p):
         """type_sub_declaration :   RW_TYPE identifier S_COLON type_variety
         """
+        p[0] = AST("type_declaration", [p[2], p[4]])
 
     def p_type_variety(self, p):
         """type_variety :   type_denoter
                         |   type_user_defined
         """
+        p[0] = p[1]
 
     def p_type_user_defined(self, p):
         """type_user_defined    :   S_LESS_THAN variable_declaration_comma S_GREATER_THAN
         """
+        p[0] = AST("user_defined_type", [p[2]])
 
     def p_procedure_and_function_declaration(self, p):
         """procedure_and_function_declaration   :   procedure_and_function_declaration procedure_and_function_sub_declaration
@@ -422,7 +459,7 @@ class NotalParser(object):
         """unsigned_constant :  non_string_constant
                             |   string_char_constant
                             |   boolean_constant
-                            |   L_NIL
+                            |   nil_constant
         """
 
     def p_constant(self, p):
@@ -430,28 +467,62 @@ class NotalParser(object):
                     |   non_string_constant
                     |   sign non_string_constant
                     |   boolean_constant
-                    |   L_NIL
+                    |   nil_constant
         """
+        if len(p) == 2:
+            p[0] = AST("constant_value", [p[1]])
+        else:
+            p[0] = AST("constant_value", [p[1], p[2]])
 
     def p_sign(self, p):
         """sign     :   S_PLUS
                     |   S_MINUS
         """
+        info = {
+            'value': p[1]
+        }
+        p[0] = AST("sign_operator", None, info)
 
     def p_boolean_constant(self, p):
         """boolean_constant :   L_BOOLEAN_TRUE
                             |   L_BOOLEAN_FALSE
         """
+        info = {
+            'value': p[1]
+        }
+        p[0] = AST("boolean_constant", None, info)
 
     def p_non_string_constant(self, p):
         """non_string_constant  :    L_INTEGER_NUMBER
                                 |    L_REAL_NUMBER
         """
+        info = {
+            'value': p[1]
+        }
+        if isinstance(p[1], int):
+            p[0] = AST("integer_constant", None, info)
+        else:
+            p[0] = AST("real_constant", None, info)
 
     def p_string_char_constant(self, p):
         """string_char_constant :   L_STRING
                                 |   L_CHARACTER
         """
+        info = {
+            'value': p[1]
+        }
+        if len(p[1]) == 1:
+            p[0] = AST('character_constant', None, info)
+        else:
+            p[0] = AST('string_constant', None, info)
+
+    def p_nil_constant(self, p):
+        """nil_constant :   L_NIL
+        """
+        info = {
+            'value': p[1]
+        }
+        p[0] = AST("nil_constant", None, info)
 
     def p_variable_access(self, p):
         """variable_access : identifier
@@ -656,7 +727,7 @@ class NotalParser(object):
         """identifier   :   IDENTIFIER
         """
         info = {
-            'identifier_name':  p[1]
+            'identifier_name': p[1]
         }
         p[0] = AST("identifier", None, info)
 

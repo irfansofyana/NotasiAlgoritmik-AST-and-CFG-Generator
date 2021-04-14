@@ -4,5 +4,7 @@ KAMUS
     constant x : integer = 10
     constant y : string  = "ini notasi algoritmik!"
 
+    type point : < x: real, y: real>
+
 ALGORITMA
     output(x, ' ', y)

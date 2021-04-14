@@ -25,6 +25,12 @@ class AST:
     def get_children(self):
         return self.children
 
+    def get_children_or_itself(self):
+        if len(self.children) > 0:
+            return self.get_children()
+        else:
+            return [self]
+
     def get_type(self):
         return self.type
 
