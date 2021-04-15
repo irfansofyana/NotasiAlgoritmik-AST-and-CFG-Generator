@@ -4,7 +4,16 @@ KAMUS
     constant x : integer = 10
     constant y : string  = "ini notasi algoritmik!"
 
-    type point : < x: real, y: real>
+    type point : < x, y: real>
+
+    nama_depan, nama_belakang : string
+    umur, gaji : integer
+    jam_kerja  : integer
+
+    procedure cetak_nama_dan_umur(input nama: string; input umur: integer)
+    procedure hitung_gaji(input jam_kerja: integer; input/output gaji: integer)
+
+    function hitung_jam_kerja(waktu_mulai, waktu_selesai: integer) -> integer
 
 ALGORITMA
-    output(x, ' ', y)
+    nama_depan <- "irfan"
