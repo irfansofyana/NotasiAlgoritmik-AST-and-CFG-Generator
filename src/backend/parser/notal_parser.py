@@ -408,42 +408,67 @@ class NotalParser(object):
                                 |   identifier S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
                                 |   identifier
         """
+        if p[1].get_type() == "input_statement" or p[1].get_type() == "output_statement":
+            p[0] = p[1]
+        else:
+            curr_children = [p[1]] if len(p) == 2 else [p[1], p[3]]
+            p[0] = AST("procedure_statement", curr_children)
 
     def p_actual_parameter_list(self, p):
         """actual_parameter_list    :   actual_parameter_list S_COMMA actual_parameter
                                     |   actual_parameter
         """
+        if len(p) == 2:
+            p[0] = AST("actual_parameter_list", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("actual_parameter_list", [*curr_children, p[3]])
 
     def p_actual_parameter(self, p):
         """actual_parameter :   expression
         """
+        p[0] = AST("actual_parameter", [p[1]])
 
     def p_input_output_procedure_statement(self, p):
         """input_output_procedure_statement :   input_statement
                                             |   output_statement
         """
+        p[0] = p[1]
 
     def p_input_statement(self, p):
         """input_statement  :   RW_INPUT S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET
         """
+        p[0] = AST("input_statement", [p[3]])
 
     def p_input_statement_parameter_list(self, p):
         """input_statement_parameter_list   :   input_statement_parameter_list S_COMMA variable_access
                                             |   variable_access
         """
+        if len(p) == 2:
+            p[0] = AST("input_statement_parameter_list", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("input_statement_parameter_list", [*curr_children, p[3]])
 
     def p_output_statement(self, p):
         """output_statement  :   RW_OUTPUT S_LEFT_BRACKET output_statement_parameter_list S_RIGHT_BRACKET
         """
+        p[0] = AST("output_statement", [p[3]])
 
     def p_output_statement_parameter_list(self, p):
         """output_statement_parameter_list  :   output_statement_parameter_list S_COMMA output_statement_parameter
                                             |   output_statement_parameter
         """
+        if len(p) == 2:
+            p[0] = AST("output_statement_parameter_list", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("output_statement_parameter_list", [*curr_children, p[3]])
 
     def p_output_statement_parameter(self, p):
         """output_statement_parameter   :   expression
         """
+        p[0] = AST("output_statement_parameter", [p[1]])
 
     # TODO: Fix depend on statement
     def p_structured_statement(self, p):
@@ -455,6 +480,7 @@ class NotalParser(object):
                                 |   traversal_statement
                                 |   depend_on_statement
         """
+        p[0] = p[1]
 
     def p_depend_on_statement(self, p):
         """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_statement_list_list DEDENT
@@ -472,11 +498,16 @@ class NotalParser(object):
     def p_structured_if_statement(self, p):
         """structured_if_statement  : RW_IF boolean_expression RW_THEN structured_statement RW_ELSE structured_statement
         """
+        p[0] = AST("if_statement", [p[2], p[4], p[6]])
 
     def p_simple_if_statement(self, p):
         """simple_if_statement  :   RW_IF boolean_expression RW_THEN statement
                                 |   RW_IF boolean_expression RW_THEN structured_statement RW_ELSE simple_statement
         """
+        if len(p) == 5:
+            p[0] = AST("if_statement", [p[2], p[4]])
+        else:
+            p[0] = AST("if_statement", [p[2], p[4], p[6]])
 
     def p_boolean_expression(self, p):
         """boolean_expression   :   expression

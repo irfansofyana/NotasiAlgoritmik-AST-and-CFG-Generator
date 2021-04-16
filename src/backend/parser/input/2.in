@@ -16,4 +16,8 @@ KAMUS
     function hitung_jam_kerja(waktu_mulai, waktu_selesai: integer) -> integer
 
 ALGORITMA
-    nama_depan <- "irfan"
+    input(nama_depan, umur)
+    if (umur = 10) then
+        output("Umurnya 10 tahun")
+    else
+        output("Umurnya bukan 10 tahun")
