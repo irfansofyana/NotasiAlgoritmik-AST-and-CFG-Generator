@@ -82,34 +82,53 @@ class NotalParser(object):
         """block_6  :   empty
                     |   procedure_implementation_list
                     |   function_implementation_list
+                    |   procedure_implementation_list function_implementation_list
+                    |   function_implementation_list procedure_implementation_list
         """
-        p[0] = AST("procedure_and_function_implementation_block", [p[1]])
+        if len(p) == 2:
+            p[0] = AST("procedure_and_function_implementation_block", [p[1]])
+        else:
+            p[0] = AST("procedure_and_function_implementation_block", [p[1], p[2]])
 
     def p_procedure_implementation_list(self, p):
         """procedure_implementation_list    :   procedure_implementation_list procedure_implementation
                                             |   procedure_implementation
         """
+        if len(p) == 2:
+            p[0] = AST("procedure_implementation_list", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("procedure_implementation_list", [*curr_children, p[2]])
 
     def p_procedure_implementation(self, p):
         """procedure_implementation :   procedure_declaration   procedure_implementation_block
         """
+        p[0] = AST("procedure_implementation", [p[1], p[2]])
 
     def p_procedure_implementation_block(self, p):
         """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT block_1
         """
+        p[0] = AST("procedure_implementation_algorithm", [p[4]])
 
     def p_function_implementation_list(self, p):
         """function_implementation_list :   function_implementation_list function_implementation
                                         |   function_implementation
         """
+        if len(p) == 2:
+            p[0] = AST("function_implementation_list", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("function_implementation_list", [*curr_children, p[2]])
 
     def p_function_implementation(self, p):
         """function_implementation  :   function_declaration function_implementation_block
         """
+        p[0] = AST("function_implementation", [p[1], p[2]])
 
     def p_function_implementation_block(self, p):
         """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT block_1
         """
+        p[0] = AST("function_implementation_algorithm", [p[4]])
 
     def p_type_denoter(self, p):
         """type_denoter :   ordinal_type
@@ -470,7 +489,7 @@ class NotalParser(object):
         """
         p[0] = AST("output_statement_parameter", [p[1]])
 
-    # TODO: Fix depend on statement
+    # TODO: Improve depend on statement later
     def p_structured_statement(self, p):
         """structured_statement :   compound_statement
                                 |   structured_if_statement
@@ -485,15 +504,22 @@ class NotalParser(object):
     def p_depend_on_statement(self, p):
         """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_statement_list_list DEDENT
         """
+        p[0] = AST("depend_on_statement", [p[4], p[7]])
 
     def p_depend_on_statement_list_list(self, p):
         """depend_on_statement_list_list    :   depend_on_statement_list_list S_SEMI_COLON depend_on_statement_list
                                             |   depend_on_statement_list
         """
+        if len(p) == 2:
+            p[0] = AST("depend_on_action_list", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("depend_on_action_list", [*curr_children, p[3]])
 
     def p_depend_on_statement_list(self, p):
         """depend_on_statement_list :   expression S_COLON statement
         """
+        p[0] = AST("depend_on_action", [p[1], p[3]])
 
     def p_structured_if_statement(self, p):
         """structured_if_statement  : RW_IF boolean_expression RW_THEN structured_statement RW_ELSE structured_statement
@@ -523,30 +549,37 @@ class NotalParser(object):
     def p_repeat_until_statement(self, p):
         """repeat_until_statement   :   RW_REPEAT statement_sequence RW_UNTIL boolean_expression
         """
+        p[0] = AST("repeat_until_statement", [p[2], p[4]])
 
     def p_repeat_times_statement(self, p):
         """repeat_times_statement   :   RW_REPEAT control_variable RW_TIMES structured_statement
         """
+        p[0] = AST("repeat_times_statement", [p[2], p[4]])
 
     def p_structured_while_statement(self, p):
         """structured_while_statement   :   RW_WHILE boolean_expression RW_DO structured_statement
         """
+        p[0] = AST("while_statement", [p[2], p[4]])
 
     def p_simple_while_statement(self, p):
         """simple_while_statement   :   RW_WHILE boolean_expression RW_DO simple_statement
         """
+        p[0] = AST("while_statement", [p[2], p[4]])
 
     def p_iterate_stop_statement(self, p):
         """iterate_stop_statement   :   RW_ITERATE structured_statement RW_STOP boolean_expression structured_statement
         """
+        p[0] = AST("iterate_stop_statement", [p[2], p[4], p[5]])
 
     def p_traversal_statement(self, p):
         """traversal_statement  :   control_variable RW_TRAVERSAL traversal_range_value structured_statement
         """
+        p[0] = AST("traversal_statement", [p[1], p[3], p[4]])
 
     def p_traversal_range_value(self, p):
         """traversal_range_value    :   S_LEFT_SQUARE_BRACKET subrange_type S_RIGHT_SQUARE_BRACKET
         """
+        p[0] = p[2]
 
     def p_control_variable(self, p):
         """control_variable :   identifier
@@ -782,10 +815,12 @@ class NotalParser(object):
                                 |   string_function_call
                                 |   converter_function_call
         """
+        p[0] = p[1]
 
     def p_user_defined_function_call(self, p):
         """user_defined_function_call    :   function_identification function_formal_parameter_list
         """
+        p[0] = AST("user_defined_function_call", [p[1], p[2]])
 
     def p_math_function_call(self, p):
         """math_function_call   :   abs_function
@@ -795,6 +830,7 @@ class NotalParser(object):
                                 |   succ_function
                                 |   pred_function
         """
+        p[0] = p[1]
 
     def p_abs_function(self, p):
         """abs_function : RW_ABS S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
