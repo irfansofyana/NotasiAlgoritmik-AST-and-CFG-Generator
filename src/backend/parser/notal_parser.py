@@ -460,14 +460,19 @@ class NotalParser(object):
         p[0] = AST("input_statement", [p[3]])
 
     def p_input_statement_parameter_list(self, p):
-        """input_statement_parameter_list   :   input_statement_parameter_list S_COMMA variable_access
-                                            |   variable_access
+        """input_statement_parameter_list   :   input_statement_parameter_list S_COMMA input_statement_parameter
+                                            |   input_statement_parameter
         """
         if len(p) == 2:
             p[0] = AST("input_statement_parameter_list", [p[1]])
         else:
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
             p[0] = AST("input_statement_parameter_list", [*curr_children, p[3]])
+
+    def p_input_statement_parameter(self, p):
+        """input_statement_parameter    :   variable_access
+        """
+        p[0] = AST("input_statement_parameter", [p[1]])
 
     def p_output_statement(self, p):
         """output_statement  :   RW_OUTPUT S_LEFT_BRACKET output_statement_parameter_list S_RIGHT_BRACKET
@@ -625,28 +630,40 @@ class NotalParser(object):
         p[0] = AST("boolean_constant", None, info)
 
     def p_non_string_constant(self, p):
-        """non_string_constant  :    L_INTEGER_NUMBER
-                                |    L_REAL_NUMBER
+        """non_string_constant  :    integer_constant
+                                |    real_constant
         """
-        info = {
-            'value': p[1]
-        }
-        if isinstance(p[1], int):
-            p[0] = AST("integer_constant", None, info)
-        else:
-            p[0] = AST("real_constant", None, info)
+        p[0] = p[1]
+
+    def p_integer_constant(self, p):
+        """integer_constant :   L_INTEGER_NUMBER
+        """
+        info = {'value': p[1]}
+        p[0] = AST("integer_constant", None, info)
+
+    def p_real_constant(self, p):
+        """real_constant    :   L_REAL_NUMBER
+        """
+        info = {'value': p[1]}
+        p[0] = AST("real_constant", None, info)
 
     def p_string_char_constant(self, p):
-        """string_char_constant :   L_STRING
-                                |   L_CHARACTER
+        """string_char_constant :   string_constant
+                                |   char_constant
         """
-        info = {
-            'value': p[1]
-        }
-        if len(p[1]) == 1:
-            p[0] = AST('character_constant', None, info)
-        else:
-            p[0] = AST('string_constant', None, info)
+        p[0] = p[1]
+
+    def p_string_constant(self, p):
+        """string_constant    :   L_STRING
+        """
+        info = {'value': p[1]}
+        p[0] = AST("string_constant", None, info)
+
+    def p_char_constant(self, p):
+        """char_constant    :   L_CHARACTER
+        """
+        info = {'value': p[1]}
+        p[0] = AST("character_constant", None, info)
 
     def p_nil_constant(self, p):
         """nil_constant :   L_NIL
@@ -798,16 +815,28 @@ class NotalParser(object):
         """set_constructor  :   S_LEFT_SQUARE_BRACKET member_designator_list S_RIGHT_SQUARE_BRACKET
                             |   S_LEFT_SQUARE_BRACKET S_RIGHT_SQUARE_BRACKET
         """
+        if len(p) == 4:
+            p[0] = AST("set_constructor", [p[2]])
 
     def p_member_designator_list(self, p):
         """member_designator_list   :   member_designator_list  S_COMMA member_designator
                                     |   member_designator
         """
+        if len(p) == 2:
+            p[0] = AST("member_designator_list", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("member_designator_list", [*curr_children, p[3]])
 
     def p_member_designator(self, p):
         """member_designator    :   member_designator S_UP_TO   expression
                                 |   expression
         """
+        if len(p) == 2:
+            p[0] = AST("member_designator", [p[1]])
+        else:
+            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
+            p[0] = AST("member_designator", [*curr_children, p[3]])
 
     def p_function_designator(self, p):
         """function_designator  :    user_defined_function_call
@@ -830,31 +859,43 @@ class NotalParser(object):
                                 |   succ_function
                                 |   pred_function
         """
-        p[0] = p[1]
+        p[0] = AST("math_function_call", [p[1]])
 
     def p_abs_function(self, p):
         """abs_function : RW_ABS S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+                        | RW_ABS S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("abs_function", [p[3]])
 
     def p_sin_function(self, p):
         """sin_function :   RW_SIN S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+                        | RW_SIN S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("sin_function", [p[3]])
 
     def p_cos_function(self, p):
         """cos_function :   RW_COS S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+                        | RW_COS S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("cos_function", [p[3]])
 
     def p_tan_function(self, p):
         """tan_function :   RW_TAN S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
+                        | RW_TAN S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("tan_function", [p[3]])
 
     def p_succ_function(self, p):
-        """succ_function    :   RW_SUCC S_LEFT_BRACKET L_INTEGER_NUMBER S_RIGHT_BRACKET
+        """succ_function    :   RW_SUCC S_LEFT_BRACKET integer_constant S_RIGHT_BRACKET
+                            | RW_SUCC S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("succ_function", [p[3]])
 
     def p_pred_function(self, p):
-        """pred_function    :   RW_PRED S_LEFT_BRACKET L_INTEGER_NUMBER S_RIGHT_BRACKET
+        """pred_function    :   RW_PRED S_LEFT_BRACKET integer_constant S_RIGHT_BRACKET
+                            | RW_PRED S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("pred_function ", [p[3]])
 
     def p_string_function_call(self, p):
         """string_function_call :   awal_function
@@ -864,43 +905,61 @@ class NotalParser(object):
                                 |   long_function
                                 |   iskosong_function
         """
+        p[0] = AST("string_function_call", [p[1]])
 
     def p_awal_function(self, p):
-        """awal_function    :   RW_AWAL S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """awal_function    :   RW_AWAL S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
+                            | RW_AWAL S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("awal_function", [p[3]])
 
     def p_akhir_function(self, p):
-        """akhir_function    :   RW_AKHIR S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """akhir_function    :   RW_AKHIR S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
+                            | RW_AKHIR S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("akhir_function", [p[3]])
 
     def p_firstchar_function(self, p):
-        """firstchar_function    :   RW_FIRSTCHAR S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """firstchar_function    :   RW_FIRSTCHAR S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
+                                | RW_FIRSTCHAR S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("firstchar_function ", [p[3]])
 
     def p_lastchar_function(self, p):
-        """lastchar_function    :   RW_LASTCHAR S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """lastchar_function    :   RW_LASTCHAR S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
+                                | RW_LASTCHAR S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("lastchar_function", [p[3]])
 
     def p_long_function(self, p):
-        """long_function    :   RW_LONG S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """long_function    :   RW_LONG S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
+                            | RW_LONG S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("long_function", [p[3]])
 
     def p_iskosong_function(self, p):
-        """iskosong_function    :   RW_ISKOSONG S_LEFT_BRACKET L_STRING S_RIGHT_BRACKET
+        """iskosong_function    :   RW_ISKOSONG S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
+                                | RW_ISKOSONG S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("iskosong_function", [p[3]])
 
     def p_converter_function_call(self, p):
         """converter_function_call  :   integer_to_real
                                     |   real_to_integer
         """
+        p[0] = AST("converter_function_call", [p[1]])
 
     def p_integer_to_real(self, p):
-        """integer_to_real  :   RW_INTEGERTOREAL S_LEFT_BRACKET L_INTEGER_NUMBER S_RIGHT_BRACKET
+        """integer_to_real  :   RW_INTEGERTOREAL S_LEFT_BRACKET integer_constant S_RIGHT_BRACKET
+                            | RW_INTEGERTOREAL S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("integer_to_real_converter", [p[3]])
 
     def p_real_to_integer(self, p):
-        """real_to_integer  :   RW_REALTOINTEGER S_LEFT_BRACKET L_REAL_NUMBER S_RIGHT_BRACKET
+        """real_to_integer  :   RW_REALTOINTEGER S_LEFT_BRACKET real_constant S_RIGHT_BRACKET
+                            |   RW_REALTOINTEGER S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
         """
+        p[0] = AST("real_to_integer_converter", [p[3]])
 
     def p_error(self, p):
         print("Syntax error on token: ", p)

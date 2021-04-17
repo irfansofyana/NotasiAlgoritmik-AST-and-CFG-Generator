@@ -6,7 +6,7 @@ if __name__=="__main__":
     parser = NotalParser()
 
     input_directory_folder = 'input'
-    input_file_name = '2.in'
+    input_file_name = '3.in'
     with open(f'{input_directory_folder}/{input_file_name}', encoding='utf-8') as f:
         src_input = f.read()
 
