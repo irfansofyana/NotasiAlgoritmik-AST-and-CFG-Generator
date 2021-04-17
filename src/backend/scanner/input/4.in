@@ -1,0 +1,11 @@
+PROGRAM contoh
+
+KAMUS
+    constant C1 : integer = 10
+    constant C2 : string  = "tugas akhir"
+    constant C3 : integer = 1000
+    type T1 : < x: integer, y: real>
+    type T2 : (senin, selasa, rabu)
+
+
+ALGORITMA

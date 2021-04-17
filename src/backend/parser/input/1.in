@@ -1,0 +1,66 @@
+PROGRAM contoh
+
+KAMUS
+    constant C1 : integer = 10
+    constant C2 : string  = "tugas akhir"
+    constant C3 : integer = 1000
+    type T1 : < x: integer, y: real>
+    type T2 : (senin, selasa, rabu)
+    x, y, n, i, j, k: integer
+    name: string
+
+    function F1(x, y: integer) -> integer
+    function F2(s : string; n: integer) -> string
+
+    procedure P1()
+    procedure P2(input s1, s2: string; output s3: string)
+
+ALGORITMA
+    x <- 12 + 13 * 10
+    input(y)
+    output(x, y)
+
+    P2("irfan", "sofyana", name)
+
+    if (name = "TA") then
+        x <- 10
+    else if (name = "TA1") then
+        output("Bisa")
+    if (1 = 1) then
+        output("Yes sir")
+    else
+        output("Aha")
+
+    i <- 10
+    repeat i times
+        output(i)
+        output("Ini repeat n times")
+
+    j <- 1
+    while (j < 100) do
+        output(aye)
+        j <- j + 1
+        k <- 1
+        while (k < 3) do
+            output(k)
+            k <- k + 1
+
+    i <- 10
+    iterate
+        output(i)
+        output("Ini iterate stop statement")
+    stop (i = N)
+        i <- i + 1
+
+    n <- 10
+    j traversal [1..n]
+        output ("Traversal statement")
+
+    depend on (n)
+        (n > 10) : output("yes");
+        (n < 10) : output("no");
+        (n = 10) :
+                    output("yesno")
+                    output("yes")
+
+    output("Done")

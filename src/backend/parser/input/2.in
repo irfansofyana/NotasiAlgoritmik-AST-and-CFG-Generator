@@ -1,0 +1,64 @@
+PROGRAM contoh_2
+
+KAMUS
+    constant x : integer = 10
+    constant y : string  = "ini notasi algoritmik!"
+
+    type point : < x, y: real>
+
+    nama_depan, nama_belakang : string
+    umur, gaji : integer
+    jam_kerja, i  : integer
+
+    procedure cetak_nama_dan_umur(input nama: string; input umur: integer)
+    procedure hitung_gaji(input jam_kerja: integer; input/output gaji: integer)
+
+    function hitung_jam_kerja(waktu_mulai, waktu_selesai: integer) -> integer
+
+ALGORITMA
+    i <- 0
+    repeat
+        input(nama_depan, umur)
+        if (umur = 10) then
+            output("Umurnya 10 tahun")
+        else
+            output("Umurnya bukan 10 tahun")
+        i <- i + 1
+    until (i = 10)
+
+    i <- 0
+    while (i <= 10) do
+        input(nama_depan, umur)
+        if (umur = 10) then
+            output("Umurnya 10 tahun")
+        else
+            output("Umurnya bukan 10 tahun")
+        i <- i + 1
+
+    i traversal [1..100]
+        output("Input ke-", i)
+        input(nama_depan, umur)
+        if (umur = 10) then
+            output("Umurnya 10 tahun")
+        else
+            output("Umurnya bukan 10 tahun")
+
+    output("program selesai")
+
+procedure cetak_nama_dan_umur(input nama: string; input umur: integer)
+
+kamus lokal
+    i: integer
+
+algoritma
+    output(nama, umur)
+
+function hitung_jam_kerja(waktu_mulai, waktu_selesai: integer) -> integer
+
+kamus lokal
+    ans: integer
+
+algoritma
+    ans <- waktu_selesai - waktu_mulai
+
+

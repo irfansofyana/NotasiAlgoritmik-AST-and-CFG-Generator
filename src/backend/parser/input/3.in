@@ -1,0 +1,10 @@
+PROGRAM contoh_3
+
+KAMUS
+    x_int: integer
+    sin_x, x_float: real
+
+
+ALGORITMA
+    input(x)
+    output("Sin X: ", sin(x))

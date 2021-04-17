@@ -1,0 +1,15 @@
+PROGRAM contoh3
+
+KAMUS
+    str_var: string
+    x: integer
+    y : integer
+
+
+
+ALGORITMA
+    str_var <- "ini adalah string"
+        a <- 12
+        b <- 12
+
+        c <- 12
