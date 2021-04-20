@@ -1,0 +1,7 @@
+PROGRAM hello
+
+KAMUS
+    x: string
+
+ALGORITMA
+    input(x)

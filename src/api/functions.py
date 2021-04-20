@@ -7,7 +7,11 @@ def read_src(file_path):
     return src_input
 
 
-def get_ast(file_path):
+def get_ast(file_path, src=None):
     parser = NotalParser()
-    parse_result = parser.parse(read_src(file_path))
+    if file_path is not None:
+        parse_result = parser.parse(read_src(file_path))
+    else:
+        print(src)
+        parse_result = parser.parse(src)
     return parse_result.get_ast_in_json()

@@ -104,21 +104,17 @@ class WriteFile(tk.Frame, NotalSrcDir):
 
     def generate_ast(self):
         try:
+            if NotalSrcDir.src_dir == '':
+                self.handle_text_input()
+                return
             ast = get_ast(NotalSrcDir.src_dir)
-
-            self.res_area.configure(state='normal')
-            self.res_area.delete(1.0, tk.END)
-            self.res_area.insert(tk.END, json.dumps(ast, indent=1))
-            self.res_area.configure(state='disabled')
-
-            output_path = "../output/ast.gv"
-            visualize_ast(ast, output_path)
-
+            self.fill_result_area_and_generate_ast_image(ast)
             messagebox.showinfo("Generate AST", "AST is generated Successfully!")
         except Exception as err:
             messagebox.showerror("Generate AST", f"{err}")
             print(err)
 
+    # TODO: Implement function below
     def generate_cfg(self):
         print('dummy')
 
@@ -131,8 +127,28 @@ class WriteFile(tk.Frame, NotalSrcDir):
             messagebox.showerror("Visualize AST", f"{err}")
             print(err)
 
+    # TODO: Implement function below
     def visualize_cfg(self):
         print('Dummy')
+
+    def handle_text_input(self):
+        try:
+            src_input = self.src_area.get("1.0", tk.END)
+            ast = get_ast(None, src_input)
+            self.fill_result_area_and_generate_ast_image(ast)
+            messagebox.showinfo("Generate AST", "AST is generated Successfully!")
+        except Exception as err:
+            messagebox.showerror("Generate AST", f"{err}")
+            print(err)
+
+    def fill_result_area_and_generate_ast_image(self, ast):
+        self.res_area.configure(state='normal')
+        self.res_area.delete(1.0, tk.END)
+        self.res_area.insert(tk.END, json.dumps(ast, indent=1))
+        self.res_area.configure(state='disabled')
+
+        output_path = "../output/ast.gv"
+        visualize_ast(ast, output_path)
 
 
 class UploadFile(WriteFile):
