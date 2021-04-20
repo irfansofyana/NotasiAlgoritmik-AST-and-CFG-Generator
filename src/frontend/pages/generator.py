@@ -4,7 +4,7 @@ from tkinter import messagebox
 from src.frontend.pages.start_page import NotalSrcDir
 from src.api.functions import *
 from src.api.visualize_ast import visualize_ast
-from PIL import ImageTk, Image
+from PIL import Image
 
 
 class WriteFile(tk.Frame, NotalSrcDir):
@@ -12,6 +12,17 @@ class WriteFile(tk.Frame, NotalSrcDir):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
+        self.render_generate_ast_button()
+        self.render_visualize_ast_button()
+        self.render_generate_cfg_button()
+        self.render_visualize_cfg_button()
+        self.render_back_button()
+        self.render_source_scrollbar()
+        self.render_result_scrollbar()
+        self.render_source_text()
+        self.render_result_text()
+
+    def render_generate_ast_button(self):
         self.ast_generator_button = tk.Button(
             self,
             bg='white',
@@ -23,6 +34,7 @@ class WriteFile(tk.Frame, NotalSrcDir):
         )
         self.ast_generator_button.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
+    def render_visualize_ast_button(self):
         self.visualize_ast_button = tk.Button(
             self,
             bg='white',
@@ -34,6 +46,7 @@ class WriteFile(tk.Frame, NotalSrcDir):
         )
         self.visualize_ast_button.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
 
+    def render_generate_cfg_button(self):
         self.cfg_generator_button = tk.Button(
             self,
             bg='white',
@@ -45,6 +58,7 @@ class WriteFile(tk.Frame, NotalSrcDir):
         )
         self.cfg_generator_button.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
 
+    def render_visualize_cfg_button(self):
         self.visualize_cfg_button = tk.Button(
             self,
             bg='white',
@@ -56,41 +70,7 @@ class WriteFile(tk.Frame, NotalSrcDir):
         )
         self.visualize_cfg_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        ver_sb = tk.Scrollbar(self, orient=tk.VERTICAL)
-        ver_sb.pack(side=tk.LEFT, fill=tk.Y)
-        hor_sb = tk.Scrollbar(self, orient=tk.HORIZONTAL)
-        hor_sb.pack(side=tk.BOTTOM, fill=tk.X)
-
-        ver_sb_1 = tk.Scrollbar(self, orient=tk.VERTICAL)
-        ver_sb_1.pack(side=tk.RIGHT, fill=tk.Y)
-        hor_sb_1 = tk.Scrollbar(self, orient=tk.HORIZONTAL)
-        hor_sb_1.pack(side=tk.BOTTOM, fill=tk.X)
-
-        self.src_area = tk.Text(
-            self,
-            width=67,
-            height=50,
-            wrap="none",
-            yscrollcommand=ver_sb.set,
-            xscrollcommand=hor_sb.set
-        )
-        self.src_area.pack(side=tk.LEFT)
-
-        self.res_area = tk.Text(
-            self,
-            width=67,
-            height=50,
-            wrap="none",
-            yscrollcommand=ver_sb_1.set,
-            xscrollcommand=hor_sb_1.set
-        )
-        self.res_area.pack(side=tk.RIGHT)
-
-        ver_sb.config(command=self.src_area.yview)
-        hor_sb.config(command=self.src_area.xview)
-        ver_sb_1.config(command=self.res_area.yview)
-        hor_sb_1.config(command=self.res_area.xview)
-
+    def render_back_button(self):
         self.back_button = tk.Button(
             self,
             bg='white',
@@ -101,6 +81,44 @@ class WriteFile(tk.Frame, NotalSrcDir):
             height=1,
         )
         self.back_button.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+
+    def render_source_scrollbar(self):
+        self.ver_sb = tk.Scrollbar(self, orient=tk.VERTICAL)
+        self.ver_sb.pack(side=tk.LEFT, fill=tk.Y)
+        self.hor_sb = tk.Scrollbar(self, orient=tk.HORIZONTAL)
+        self.hor_sb.pack(side=tk.BOTTOM, fill=tk.X)
+
+    def render_result_scrollbar(self):
+        self.ver_sb_1 = tk.Scrollbar(self, orient=tk.VERTICAL)
+        self.ver_sb_1.pack(side=tk.RIGHT, fill=tk.Y)
+        self.hor_sb_1 = tk.Scrollbar(self, orient=tk.HORIZONTAL)
+        self.hor_sb_1.pack(side=tk.BOTTOM, fill=tk.X)
+
+    def render_source_text(self):
+        self.src_area = tk.Text(
+            self,
+            width=67,
+            height=50,
+            wrap="none",
+            yscrollcommand=self.ver_sb.set,
+            xscrollcommand=self.hor_sb.set
+        )
+        self.src_area.pack(side=tk.LEFT)
+        self.ver_sb.config(command=self.src_area.yview)
+        self.hor_sb.config(command=self.src_area.xview)
+
+    def render_result_text(self):
+        self.res_area = tk.Text(
+            self,
+            width=67,
+            height=50,
+            wrap="none",
+            yscrollcommand=self.ver_sb_1.set,
+            xscrollcommand=self.hor_sb_1.set
+        )
+        self.res_area.pack(side=tk.RIGHT)
+        self.ver_sb_1.config(command=self.res_area.yview)
+        self.hor_sb_1.config(command=self.res_area.xview)
 
     def generate_ast(self):
         try:
@@ -118,7 +136,8 @@ class WriteFile(tk.Frame, NotalSrcDir):
     def generate_cfg(self):
         print('dummy')
 
-    def visualize_ast(self):
+    @staticmethod
+    def visualize_ast():
         try:
             output_path = "../output/ast.gv.png"
             image = Image.open(output_path)
@@ -128,7 +147,8 @@ class WriteFile(tk.Frame, NotalSrcDir):
             print(err)
 
     # TODO: Implement function below
-    def visualize_cfg(self):
+    @staticmethod
+    def visualize_cfg():
         print('Dummy')
 
     def handle_text_input(self):
