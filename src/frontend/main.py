@@ -21,7 +21,7 @@ class App(tk.Tk):
             page_name = F.__name__
 
             frame = F(parent=self.container, controller=self)
-            frame.configure(bg='#fffbed')
+            frame.configure(bg='#fffbf2')
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 

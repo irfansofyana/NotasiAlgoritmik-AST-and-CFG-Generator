@@ -20,12 +20,21 @@ class StartPage(tk.Frame, NotalSrcDir):
 
         heading = tk.Label(
             self,
-            bg="#fffbed",
+            bg="#fffbf2",
             fg="black",
-            text='AST & CFG Notasi Algoritmik(Notal) Generator',
-            font='none 12 bold'
+            text='Abstract Syntax Tree & Control Flow Graph\nNotasi Algoritmik Generator',
+            font='Helvetica 20 bold'
         )
         heading.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
+
+        or_label = tk.Label(
+            self,
+            bg="#fffbf2",
+            fg="black",
+            text='OR',
+            font='Helvetica 15 bold'
+        )
+        or_label.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 
         text_and_button_action = {
             "Upload Notal File": lambda: self.load_notal_file(),
