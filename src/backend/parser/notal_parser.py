@@ -26,7 +26,7 @@ class NotalParser(object):
             p[0] = p[1]
         else:
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("identifier", [*curr_children, p[3]])
+            p[0] = AST("identifier_list", [*curr_children, p[3]])
 
     def p_block(self, p):
         """block    :   RW_KAMUS INDENT block_1 block_6
