@@ -86,7 +86,8 @@ class NotalParser(object):
                     |   function_implementation_list procedure_implementation_list
         """
         if len(p) == 2:
-            p[0] = AST("procedure_and_function_implementation_block", [p[1]])
+            if p[1] is not None:
+                p[0] = AST("procedure_and_function_implementation_block", [p[1]])
         else:
             p[0] = AST("procedure_and_function_implementation_block", [p[1], p[2]])
 
