@@ -1,5 +1,5 @@
 class AST:
-    def __init__(self, type, children=None, info=None):
+    def __init__(self, type=None, children=None, info=None):
         self.type = type
         if children:
             if not isinstance(children, list):
