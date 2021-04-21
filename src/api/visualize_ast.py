@@ -1,23 +1,11 @@
 from graphviz import Digraph
-from notal_parser import NotalParser
-
-
-def read_src(file_path):
-    with open(file_path, encoding='utf-8') as f:
-        src_input = f.read()
-    return src_input
-
-
-def get_ast(file_path):
-    parser = NotalParser()
-    parse_result = parser.parse(read_src(file_path))
-    return parse_result.get_ast_in_json()
+from src.api.functions import *
 
 
 def visualize_ast(ast, output_path='test-output/result.gv'):
     graph = Digraph(comment="AST result")
     traverse_ast(ast, graph)
-    graph.render(output_path, format='png', view=True)
+    graph.render(output_path, format='png', view=False)
 
 
 def get_node_label(node):
@@ -50,6 +38,6 @@ def traverse_ast(ast, graph, parent_counter=None):
 
 
 if __name__ == "__main__":
-    file_path = 'input/4.in'
+    file_path = '../backend/parser/input/4.in'
     ast = get_ast(file_path)
     visualize_ast(ast)
