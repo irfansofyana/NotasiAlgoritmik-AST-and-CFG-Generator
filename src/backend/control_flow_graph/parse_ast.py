@@ -20,6 +20,15 @@ class ASTParser(AST):
 
     def get_notal_code(self):
         node_type_handler = {
+            'algorithm_block': self.on_algorithm_block,
+            'type_denoter': self.on_type_denoter,
+            'ordinal_type': self.on_ordinal_type,
+            'enumerated_type': self.on_enumerated_type,
+            'subrange_type': self.on_subrange_type,
+            'subrange_value': self.on_subrange_value,
+            'structured_type': self.on_structured_type,
+            'array_type': self.on_array_type,
+            'array_index': self.on_array_index,
             'identifier': self.on_identifier,
             'identifier_list': self.on_identifier_list,
             'operator': self.on_operator,
@@ -29,10 +38,49 @@ class ASTParser(AST):
             'real_constant': self.on_constant_value,
             'string_constant': self.on_constant_value,
             'char_constant': self.on_constant_value,
-            'nil_constant': self.on_constant_value
+            'nil_constant': self.on_constant_value,
+            'constant_value': self.on_constant_value
         }
         f = node_type_handler[self.get_type()]
         return f()
+
+    def on_algorithm_block(self):
+        child = self.get_children()
+        algorithm_block = "ALGORITMA\n" + child.get_notal_code()
+        return algorithm_block
+
+    def on_type_denoter(self):
+        if len(self.get_children()) == 0:
+            return self.get_info()['type_name']
+        else:
+            return self.get_children()[0].get_notal_code()
+
+    def on_ordinal_type(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_enumerated_type(self):
+        return "(" + self.get_children()[0].get_notal_code() + ")"
+
+    def on_subrange_type(self):
+        children = self.get_children()
+        return children[0].get_notal_code() + ".." + children[1].get_notal_code()
+
+    def on_subrange_value(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_structured_type(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_array_type(self):
+        children = self.get_children()
+        return "array " + children[0].get_notal_code() + " of " + children[1].get_notal_code()
+
+    def on_array_index(self):
+        array_index = '['
+        for child in self.get_children():
+            array_index += child.get_notal_code() if array_index == '[' else f',{child.get_notal_code()}'
+        array_index += ']'
+        return array_index
 
     def on_identifier(self):
         return self.get_info()['identifier_name']
@@ -54,7 +102,13 @@ class ASTParser(AST):
         return self.get_info()['value']
 
     def on_constant_value(self):
-        return self.get_info()['value']
+        if self.get_info() is not None:
+            return self.get_info()['value']
+        else:
+            constant_value = ""
+            for child in self.get_children():
+                constant_value += child.get_notal_code()
+            return constant_value
 
 
 if __name__ == "__main__":
