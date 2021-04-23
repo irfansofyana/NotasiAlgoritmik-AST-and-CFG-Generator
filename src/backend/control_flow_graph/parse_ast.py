@@ -31,6 +31,10 @@ class ASTParser(AST):
             'array_index': self.on_array_index,
             'identifier': self.on_identifier,
             'identifier_list': self.on_identifier_list,
+            'variable_declaration': self.on_variable_declaration,
+            'attribute_declaration': self.on_attribute_declaration,
+            'constant_declaration': self.on_constant_declaration,
+            'type_declaration': self.on_type_declaration,
             'operator': self.on_operator,
             'sign_operator': self.on_sign_operator,
             'boolean_constant': self.on_constant_value,
@@ -49,6 +53,10 @@ class ASTParser(AST):
             'multiplicative_expression': self.on_multiplicative_expression,
             'unary_expression': self.on_unary_expression,
             'exponentiation_expression': self.on_exponentiation_expression,
+            'set_constructor': self.on_set_constructor,
+            'member_designator_list': self.on_member_designator_list,
+            'member_designator': self.on_member_designator,
+            'user_defined_function_call': self.on_user_defined_function_call,
             'math_function_call': self.on_math_function_call,
             'abs_function': self.on_abs_function,
             'sin_function': self.on_sin_function,
@@ -121,6 +129,41 @@ class ASTParser(AST):
                 identifier_list += f',{identifier}'
         return identifier_list
 
+    def on_variable_declaration(self):
+        children = self.get_children()
+        variable_declaration = children[0].get_notal_code()
+        variable_declaration += ': '
+        variable_declaration += children[1].get_notal_code()
+        return variable_declaration
+
+    def on_attribute_declaration(self):
+        attribute_declaration = ''
+        for child in self.get_children():
+            attribute = child.get_notal_code()
+            if attribute_declaration == '':
+                attribute_declaration += attribute
+            else:
+                attribute_declaration += f',{attribute}'
+        return attribute_declaration
+
+    def on_constant_declaration(self):
+        children = self.get_children()
+        constant_declaration = 'constant '
+        constant_declaration += children[0].get_notal_code()
+        constant_declaration += ' : '
+        constant_declaration += children[1].get_notal_code()
+        constant_declaration += ' = '
+        constant_declaration += children[2].get_notal_code()
+        return constant_declaration
+
+    def on_type_declaration(self):
+        children = self.get_children()
+        type_declaration = 'type '
+        type_declaration += children[0].get_notal_code()
+        type_declaration += ' : '
+        type_declaration += children[1].get_notal_code()
+        return type_declaration
+
     def on_operator(self):
         return self.get_info()['name']
 
@@ -183,6 +226,40 @@ class ASTParser(AST):
 
     def on_unary_expression(self):
         return self.on_expression()
+
+    def on_set_constructor(self):
+        set_constructor = '['
+        set_constructor += self.get_children()[0].get_notal_code()
+        set_constructor += ']'
+
+    def on_member_designator_list(self):
+        children = self.get_children()
+        member_designator_list = ''
+        for child in children:
+            member_designator = child.get_notal_code()
+            if member_designator_list == '':
+                member_designator_list += member_designator
+            else:
+                member_designator_list += f',{member_designator}'
+        return member_designator_list
+
+    def on_member_designator(self):
+        children = self.get_children()
+        member_designator = ''
+        for child in children:
+            designator = child.get_notal_code()
+            if member_designator == '':
+                member_designator += designator
+            else:
+                member_designator += f'..{designator}'
+        return member_designator
+
+    def on_user_defined_function_call(self):
+        children = self.get_children()
+        function_call = ''
+        for child in children:
+            function_call += child.get_notal_code()
+        return children
 
     def on_math_function_call(self):
         return self.get_children()[0].get_notal_code()
