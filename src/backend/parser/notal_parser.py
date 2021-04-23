@@ -671,27 +671,27 @@ class NotalParser(object):
                             | indexed_variable
                             | field_designator
         """
-        p[0] = p[1]
+        p[0] = AST("variable", [p[1]])
 
     def p_indexed_variable(self, p):
         """indexed_variable :   variable_access S_LEFT_SQUARE_BRACKET index_expression_list S_RIGHT_SQUARE_BRACKET
         """
-        p[0] = AST("variable", [p[1], p[3]])
+        p[0] = AST("indexed_variable", [p[1], p[3]])
 
     def p_index_expression_list(self, p):
         """index_expression_list    :   index_expression_list S_COMMA expression
                                     |   expression
         """
         if len(p) == 2:
-            p[0] = AST("variable", [p[1]])
+            p[0] = AST("index_expression_list", [p[1]])
         else:
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("variable", [*curr_children, p[3]])
+            p[0] = AST("index_expression_list", [*curr_children, p[3]])
 
     def p_field_designator(self, p):
         """field_designator :   variable_access S_DOT identifier
         """
-        p[0] = AST("variable", [p[1], p[3]])
+        p[0] = AST("field_designator", [p[1], p[3]])
 
     def p_expression(self, p):
         """expression : expression relational_op additive_expression
