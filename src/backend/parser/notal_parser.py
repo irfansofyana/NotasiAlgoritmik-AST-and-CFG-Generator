@@ -42,28 +42,32 @@ class NotalParser(object):
                     | constant_declaration
         """
         if p[1]:
-            p[0] = AST("constant_declaration_block", [p[1]])
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("constant_declaration_block", [*curr_children])
 
     def p_block_2(self, p):
         """block_2  :   empty
                     |   type_declaration
         """
         if p[1]:
-            p[0] = AST("type_declaration_block", [p[1]])
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("type_declaration_block",[*curr_children])
 
     def p_block_3(self, p):
         """block_3  :   empty
                     |   variable_declaration
         """
         if p[1]:
-            p[0] = AST("variable_declaration_block", [p[1]])
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("variable_declaration_block", [*curr_children])
 
     def p_block_4(self, p):
         """block_4  :   DEDENT
                     |   procedure_and_function_declaration DEDENT
         """
         if len(p) == 3:
-            p[0] = AST("procedure_and_implementation_declaration_block", [p[1]])
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("procedure_and_implementation_declaration_block", [*curr_children])
 
     def p_block_5(self, p):
         """block_5  :   RW_ALGORITMA statement_part
