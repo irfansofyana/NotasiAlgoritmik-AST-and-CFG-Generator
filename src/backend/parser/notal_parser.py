@@ -766,7 +766,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            p[0] = AST("exponentiation_expression", [p[1], p[2]])
+            p[0] = AST("unary_expression", [p[1], p[2]])
 
     def p_exponentiation_expression(self, p):
         """exponentiation_expression    :   primary_expression
@@ -775,7 +775,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            p[0] = AST("exponentiation_expression", [p[1], p[2], p[3]])
+            p[0] = AST("exponentiation_expression", [p[1], p[3]])
 
     def p_unary_op(self, p):
         """unary_op : S_PLUS

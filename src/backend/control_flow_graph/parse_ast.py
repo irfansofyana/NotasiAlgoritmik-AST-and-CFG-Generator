@@ -44,6 +44,11 @@ class ASTParser(AST):
             'indexed_variable': self.on_indexed_variable,
             'index_expression_list': self.on_index_expression_list,
             'field_designator': self.on_field_designator,
+            'expression': self.on_expression,
+            'additive_expression': self.on_additive_expression,
+            'multiplicative_expression': self.on_multiplicative_expression,
+            'unary_expression': self.on_unary_expression,
+            'exponentiation_expression': self.on_exponentiation_expression,
             'math_function_call': self.on_math_function_call,
             'abs_function': self.on_abs_function,
             'sin_function': self.on_sin_function,
@@ -124,7 +129,7 @@ class ASTParser(AST):
 
     def on_constant_value(self):
         if self.get_info() is not None:
-            return self.get_info()['value']
+            return str(self.get_info()['value'])
         else:
             constant_value = ""
             for child in self.get_children():
@@ -157,6 +162,27 @@ class ASTParser(AST):
         field_designator += "."
         field_designator += children[1].get_notal_code()
         return field_designator
+
+    def on_expression(self):
+        children = self.get_children()
+        expression = ''
+        for child in children:
+            expression += child.get_notal_code()
+        return expression
+
+    def on_additive_expression(self):
+        return self.on_expression()
+
+    def on_multiplicative_expression(self):
+        return self.on_expression()
+
+    def on_exponentiation_expression(self):
+        children = self.get_children()
+        expression = children[0].get_notal_code() + "^" + children[1].get_notal_code()
+        return expression
+
+    def on_unary_expression(self):
+        return self.on_expression()
 
     def on_math_function_call(self):
         return self.get_children()[0].get_notal_code()
@@ -235,6 +261,7 @@ if __name__ == "__main__":
             }
         ]
     }
+    # notal_dict =
     parser = ASTParser(ast_dict=notal_dict)
     print(parser.get_notal_code())
     pass
