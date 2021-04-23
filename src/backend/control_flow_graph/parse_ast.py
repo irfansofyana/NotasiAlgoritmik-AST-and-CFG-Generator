@@ -20,6 +20,13 @@ class ASTParser(AST):
 
     def get_notal_code(self):
         node_type_handler = {
+            'notal_file': self.on_notal_file,
+            'program_declaration': self.on_program_declaration,
+            'program_block': self.on_program_block,
+            'constant_declaration_block': self.on_constant_declaration_block,
+            'type_declaration_block': self.on_type_declaration_block,
+            'variable_declaration_block': self.on_variable_declaration_block,
+            'procedure_and_function_declaration_block': self.on_procedure_and_function_declaration_block,
             'algorithm_block': self.on_algorithm_block,
             'type_denoter': self.on_type_denoter,
             'ordinal_type': self.on_ordinal_type,
@@ -77,6 +84,46 @@ class ASTParser(AST):
         }
         f = node_type_handler[self.get_type()]
         return f()
+
+    def on_notal_file(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_program_declaration(self):
+        children = self.get_children()
+        program = 'program ' + children[0].get_notal_code() + '\n'
+        program += children[1].get_notal_code()
+        return program
+
+    def on_program_block(self):
+        program_block = "KAMUS\n\t"
+        for child in self.get_children():
+            program_block += child.get_notal_code()
+            program_block += "\n"
+        return program_block
+
+    def on_constant_declaration_block(self):
+        constant_declaration_block = ''
+        for child in self.get_children():
+            constant_declaration_block += child.get_notal_code() + "\n"
+        return constant_declaration_block
+
+    def on_type_declaration_block(self):
+        type_declaration_block = ''
+        for child in self.get_children():
+            type_declaration_block += child.get_notal_code() + "\n"
+        return type_declaration_block
+
+    def on_variable_declaration_block(self):
+        variable_declaration_block = ''
+        for child in self.get_children():
+            variable_declaration_block += child.get_notal_code() + "\n"
+        return variable_declaration_block
+
+    def on_procedure_and_function_declaration_block(self):
+        procedure_and_function_declaration_block = ''
+        for child in self.get_children():
+            procedure_and_function_declaration_block += child.get_notal_code() + "\n"
+        return procedure_and_function_declaration_block
 
     def on_algorithm_block(self):
         child = self.get_children()
