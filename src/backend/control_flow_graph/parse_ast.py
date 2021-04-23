@@ -148,6 +148,84 @@ class ASTParser(AST):
         type_declaration += children[1].get_notal_code()
         return type_declaration
 
+    def on_user_defined_type(self):
+        user_defined_type = '<'
+        user_defined_type += self.get_children()[0].get_notal_code()
+        user_defined_type += '>'
+        return user_defined_type
+
+    def on_procedure_and_function_declaration(self):
+        procedure_and_function_declaration = ''
+        for child in self.get_children():
+            procedure_and_function_declaration += child.get_notal_code() + '\n'
+        return procedure_and_function_declaration
+
+    def on_procedure_declaration(self):
+        children = self.get_children()
+        procedure_declaration = children[0].get_notal_code() + " " + children[1].get_notal_code()
+        return procedure_declaration
+
+    def on_procedure_identifier(self):
+        procedure_identifier = 'procedure ' + self.get_children()[0].get_notal_code()
+        return procedure_identifier
+
+    def on_procedure_parameter_declaration(self):
+        procedure_parameter_declaration = '('
+        procedure_parameter_declaration += self.get_children()[0].get_notal_code()
+        procedure_parameter_declaration += ')'
+        return procedure_parameter_declaration
+
+    def on_procedure_parameter_list(self):
+        children = self.get_children()
+        procedure_parameter_list = ''
+        for child in children:
+            parameter = child.get_notal_code()
+            if procedure_parameter_list == '':
+                procedure_parameter_list += parameter
+            else:
+                procedure_parameter_list += f';{parameter}'
+        return procedure_parameter_list
+
+    def on_procedure_parameter(self):
+        children = self.get_children()
+        return children[0].get_notal_code() + " " + children[1].get_notal_code()
+
+    def on_procedure_parameter_type(self):
+        return self.get_info()['type']
+
+    def on_function_declaration(self):
+        function_declaration = ''
+        for child in self.get_children():
+            function_declaration += child.get_notal_code()
+        return function_declaration
+
+    def on_function_identifier(self):
+        function_identifier = 'function ' + self.get_children()[0].get_notal_code()
+        return function_identifier
+
+    def on_return_type(self):
+        function_identifier = ' -> ' + self.get_children()[0].get_notal_code()
+        return function_identifier
+
+    def on_function_parameter_declaration(self):
+        function_parameter_declaration = '('
+        function_parameter_declaration += self.get_children()[0].get_notal_code()
+        function_parameter_declaration += ')'
+        return function_parameter_declaration
+
+    def on_function_parameter_list(self):
+        function_parameter_list = ''
+        for child in self.get_children():
+            function_parameter = child.get_notal_code()
+            if function_parameter_list == '':
+                function_parameter_list += function_parameter
+            else:
+                function_parameter_list += f',{function_parameter}'
+        return function_parameter_list
+
+    def on_function_parameter(self):
+        return self.get_children()[0].get_notal_code()
+
     def on_operator(self):
         return self.get_info()['name']
 
