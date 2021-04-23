@@ -29,49 +29,41 @@ class NotalParser(object):
             p[0] = AST("identifier_list", [*curr_children, p[3]])
 
     def p_block(self, p):
-        """block    :   RW_KAMUS INDENT block_1 block_6
+        """block    :   RW_KAMUS INDENT block_1 block_2 block_3 block_4 block_5 block_6
         """
-        p[0] = AST("program_block", [p[3], p[4]])
+        children = []
+        for i in range(3, len(p)):
+            if p[i]:
+                children.append(p[i])
+        p[0] = AST("program_block", children)
 
     def p_block_1(self, p):
-        """block_1  :   block_2
-                    |   constant_declaration block_2
+        """block_1  : empty
+                    | constant_declaration
         """
-        if len(p) == 2:
-            p[0] = p[1]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("constant_declaration_block", [*curr_children, p[2]])
+        if p[1]:
+            p[0] = AST("constant_declaration_block", [p[1]])
 
     def p_block_2(self, p):
-        """block_2  :   block_3
-                    |   type_declaration block_3
+        """block_2  :   empty
+                    |   type_declaration
         """
-        if len(p) == 2:
-            p[0] = p[1]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("type_declaration_block", [*curr_children, p[2]])
+        if p[1]:
+            p[0] = AST("type_declaration_block", [p[1]])
 
     def p_block_3(self, p):
-        """block_3  :   block_4
-                    |    variable_declaration block_4
+        """block_3  :   empty
+                    |   variable_declaration
         """
-        if len(p) == 2:
-            p[0] = p[1]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("variable_declaration_block", [*curr_children, p[2]])
+        if p[1]:
+            p[0] = AST("variable_declaration_block", [p[1]])
 
     def p_block_4(self, p):
-        """block_4  :   DEDENT block_5
-                    |   procedure_and_function_declaration DEDENT block_5
+        """block_4  :   DEDENT
+                    |   procedure_and_function_declaration DEDENT
         """
         if len(p) == 3:
-            p[0] = p[2]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("procedure_and_function_declaration_block", [*curr_children, p[3]])
+            p[0] = AST("procedure_and_implementation_declaration_block", [p[1]])
 
     def p_block_5(self, p):
         """block_5  :   RW_ALGORITMA statement_part
