@@ -39,7 +39,24 @@ class ASTParser(AST):
             'string_constant': self.on_constant_value,
             'char_constant': self.on_constant_value,
             'nil_constant': self.on_constant_value,
-            'constant_value': self.on_constant_value
+            'constant_value': self.on_constant_value,
+            'math_function_call': self.on_math_function_call,
+            'abs_function': self.on_abs_function,
+            'sin_function': self.on_sin_function,
+            'cos_function': self.on_cos_function,
+            'tan_function': self.on_tan_function,
+            'succ_function': self.on_succ_function,
+            'pred_function': self.on_pred_function,
+            'string_function_call': self.on_string_function_call,
+            'awal_function': self.on_awal_function,
+            'akhir_function': self.on_akhir_function,
+            'firstchar_function': self.on_firstchar_function,
+            'lastchar_function': self.on_lastchar_function,
+            'long_function': self.on_long_function,
+            'iskosong_function': self.on_iskosong_function,
+            'converter_function_call': self.on_converter_function_call,
+            'integer_to_real_converter': self.on_integer_to_real_converter,
+            'real_to_integer_converter': self.on_real_to_integer_converter,
         }
         f = node_type_handler[self.get_type()]
         return f()
@@ -109,6 +126,63 @@ class ASTParser(AST):
             for child in self.get_children():
                 constant_value += child.get_notal_code()
             return constant_value
+
+    def on_math_function_call(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_function(self, func_name):
+        function = f"{func_name}("
+        function += self.get_children()[0].get_notal_code()
+        function += ")"
+        return function
+
+    def on_abs_function(self):
+        return self.on_function('abs')
+
+    def on_sin_function(self):
+        return self.on_function('sin')
+
+    def on_cos_function(self):
+        return self.on_function('cos')
+
+    def on_tan_function(self):
+        return self.on_function('tan')
+
+    def on_succ_function(self):
+        return self.on_function('succ')
+
+    def on_pred_function(self):
+        return self.on_function('pred')
+
+    def on_string_function_call(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_awal_function(self):
+        return self.on_function('awal')
+
+    def on_akhir_function(self):
+        return self.on_function('akhir')
+
+    def on_firstchar_function(self):
+        return self.on_function('firstchar')
+
+    def on_lastchar_function(self):
+        return self.on_function('lastchar')
+
+    def on_long_function(self):
+        return self.on_function('long')
+
+    def on_iskosong_function(self):
+        return self.on_function('iskosong')
+
+    def on_converter_function_call(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_integer_to_real_converter(self):
+        return self.on_function('intToReal')
+
+    def on_real_to_integer_converter(self):
+        return self.on_function('realToInteger')
 
 
 if __name__ == "__main__":
