@@ -40,6 +40,10 @@ class ASTParser(AST):
             'char_constant': self.on_constant_value,
             'nil_constant': self.on_constant_value,
             'constant_value': self.on_constant_value,
+            'variable': self.on_variable,
+            'indexed_variable': self.on_indexed_variable,
+            'index_expression_list': self.on_index_expression_list,
+            'field_designator': self.on_field_designator,
             'math_function_call': self.on_math_function_call,
             'abs_function': self.on_abs_function,
             'sin_function': self.on_sin_function,
@@ -127,13 +131,40 @@ class ASTParser(AST):
                 constant_value += child.get_notal_code()
             return constant_value
 
+    def on_variable(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_indexed_variable(self):
+        children = self.get_children()
+        indexed_var = children[0].get_notal_code() + '['
+        indexed_var += children[1].get_notal_code()
+        indexed_var += ']'
+        return indexed_var
+
+    def on_index_expression_list(self):
+        index_expression_list = ''
+        for child in self.get_children():
+            expression = child.get_notal_code()
+            if index_expression_list == '':
+                index_expression_list += expression
+            else:
+                index_expression_list += f',{expression}'
+        return index_expression_list
+
+    def on_field_designator(self):
+        children = self.get_children()
+        field_designator = children[0].get_notal_code()
+        field_designator += "."
+        field_designator += children[1].get_notal_code()
+        return field_designator
+
     def on_math_function_call(self):
         return self.get_children()[0].get_notal_code()
 
     def on_function(self, func_name):
-        function = f"{func_name}("
+        function = f'{func_name}('
         function += self.get_children()[0].get_notal_code()
-        function += ")"
+        function += ')'
         return function
 
     def on_abs_function(self):
