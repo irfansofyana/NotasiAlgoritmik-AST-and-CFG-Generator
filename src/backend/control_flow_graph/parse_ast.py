@@ -1,4 +1,5 @@
 from src.backend.parser.ast import AST
+import re
 
 
 class ASTParser(AST):
@@ -62,9 +63,48 @@ class ASTParser(AST):
             procedure_and_function_declaration_block += child.get_notal_code() + "\n"
         return procedure_and_function_declaration_block
 
+    def on_procedure_and_function_implementation_block(self):
+        procedure_and_function_implementation_block = ''
+        for child in self.get_children():
+            procedure_and_function_implementation_block += child.get_notal_code() + "\n"
+        return procedure_and_function_implementation_block
+
+    def on_procedure_implementation_list(self):
+        procedure_implementation_list = ''
+        for child in self.get_children():
+            procedure_implementation_list += child.get_notal_code() + "\n"
+        return procedure_implementation_list
+
+    def on_procedure_implementation(self):
+        children = self.get_children()
+        procedure_implementation = children[0].get_notal_code() + " " + children[1].get_notal_code()
+        return procedure_implementation
+
+    def on_procedure_implementation_algorithm(self):
+        procedure_implementation_algorithm = 'kamus lokal'
+        procedure_implementation_algorithm += '\n\t'
+        procedure_implementation_algorithm += self.get_children()[0].get_notal_code()
+        return procedure_implementation_algorithm
+
+    def on_function_implementation_list(self):
+        function_implementation_list = ''
+        for child in self.get_children():
+            function_implementation_list += child.get_notal_code() + "\n"
+        return function_implementation_list
+
+    def on_function_implementation(self):
+        children = self.get_children()
+        function_implementation = children[0].get_notal_code() + " " + children[1].get_notal_code()
+        return function_implementation
+
+    def on_function_implementation_algorithm(self):
+        function_implementation_algorithm = 'kamus lokal'
+        function_implementation_algorithm += '\n\t'
+        function_implementation_algorithm += self.get_children()[0].get_notal_code()
+        return function_implementation_algorithm
+
     def on_algorithm_block(self):
-        child = self.get_children()
-        algorithm_block = "ALGORITMA\n" + child.get_notal_code()
+        algorithm_block = "ALGORITMA\n" + self.get_children()[0].get_notal_code()
         return algorithm_block
 
     def on_type_denoter(self):
@@ -226,6 +266,164 @@ class ASTParser(AST):
     def on_function_parameter(self):
         return self.get_children()[0].get_notal_code()
 
+    def on_compound_statement(self):
+        children = self.get_children()
+        compound_statement = children[0].get_notal_code()
+        compound_statement = re.sub('\n', "\n\t", compound_statement)
+        compound_statement = '\t' + compound_statement
+        return compound_statement
+
+    def on_statement_sequence(self):
+        statement_sequence = ''
+        for child in self.get_children():
+            statement_sequence += child.get_notal_code() + '\n'
+        return statement_sequence
+
+    def on_assignment_statement(self):
+        children = self.get_children()
+        assignment_statement = children[0].get_notal_code()
+        assignment_statement += ' <- '
+        assignment_statement += children[1].get_notal_code()
+        return assignment_statement
+
+    def on_procedure_statement(self):
+        children = self.get_children()
+        procedure_statement = ''
+        procedure_statement += children[0].get_notal_code()
+        if len(children) == 2:
+            procedure_statement += '('
+            procedure_statement += children[1].get_notal_code()
+            procedure_statement += ')'
+        return procedure_statement
+
+    def on_actual_parameter_list(self):
+        actual_parameter_list = ''
+        for child in self.get_children():
+            actual_param = child.get_notal_code()
+            if actual_parameter_list == '':
+                actual_parameter_list += actual_param
+            else:
+                actual_parameter_list += f',{actual_param}'
+        return actual_parameter_list
+
+    def on_actual_parameter(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_input_statement(self):
+        input_statement = 'input('
+        input_statement += self.get_children()[0].get_notal_code()
+        input_statement += ')'
+        return input_statement
+
+    def on_input_statement_parameter_list(self):
+        input_statement_parameter_list = ''
+        for child in self.get_children():
+            input_statement_parameter = child.get_notal_code()
+            if input_statement_parameter_list == '':
+                input_statement_parameter_list += input_statement_parameter
+            else:
+                input_statement_parameter_list += f',{input_statement_parameter}'
+        return input_statement_parameter_list
+
+    def on_input_statement_parameter(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_output_statement(self):
+        input_statement = 'output('
+        input_statement += self.get_children()[0].get_notal_code()
+        input_statement += ')'
+        return input_statement
+
+    def on_output_statement_parameter_list(self):
+        output_statement_parameter_list = ''
+        for child in self.get_children():
+            output_statement_parameter = child.get_notal_code()
+            if output_statement_parameter_list == '':
+                output_statement_parameter_list += output_statement_parameter
+            else:
+                output_statement_parameter_list += f',{output_statement_parameter}'
+        return output_statement_parameter_list
+
+    def on_output_statement_parameter(self):
+        return self.get_children()[0].get_notal_code()
+
+    def on_depend_on_statement(self):
+        children = self.get_children()
+        depend_on_statement = 'depend on ('
+        depend_on_statement += children[0].get_notal_code()
+        depend_on_statement += ')\n\t'
+        depend_on_statement += children[1].get_notal_code()
+        depend_on_statement += '\n'
+        return depend_on_statement
+
+    def on_depend_on_action_list(self):
+        depend_on_action_list = ''
+        for child in self.get_children():
+            depend_on_action = child.get_notal_code()
+            if depend_on_action_list == '':
+                depend_on_action_list += depend_on_action
+            else:
+                depend_on_action_list += f';\n{depend_on_action}'
+        return depend_on_action_list
+
+    def on_depend_on_action(self):
+        children = self.get_children()
+        depend_on_action = children[0].get_notal_code() + ": " + children[1].get_notal_code()
+        return depend_on_action
+
+    def on_if_statement(self):
+        children = self.get_children()
+        if_statement = 'if '
+        if_statement += children[0].get_notal_code()
+        if_statement += ' then '
+        if_statement += children[1].get_notal_code()
+        if len(children) == 3:
+            if_statement += ' else '
+            if_statement += children[2].get_notal_code()
+        return if_statement
+
+    def on_repeat_until_statement(self):
+        children = self.get_children()
+        repeat_until_statement = 'repeat '
+        repeat_until_statement += children[0].get_notal_code()
+        repeat_until_statement += ' until '
+        repeat_until_statement += children[1].get_notal_code()
+        return repeat_until_statement
+
+    def on_repeat_times_statement(self):
+        children = self.get_children()
+        repeat_times_statement = 'repeat '
+        repeat_times_statement += children[0].get_notal_code()
+        repeat_times_statement += ' times\n'
+        repeat_times_statement += children[1].get_notal_code()
+        return repeat_times_statement
+
+    def on_while_statement(self):
+        children = self.get_children()
+        while_statement = 'while '
+        while_statement += children[0].get_notal_code()
+        while_statement += ' do\n'
+        while_statement += children[1].get_notal_code()
+        return while_statement
+
+    def on_iterate_stop_statement(self):
+        children = self.get_children()
+        iterate_statement = 'iterate '
+        iterate_statement += children[0].get_notal_code()
+        iterate_statement += ' stop '
+        iterate_statement += children[1].get_notal_code()
+        iterate_statement += children[2].get_notal_code()
+        return iterate_statement
+
+    def on_traversal_statement(self):
+        children = self.get_children()
+        traversal_statement = children[0].get_notal_code()
+        traversal_statement += " traversal "
+        traversal_statement += children[1].get_notal_code()
+        traversal_statement += "\n"
+        traversal_statement += children[2].get_notal_code()
+        return traversal_statement
+
     def on_operator(self):
         return self.get_info()['name']
 
@@ -240,6 +438,24 @@ class ASTParser(AST):
             for child in self.get_children():
                 constant_value += child.get_notal_code()
             return constant_value
+
+    def on_boolean_constant(self):
+        return self.on_constant_value()
+
+    def on_integer_constant(self):
+        return self.on_constant_value()
+
+    def on_real_constant(self):
+        return self.on_constant_value()
+
+    def on_string_constant(self):
+        return self.on_constant_value()
+
+    def on_char_constant(self):
+        return self.on_constant_value()
+
+    def on_nil_constant(self):
+        return self.on_constant_value()
 
     def on_variable(self):
         return self.get_children()[0].get_notal_code()

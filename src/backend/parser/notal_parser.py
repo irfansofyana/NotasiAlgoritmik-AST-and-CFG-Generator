@@ -384,7 +384,7 @@ class NotalParser(object):
     def p_compound_statement(self, p):
         """compound_statement   :   INDENT  statement_sequence  DEDENT
         """
-        p[0] = p[2]
+        p[0] = AST("compound_statement", [p[2]])
 
     def p_statement_sequence(self, p):
         """statement_sequence   :   statement_sequence S_SEMI_COLON statement
