@@ -708,8 +708,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("expression", [*curr_children, p[2], p[3]])
+            p[0] = AST("expression", [p[1], p[2], p[3]])
 
     def p_relational_op(self, p):
         """relational_op : S_EQUAL
@@ -734,8 +733,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("expression", [*curr_children, p[2], p[3]])
+            p[0] = AST("additive_expression", [p[1], p[2], p[3]])
 
     def p_additive_op(self, p):
         """additive_op : S_PLUS
@@ -755,8 +753,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("expression", [*curr_children, p[2], p[3]])
+            p[0] = AST("multiplicative_expression", [p[1], p[2], p[3]])
 
     def p_multiplicative_op(self, p):
         """multiplicative_op : S_TIMES
@@ -777,8 +774,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[2] is None else p[2].get_children_or_itself()
-            p[0] = AST("expression", [p[1], *curr_children])
+            p[0] = AST("exponentiation_expression", [p[1], p[2]])
 
     def p_exponentiation_expression(self, p):
         """exponentiation_expression    :   primary_expression
@@ -787,8 +783,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[3] is None else p[3].get_children_or_itself()
-            p[0] = AST("expression", [p[1], p[2], *curr_children])
+            p[0] = AST("exponentiation_expression", [p[1], p[2], p[3]])
 
     def p_unary_op(self, p):
         """unary_op : S_PLUS
