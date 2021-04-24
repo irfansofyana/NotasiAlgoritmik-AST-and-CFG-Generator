@@ -22,6 +22,15 @@ class CFGNode:
     def get_info(self):
         return self.info
 
+    def get_info_str(self):
+        str_info = ''
+        for info in self.get_info():
+            if str_info == '':
+                str_info += info
+            else:
+                str_info += f'\n{info}'
+        return str_info
+
     def get_adjacent(self):
         return self.adjacent
 

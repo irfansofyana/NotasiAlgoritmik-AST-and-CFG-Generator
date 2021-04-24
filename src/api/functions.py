@@ -30,7 +30,12 @@ def get_algorithm_block(current_ast):
             return algo_block
 
 
-def get_cfg(ast_in_json):
+def get_cfg(file_path):
+    ast = get_ast(file_path)
+    return get_cfg_from_ast(ast)
+
+
+def get_cfg_from_ast(ast_in_json):
     ast_parser = ASTParser(ast_dict=ast_in_json)
     algorithm_block = get_algorithm_block(ast_parser)
 
@@ -51,5 +56,5 @@ def write_graph(graph):
 
 if __name__ == "__main__":
     ast = get_ast('../backend/parser/input/6.in')
-    graph = get_cfg(ast)
+    graph = get_cfg_from_ast(ast)
     write_graph(graph)
