@@ -197,11 +197,10 @@ class WriteFile(tk.Frame, NotalSrcDir):
     def fill_result_area_and_generate_cfg_image(self, cfg):
         self.res_area.configure(state='normal')
         self.res_area.delete(1.0, tk.END)
-        # TODO: change this line (self.res_area.insert(tk.END, json.dumps(ast, indent=1)))
-        self.res_area.configure(state='disabled')
-
         output_path = "../output/cfg.gv"
-        visualize_cfg(cfg, output_path)
+        cfg_gv = visualize_cfg(cfg, output_path)
+        self.res_area.insert(tk.END, str(cfg_gv))
+        self.res_area.configure(state='disabled')
 
 
 class UploadFile(WriteFile):

@@ -6,6 +6,7 @@ def visualize_cfg(cfg, output_path='test-output/result.gv'):
     graph = Digraph(comment="CFG result")
     traverse_cfg(cfg, graph)
     graph.render(output_path, format='png', view=False)
+    return graph
 
 
 def traverse_cfg(cfg, graph):
