@@ -5,7 +5,7 @@ from src.api.functions import *
 def visualize_cfg(cfg, output_path='test-output/result.gv'):
     graph = Digraph(comment="CFG result")
     traverse_cfg(cfg, graph)
-    graph.render(output_path, format='png', view=True)
+    graph.render(output_path, format='png', view=False)
 
 
 def traverse_cfg(cfg, graph):
