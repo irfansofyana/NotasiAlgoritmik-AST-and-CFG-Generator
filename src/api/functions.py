@@ -1,4 +1,5 @@
 from src.backend.parser.notal_parser import NotalParser
+from src.backend.cfg_generator.cfg_builder import *
 
 
 def read_src(file_path):
@@ -15,3 +16,40 @@ def get_ast(file_path, src=None):
         print(src)
         parse_result = parser.parse(src)
     return parse_result.get_ast_in_json()
+
+
+def get_algorithm_block(current_ast):
+    if current_ast.get_type() == 'algorithm_block':
+        return current_ast
+    if len(current_ast.get_children()) == 0:
+        return None
+
+    for child in current_ast.get_children():
+        algo_block = get_algorithm_block(child)
+        if algo_block is not None:
+            return algo_block
+
+
+def get_cfg(ast_in_json):
+    ast_parser = ASTParser(ast_dict=ast_in_json)
+    algorithm_block = get_algorithm_block(ast_parser)
+
+    cfg_builder = CFGBuilder(algorithm_block)
+    generated_cfg = cfg_builder.get_cfg()
+
+    generated_graph = generated_cfg.get_graph(cfg_builder.get_label_now())
+    return generated_graph
+
+
+def write_graph(graph):
+    for node in graph:
+        print('Node ', node.get_label(), node.get_info())
+        print('\tadjacent nodes:')
+        for i, adj_node in enumerate(node.get_adjacent()):
+            print(f'\t\tlabel_node: ', adj_node.get_label())
+
+
+if __name__ == "__main__":
+    ast = get_ast('../backend/parser/input/6.in')
+    graph = get_cfg(ast)
+    write_graph(graph)
