@@ -73,7 +73,7 @@ class CFGBuilder:
     @staticmethod
     def get_boolean_expression(parent_statement, ast):
         expression = ast.get_notal_code()
-        boolean_expression = f'{parent_statement} {expression}'
+        boolean_expression = f'{parent_statement} ({expression})'
         return boolean_expression
 
     def on_if_statement(self):
@@ -131,7 +131,7 @@ class CFGBuilder:
         child = CFGBuilder(children[1])
         cfg_child = child.get_cfg()
 
-        # connect while conditional node to the fg
+        # connect while conditional node to statement nodes
         node.add_adjacent(cfg_child.get_entry_block())
         for exit_block in cfg_child.get_exit_block():
             exit_block.add_adjacent(node)
@@ -158,6 +158,33 @@ class CFGBuilder:
 
         # build the CFG
         self.cfg = CFG(cfg_child.get_entry_block(), [node])
+
+    @staticmethod
+    def get_traversal_statement_info(control_variable, range_value):
+        control_variable = control_variable.get_notal_code()
+        range_value = range_value.get_notal_code()
+        info = f'{control_variable} traversal {range_value}'
+        return info
+
+    def on_traversal_statement(self):
+        children = self.state.get_children()
+        info = [self.get_traversal_statement_info(children[0], children[1])]
+
+        # traversal node
+        node_label = self.get_label_now()
+        node = CFGNode(node_label, info)
+
+        # statement nodes
+        child = CFGBuilder(children[2])
+        cfg_child = child.get_cfg()
+
+        # connect traversal conditional node to statement nodes
+        node.add_adjacent(cfg_child.get_entry_block())
+        for exit_block in cfg_child.get_exit_block():
+            exit_block.add_adjacent(node)
+
+        # build the cfg
+        self.cfg = CFG(node, [node])
 
 
 def write_graph(graph):
