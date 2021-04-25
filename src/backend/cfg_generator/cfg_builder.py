@@ -1,4 +1,4 @@
-from src.backend.cfg_generator.parse_ast import *
+from src.backend.cfg_generator.ast_parser import *
 from src.backend.cfg_generator.cfg_node import *
 from src.backend.cfg_generator.cfg import *
 
