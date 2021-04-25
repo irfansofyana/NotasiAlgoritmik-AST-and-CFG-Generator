@@ -103,9 +103,13 @@ class NotalParser(object):
         p[0] = AST("procedure_implementation", [p[1], p[2]])
 
     def p_procedure_implementation_block(self, p):
-        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT block_1
+        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT block_1 block_2 block_3 block_4 block_5
         """
-        p[0] = AST("procedure_implementation_algorithm", [p[4]])
+        children = []
+        for i in range(4, len(p)):
+            if p[i]:
+                children.append(p[i])
+        p[0] = AST("procedure_implementation_algorithm", children)
 
     def p_function_implementation_list(self, p):
         """function_implementation_list :   function_implementation_list function_implementation
@@ -123,9 +127,13 @@ class NotalParser(object):
         p[0] = AST("function_implementation", [p[1], p[2]])
 
     def p_function_implementation_block(self, p):
-        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT block_1
+        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT block_1 block_2 block_3 block_4 block_5
         """
-        p[0] = AST("function_implementation_algorithm", [p[4]])
+        children = []
+        for i in range(4, len(p)):
+            if p[i]:
+                children.append(p[i])
+        p[0] = AST("function_implementation_algorithm", children)
 
     def p_type_denoter(self, p):
         """type_denoter :   ordinal_type
