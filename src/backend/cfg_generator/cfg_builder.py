@@ -139,6 +139,26 @@ class CFGBuilder:
         # build the cfg
         self.cfg = CFG(node, [node])
 
+    def on_repeat_until_statement(self):
+        children = self.state.get_children()
+
+        # statement nodes
+        child = CFGBuilder(children[0])
+        cfg_child = child.get_cfg()
+
+        # until statement
+        node_label = self.get_label_now()
+        info = [self.get_boolean_expression('until', children[1])]
+        node = CFGNode(node_label, info)
+
+        # connect statement nodes to until node
+        for exit_block in cfg_child.get_exit_block():
+            exit_block.add_adjacent(node)
+        node.add_adjacent(cfg_child.get_entry_block())
+
+        # build the CFG
+        self.cfg = CFG(cfg_child.get_entry_block(), [node])
+
 
 def write_graph(graph):
     for node in graph:
