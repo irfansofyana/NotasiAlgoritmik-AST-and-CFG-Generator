@@ -186,6 +186,30 @@ class CFGBuilder:
         # build the cfg
         self.cfg = CFG(node, [node])
 
+    @staticmethod
+    def get_repeat_times_info(var):
+        var = var.get_notal_code()
+        info = f'repeat {var} times'
+        return info
+
+    def on_repeat_times_statement(self):
+        children = self.state.get_children()
+
+        # repeat node
+        node_label = self.get_label_now()
+        info = [self.get_repeat_times_info(children[0])]
+        node = CFGNode(node_label, info)
+
+        # statement nodes
+        child = CFGBuilder(children[1])
+        cfg_child = child.get_cfg()
+
+        # connect repeat node to its statement nodes
+        node.add_adjacent(cfg_child.get_entry_block())
+        for exit_block in cfg_child.get_exit_block():
+            exit_block.add_adjacent(node)
+        self.cfg = CFG(node, [node])
+
 
 def write_graph(graph):
     for node in graph:

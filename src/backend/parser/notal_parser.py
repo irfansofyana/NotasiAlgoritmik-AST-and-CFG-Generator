@@ -563,6 +563,7 @@ class NotalParser(object):
 
     def p_repeat_times_statement(self, p):
         """repeat_times_statement   :   RW_REPEAT control_variable RW_TIMES structured_statement
+                                    |   RW_REPEAT integer_constant RW_TIMES structured_statement
         """
         p[0] = AST("repeat_times_statement", [p[2], p[4]])
 
