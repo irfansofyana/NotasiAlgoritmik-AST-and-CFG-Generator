@@ -451,7 +451,7 @@ class ASTParser(AST):
     def on_string_constant(self):
         return self.on_constant_value()
 
-    def on_char_constant(self):
+    def on_character_constant(self):
         return self.on_constant_value()
 
     def on_nil_constant(self):
@@ -488,7 +488,10 @@ class ASTParser(AST):
         children = self.get_children()
         expression = ''
         for child in children:
-            expression += child.get_notal_code()
+            if expression == '':
+                expression += child.get_notal_code()
+            else:
+                expression += f' {child.get_notal_code()}'
         return expression
 
     def on_additive_expression(self):
