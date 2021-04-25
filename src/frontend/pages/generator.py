@@ -4,6 +4,7 @@ from tkinter import messagebox
 from src.frontend.pages.start_page import NotalSrcDir
 from src.api.functions import *
 from src.api.visualize_ast import visualize_ast
+from src.api.visualize_cfg import visualize_cfg
 from PIL import Image
 
 
@@ -123,7 +124,7 @@ class WriteFile(tk.Frame, NotalSrcDir):
     def generate_ast(self):
         try:
             if NotalSrcDir.src_dir == '':
-                self.handle_text_input()
+                self.handle_text_input(mode='ast')
                 return
             ast = get_ast(NotalSrcDir.src_dir)
             self.fill_result_area_and_generate_ast_image(ast)
@@ -132,9 +133,18 @@ class WriteFile(tk.Frame, NotalSrcDir):
             messagebox.showerror("Generate AST", f"{err}")
             print(err)
 
-    # TODO: Implement function below
     def generate_cfg(self):
-        print('dummy')
+        try:
+            if NotalSrcDir.src_dir == '':
+                self.handle_text_input(mode='cfg')
+                return
+            ast = get_ast(NotalSrcDir.src_dir)
+            cfg = get_cfg_from_ast(ast)
+            self.fill_result_area_and_generate_cfg_image(cfg)
+            messagebox.showinfo("Generate CFG", "CFG is generated Successfully!")
+        except Exception as err:
+            messagebox.showerror("Generate CFG", f"{err}")
+            print(err)
 
     @staticmethod
     def visualize_ast():
@@ -146,19 +156,33 @@ class WriteFile(tk.Frame, NotalSrcDir):
             messagebox.showerror("Visualize AST", f"{err}")
             print(err)
 
-    # TODO: Implement function below
     @staticmethod
     def visualize_cfg():
-        print('Dummy')
+        try:
+            output_path = "../output/cfg.gv.png"
+            image = Image.open(output_path)
+            image.show()
+        except Exception as err:
+            messagebox.showerror("Visualize AST", f"{err}")
+            print(err)
 
-    def handle_text_input(self):
+    def handle_text_input(self, mode="ast"):
         try:
             src_input = self.src_area.get("1.0", tk.END)
             ast = get_ast(None, src_input)
-            self.fill_result_area_and_generate_ast_image(ast)
-            messagebox.showinfo("Generate AST", "AST is generated Successfully!")
+            if mode == "ast":
+                self.fill_result_area_and_generate_ast_image(ast)
+                messagebox.showinfo("Generate AST", "AST is generated Successfully!")
+            else:
+                cfg = get_cfg_from_ast(ast)
+                self.fill_result_area_and_generate_cfg_image(cfg)
+                messagebox.showinfo("Generate CFG", "CFG is generated Successfully!")
         except Exception as err:
-            messagebox.showerror("Generate AST", f"{err}")
+            if mode == "ast":
+                label = "Generate AST"
+            else:
+                label = "Generate CFG"
+            messagebox.showerror(label, err)
             print(err)
 
     def fill_result_area_and_generate_ast_image(self, ast):
@@ -169,6 +193,14 @@ class WriteFile(tk.Frame, NotalSrcDir):
 
         output_path = "../output/ast.gv"
         visualize_ast(ast, output_path)
+
+    def fill_result_area_and_generate_cfg_image(self, cfg):
+        self.res_area.configure(state='normal')
+        self.res_area.delete(1.0, tk.END)
+        output_path = "../output/cfg.gv"
+        cfg_gv = visualize_cfg(cfg, output_path)
+        self.res_area.insert(tk.END, str(cfg_gv))
+        self.res_area.configure(state='disabled')
 
 
 class UploadFile(WriteFile):

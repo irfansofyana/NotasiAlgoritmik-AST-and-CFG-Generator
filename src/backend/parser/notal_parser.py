@@ -26,52 +26,48 @@ class NotalParser(object):
             p[0] = p[1]
         else:
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("identifier", [*curr_children, p[3]])
+            p[0] = AST("identifier_list", [*curr_children, p[3]])
 
     def p_block(self, p):
-        """block    :   RW_KAMUS INDENT block_1 block_6
+        """block    :   RW_KAMUS INDENT block_1 block_2 block_3 block_4 block_5 block_6
         """
-        p[0] = AST("program_block", [p[3], p[4]])
+        children = []
+        for i in range(3, len(p)):
+            if p[i]:
+                children.append(p[i])
+        p[0] = AST("program_block", children)
 
     def p_block_1(self, p):
-        """block_1  :   block_2
-                    |   constant_declaration block_2
+        """block_1  : empty
+                    | constant_declaration
         """
-        if len(p) == 2:
-            p[0] = p[1]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("constant_declaration_block", [*curr_children, p[2]])
+        if p[1]:
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("constant_declaration_block", [*curr_children])
 
     def p_block_2(self, p):
-        """block_2  :   block_3
-                    |   type_declaration block_3
+        """block_2  :   empty
+                    |   type_declaration
         """
-        if len(p) == 2:
-            p[0] = p[1]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("type_declaration_block", [*curr_children, p[2]])
+        if p[1]:
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("type_declaration_block",[*curr_children])
 
     def p_block_3(self, p):
-        """block_3  :   block_4
-                    |    variable_declaration block_4
+        """block_3  :   empty
+                    |   variable_declaration
         """
-        if len(p) == 2:
-            p[0] = p[1]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("variable_declaration_block", [*curr_children, p[2]])
+        if p[1]:
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("variable_declaration_block", [*curr_children])
 
     def p_block_4(self, p):
-        """block_4  :   DEDENT block_5
-                    |   procedure_and_function_declaration DEDENT block_5
+        """block_4  :   DEDENT
+                    |   procedure_and_function_declaration DEDENT
         """
         if len(p) == 3:
-            p[0] = p[2]
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("procedure_and_function_declaration_block", [*curr_children, p[3]])
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("procedure_and_implementation_declaration_block", [*curr_children])
 
     def p_block_5(self, p):
         """block_5  :   RW_ALGORITMA statement_part
@@ -388,7 +384,7 @@ class NotalParser(object):
     def p_compound_statement(self, p):
         """compound_statement   :   INDENT  statement_sequence  DEDENT
         """
-        p[0] = p[2]
+        p[0] = AST("compound_statement", [p[2]])
 
     def p_statement_sequence(self, p):
         """statement_sequence   :   statement_sequence S_SEMI_COLON statement
@@ -679,27 +675,27 @@ class NotalParser(object):
                             | indexed_variable
                             | field_designator
         """
-        p[0] = p[1]
+        p[0] = AST("variable", [p[1]])
 
     def p_indexed_variable(self, p):
         """indexed_variable :   variable_access S_LEFT_SQUARE_BRACKET index_expression_list S_RIGHT_SQUARE_BRACKET
         """
-        p[0] = AST("variable", [p[1], p[3]])
+        p[0] = AST("indexed_variable", [p[1], p[3]])
 
     def p_index_expression_list(self, p):
         """index_expression_list    :   index_expression_list S_COMMA expression
                                     |   expression
         """
         if len(p) == 2:
-            p[0] = AST("variable", [p[1]])
+            p[0] = AST("index_expression_list", [p[1]])
         else:
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("variable", [*curr_children, p[3]])
+            p[0] = AST("index_expression_list", [*curr_children, p[3]])
 
     def p_field_designator(self, p):
         """field_designator :   variable_access S_DOT identifier
         """
-        p[0] = AST("variable", [p[1], p[3]])
+        p[0] = AST("field_designator", [p[1], p[3]])
 
     def p_expression(self, p):
         """expression : expression relational_op additive_expression
@@ -708,8 +704,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("expression", [*curr_children, p[2], p[3]])
+            p[0] = AST("expression", [p[1], p[2], p[3]])
 
     def p_relational_op(self, p):
         """relational_op : S_EQUAL
@@ -734,8 +729,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("expression", [*curr_children, p[2], p[3]])
+            p[0] = AST("additive_expression", [p[1], p[2], p[3]])
 
     def p_additive_op(self, p):
         """additive_op : S_PLUS
@@ -755,8 +749,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("expression", [*curr_children, p[2], p[3]])
+            p[0] = AST("multiplicative_expression", [p[1], p[2], p[3]])
 
     def p_multiplicative_op(self, p):
         """multiplicative_op : S_TIMES
@@ -777,8 +770,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[2] is None else p[2].get_children_or_itself()
-            p[0] = AST("expression", [p[1], *curr_children])
+            p[0] = AST("unary_expression", [p[1], p[2]])
 
     def p_exponentiation_expression(self, p):
         """exponentiation_expression    :   primary_expression
@@ -787,8 +779,7 @@ class NotalParser(object):
         if len(p) == 2:
             p[0] = p[1]
         else:
-            curr_children = [] if p[3] is None else p[3].get_children_or_itself()
-            p[0] = AST("expression", [p[1], p[2], *curr_children])
+            p[0] = AST("exponentiation_expression", [p[1], p[3]])
 
     def p_unary_op(self, p):
         """unary_op : S_PLUS
