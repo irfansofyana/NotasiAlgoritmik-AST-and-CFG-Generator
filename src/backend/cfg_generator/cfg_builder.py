@@ -71,9 +71,9 @@ class CFGBuilder:
         self.cfg = CFG(node, [node])
 
     @staticmethod
-    def get_boolean_expression(ast):
+    def get_boolean_expression(parent_statement, ast):
         expression = ast.get_notal_code()
-        boolean_expression = f'if {expression}'
+        boolean_expression = f'{parent_statement} {expression}'
         return boolean_expression
 
     def on_if_statement(self):
@@ -84,7 +84,7 @@ class CFGBuilder:
 
         # conditional node
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression(children[0])]
+        info = [self.get_boolean_expression('if', children[0])]
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
@@ -101,7 +101,7 @@ class CFGBuilder:
 
         # conditional node
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression(children[0])]
+        info = [self.get_boolean_expression('if', children[0])]
         node = CFGNode(node_label, info)
 
         # first statement nodes
@@ -118,6 +118,26 @@ class CFGBuilder:
 
         # Build the CFG
         self.cfg = CFG(node, [*first_cfg_child.get_exit_block(), *second_cfg_child.get_exit_block()])
+
+    def on_while_statement(self):
+        children = self.state.get_children()
+
+        # while conditional node
+        node_label = self.get_label_now()
+        info = [self.get_boolean_expression('while', children[0])]
+        node = CFGNode(node_label, info)
+
+        # statement nodes
+        child = CFGBuilder(children[1])
+        cfg_child = child.get_cfg()
+
+        # connect while conditional node to the fg
+        node.add_adjacent(cfg_child.get_entry_block())
+        for exit_block in cfg_child.get_exit_block():
+            exit_block.add_adjacent(node)
+
+        # build the cfg
+        self.cfg = CFG(node, [node])
 
 
 def write_graph(graph):
