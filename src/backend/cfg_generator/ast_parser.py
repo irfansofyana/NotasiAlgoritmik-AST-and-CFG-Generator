@@ -424,6 +424,12 @@ class ASTParser(AST):
         traversal_statement += children[2].get_notal_code()
         return traversal_statement
 
+    def on_traversal_range_value(self):
+        traversal_range_value = '['
+        traversal_range_value += self.get_children()[0].get_notal_code()
+        traversal_range_value += ']'
+        return traversal_range_value
+
     def on_operator(self):
         return self.get_info()['name']
 

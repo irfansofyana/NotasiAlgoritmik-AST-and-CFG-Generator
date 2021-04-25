@@ -589,7 +589,7 @@ class NotalParser(object):
     def p_traversal_range_value(self, p):
         """traversal_range_value    :   S_LEFT_SQUARE_BRACKET subrange_type S_RIGHT_SQUARE_BRACKET
         """
-        p[0] = p[2]
+        p[0] = AST("traversal_range_value", [p[2]])
 
     def p_control_variable(self, p):
         """control_variable :   identifier
