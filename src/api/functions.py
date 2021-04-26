@@ -1,5 +1,5 @@
 from src.backend.parser.notal_parser import NotalParser
-from src.backend.cfg_generator.cfg_builder import *
+from src.backend.cfg_generator.cfg_generator import *
 
 
 def read_src(file_path):
@@ -13,7 +13,6 @@ def get_ast(file_path, src=None):
     if file_path is not None:
         parse_result = parser.parse(read_src(file_path))
     else:
-        print(src)
         parse_result = parser.parse(src)
     return parse_result.get_ast_in_json()
 
@@ -39,7 +38,7 @@ def get_cfg_from_ast(ast_in_json):
     ast_parser = ASTParser(ast_dict=ast_in_json)
     algorithm_block = get_algorithm_block(ast_parser)
 
-    cfg_builder = CFGBuilder(algorithm_block)
+    cfg_builder = CFGGenerator(algorithm_block)
     generated_cfg = cfg_builder.get_cfg()
 
     generated_graph = generated_cfg.get_graph(cfg_builder.get_label_now())

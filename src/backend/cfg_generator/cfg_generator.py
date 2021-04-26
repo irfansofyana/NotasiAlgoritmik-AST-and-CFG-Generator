@@ -5,7 +5,7 @@ from src.backend.cfg_generator.cfg import *
 label = 0
 
 
-class CFGBuilder:
+class CFGGenerator:
     def __init__(self, ast):
         # ast -> ASTParser, cfg -> CFG
         self.state = ast
@@ -22,18 +22,18 @@ class CFGBuilder:
 
     def on_algorithm_block(self):
         children = self.state.get_children()
-        child_builder = CFGBuilder(children[0])
+        child_builder = CFGGenerator(children[0])
         self.cfg = child_builder.get_cfg()
 
     def on_compound_statement(self):
         children = self.state.get_children()
-        child_builder = CFGBuilder(children[0])
+        child_builder = CFGGenerator(children[0])
         self.cfg = child_builder.get_cfg()
 
     def on_statement_sequence(self):
         statements = self.state.get_children()
         for i in range(0, len(statements)):
-            child = CFGBuilder(statements[i])
+            child = CFGGenerator(statements[i])
             if i == 0:
                 self.cfg = child.get_cfg()
             else:
@@ -89,7 +89,7 @@ class CFGBuilder:
         self.cfg = CFG(node, [node])
 
         # statement nodes
-        child = CFGBuilder(children[1])
+        child = CFGGenerator(children[1])
         cfg_child = child.get_cfg()
 
         # merge the cfg
@@ -105,11 +105,11 @@ class CFGBuilder:
         node = CFGNode(node_label, info)
 
         # first statement nodes
-        first_child = CFGBuilder(children[1])
+        first_child = CFGGenerator(children[1])
         first_cfg_child = first_child.get_cfg()
 
         # second statement nodes
-        second_child = CFGBuilder(children[2])
+        second_child = CFGGenerator(children[2])
         second_cfg_child = second_child.get_cfg()
 
         # connect conditional node to first statement
@@ -128,7 +128,7 @@ class CFGBuilder:
         node = CFGNode(node_label, info)
 
         # statement nodes
-        child = CFGBuilder(children[1])
+        child = CFGGenerator(children[1])
         cfg_child = child.get_cfg()
 
         # connect while conditional node to statement nodes
@@ -143,7 +143,7 @@ class CFGBuilder:
         children = self.state.get_children()
 
         # statement nodes
-        child = CFGBuilder(children[0])
+        child = CFGGenerator(children[0])
         cfg_child = child.get_cfg()
 
         # until statement
@@ -175,7 +175,7 @@ class CFGBuilder:
         node = CFGNode(node_label, info)
 
         # statement nodes
-        child = CFGBuilder(children[2])
+        child = CFGGenerator(children[2])
         cfg_child = child.get_cfg()
 
         # connect traversal conditional node to statement nodes
@@ -201,7 +201,7 @@ class CFGBuilder:
         node = CFGNode(node_label, info)
 
         # statement nodes
-        child = CFGBuilder(children[1])
+        child = CFGGenerator(children[1])
         cfg_child = child.get_cfg()
 
         # connect repeat node to its statement nodes
@@ -209,6 +209,11 @@ class CFGBuilder:
         for exit_block in cfg_child.get_exit_block():
             exit_block.add_adjacent(node)
         self.cfg = CFG(node, [node])
+
+    def on_iterate_stop_statement(self):
+        children = self.state.get_children()
+
+        pass
 
 
 def write_graph(graph):
@@ -222,7 +227,7 @@ def write_graph(graph):
 if __name__ == "__main__":
     notal_dict = {}
     ast_parser = ASTParser(ast_dict=notal_dict)
-    builder = CFGBuilder(ast_parser)
+    builder = CFGGenerator(ast_parser)
     cfg = builder.get_cfg()
     graph = cfg.get_graph(label)
     write_graph(graph)
