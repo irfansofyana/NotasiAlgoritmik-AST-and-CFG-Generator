@@ -8,7 +8,7 @@ from src.api.visualize_cfg import visualize_cfg
 from PIL import Image
 
 
-class WriteFile(tk.Frame, NotalSrcDir):
+class BasicGenerator(tk.Frame, NotalSrcDir):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -203,7 +203,7 @@ class WriteFile(tk.Frame, NotalSrcDir):
         self.res_area.configure(state='disabled')
 
 
-class UploadFile(WriteFile):
+class SpecificGenerator(BasicGenerator):
     def __init__(self, parent, controller):
         super().__init__(parent, controller)
         self.show_src_button = tk.Button(

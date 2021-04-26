@@ -14,8 +14,8 @@ class App(tk.Tk):
         self.frames = {}
         for F in (
                 StartPage,
-                UploadFile,
-                WriteFile
+                SpecificGenerator,
+                BasicGenerator
         ):
             page_name = F.__name__
 

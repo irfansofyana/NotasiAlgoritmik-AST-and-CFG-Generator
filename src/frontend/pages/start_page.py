@@ -38,7 +38,7 @@ class StartPage(tk.Frame, NotalSrcDir):
 
         text_and_button_action = {
             "Upload Notal File": lambda: self.load_notal_file(),
-            "Write Notal File": lambda: self.controller.show_frame("WriteFile")
+            "Write Notal File": lambda: self.controller.show_frame("BasicGenerator")
         }
 
         for i, text in enumerate(text_and_button_action):
@@ -56,4 +56,4 @@ class StartPage(tk.Frame, NotalSrcDir):
     def load_notal_file(self):
         self.notal_dir.set(fd.askopenfilename())
         NotalSrcDir.src_dir = self.notal_dir.get()
-        self.controller.show_frame('UploadFile')
+        self.controller.show_frame('SpecificGenerator')
