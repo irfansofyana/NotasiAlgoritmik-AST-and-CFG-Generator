@@ -1,5 +1,5 @@
 from src.frontend.pages.start_page import StartPage
-from src.frontend.pages.generator import *
+from src.frontend.pages.generator_page import *
 
 
 class App(tk.Tk):
