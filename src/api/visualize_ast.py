@@ -1,9 +1,9 @@
-from graphviz import Digraph
+from graphviz import *
 from src.api.functions import *
 
 
 def visualize_ast(ast, output_path='test-output/result.gv'):
-    graph = Digraph(comment="AST result")
+    graph = Graph(comment="AST result")
     traverse_ast(ast, graph)
     graph.render(output_path, format='png', view=False)
 

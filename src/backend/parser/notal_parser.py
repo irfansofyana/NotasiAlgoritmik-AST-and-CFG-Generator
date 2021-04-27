@@ -297,12 +297,12 @@ class NotalParser(object):
         p[0] = p[1]
 
     def p_procedure_declaration(self, p):
-        """procedure_declaration    :  procedure_identification formal_parameter_list
+        """procedure_declaration    :  procedure_identifier formal_parameter_list
         """
         p[0] = AST("procedure_declaration", [p[1], p[2]])
 
-    def p_procedure_identification(self, p):
-        """procedure_identification :   RW_PROCEDURE identifier
+    def p_procedure_identifier(self, p):
+        """procedure_identifier :   RW_PROCEDURE identifier
         """
         p[0] = AST("procedure_identifier", [p[2]])
 
@@ -980,13 +980,15 @@ class NotalParser(object):
         p[0] = AST("identifier", None, info)
 
     def __init__(self):
-        self.lexer = NotalScanner()
-        self.lexer = IndentLexer(self.lexer)
         self.parser = yacc.yacc(module=self)
 
     def get_cleaner_source(self, source):
         return re.sub(r"\n{2,}", "\n", source)
 
     def parse(self, source):
-        self.source = self.get_cleaner_source(source)
-        return self.parser.parse(self.source, self.lexer)
+        source = self.get_cleaner_source(source)
+
+        lexer = NotalScanner()
+        lexer = IndentLexer(lexer)
+
+        return self.parser.parse(source, lexer)

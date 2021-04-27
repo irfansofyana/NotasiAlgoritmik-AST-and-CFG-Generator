@@ -2,8 +2,6 @@ class AST:
     def __init__(self, type=None, children=None, info=None):
         self.type = type
         if children:
-            if not isinstance(children, list):
-                print("ERROR ", self.type, ' ', children)
             self.children = children
         else:
             self.children = []
