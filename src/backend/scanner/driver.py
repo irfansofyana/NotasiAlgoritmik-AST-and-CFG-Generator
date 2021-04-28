@@ -6,7 +6,7 @@ if __name__ == "__main__":
     scanner = IndentLexer(scanner)
 
     input_directory_folder = 'input'
-    input_file_name = '6.in'
+    input_file_name = '7.in'
     with open(f'{input_directory_folder}/{input_file_name}', encoding='utf-8') as f:
         src_input = f.read()
 
