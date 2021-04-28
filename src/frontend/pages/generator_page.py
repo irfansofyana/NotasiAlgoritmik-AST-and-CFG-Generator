@@ -2,7 +2,6 @@ import tkinter as tk
 import json
 from tkinter import messagebox
 from src.frontend.pages.start_page import NotalSrcDir
-from src.api.functions import *
 from src.api.visualize_ast import *
 from src.api.visualize_cfg import *
 from PIL import Image
