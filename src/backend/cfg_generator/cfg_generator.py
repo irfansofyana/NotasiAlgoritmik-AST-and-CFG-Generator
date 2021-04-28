@@ -47,32 +47,32 @@ class CFGGenerator:
 
     def build_from_assignment_statement(self):
         node_label = self.get_label_now()
-        info = [self.state.get_notal_code()]
+        info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
     def build_from_procedure_statement(self):
         node_label = self.get_label_now()
-        info = [self.state.get_notal_code()]
+        info = [self.state.get_notal_src()]
         # TODO: Connect it to the implementation of the procedure itself
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
     def build_from_output_statement(self):
         node_label = self.get_label_now()
-        info = [self.state.get_notal_code()]
+        info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
     def build_from_input_statement(self):
         node_label = self.get_label_now()
-        info = [self.state.get_notal_code()]
+        info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
     @staticmethod
     def get_boolean_expression(parent_statement, ast):
-        expression = ast.get_notal_code()
+        expression = ast.get_notal_src()
         boolean_expression = f'{parent_statement} ({expression})'
         return boolean_expression
 
@@ -161,8 +161,8 @@ class CFGGenerator:
 
     @staticmethod
     def get_traversal_statement_info(control_variable, range_value):
-        control_variable = control_variable.get_notal_code()
-        range_value = range_value.get_notal_code()
+        control_variable = control_variable.get_notal_src()
+        range_value = range_value.get_notal_src()
         info = f'{control_variable} traversal {range_value}'
         return info
 
@@ -188,7 +188,7 @@ class CFGGenerator:
 
     @staticmethod
     def get_repeat_times_info(var):
-        var = var.get_notal_code()
+        var = var.get_notal_src()
         info = f'repeat {var} times'
         return info
 
