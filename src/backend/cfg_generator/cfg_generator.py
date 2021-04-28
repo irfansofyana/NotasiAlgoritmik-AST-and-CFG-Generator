@@ -17,20 +17,20 @@ class CFGGenerator:
         return self.cfg
 
     def build_cfg(self):
-        f = getattr(self, 'on_' + self.state.get_type())
+        f = getattr(self, 'build_from_' + self.state.get_type())
         return f()
 
-    def on_algorithm_block(self):
+    def build_from_algorithm_block(self):
         children = self.state.get_children()
         child_builder = CFGGenerator(children[0])
         self.cfg = child_builder.get_cfg()
 
-    def on_compound_statement(self):
+    def build_from_compound_statement(self):
         children = self.state.get_children()
         child_builder = CFGGenerator(children[0])
         self.cfg = child_builder.get_cfg()
 
-    def on_statement_sequence(self):
+    def build_from_statement_sequence(self):
         statements = self.state.get_children()
         for i in range(0, len(statements)):
             child = CFGGenerator(statements[i])
@@ -45,26 +45,26 @@ class CFGGenerator:
         label += 1
         return label
 
-    def on_assignment_statement(self):
+    def build_from_assignment_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_code()]
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
-    def on_procedure_statement(self):
+    def build_from_procedure_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_code()]
         # TODO: Connect it to the implementation of the procedure itself
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
-    def on_output_statement(self):
+    def build_from_output_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_code()]
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
-    def on_input_statement(self):
+    def build_from_input_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_code()]
         node = CFGNode(node_label, info)
@@ -76,10 +76,10 @@ class CFGGenerator:
         boolean_expression = f'{parent_statement} ({expression})'
         return boolean_expression
 
-    def on_if_statement(self):
+    def build_from_if_statement(self):
         children = self.state.get_children()
         if len(children) == 3:
-            self.on_if_else_statement()
+            self.build_from_if_else_statement()
             return
 
         # conditional node
@@ -96,7 +96,7 @@ class CFGGenerator:
         self.cfg.merge_cfg(cfg_child)
         self.cfg.add_exit_block(node)
 
-    def on_if_else_statement(self):
+    def build_from_if_else_statement(self):
         children = self.state.get_children()
 
         # conditional node
@@ -119,7 +119,7 @@ class CFGGenerator:
         # Build the CFG
         self.cfg = CFG(node, [*first_cfg_child.get_exit_block(), *second_cfg_child.get_exit_block()])
 
-    def on_while_statement(self):
+    def build_from_while_statement(self):
         children = self.state.get_children()
 
         # while conditional node
@@ -139,7 +139,7 @@ class CFGGenerator:
         # build the cfg
         self.cfg = CFG(node, [node])
 
-    def on_repeat_until_statement(self):
+    def build_from_repeat_until_statement(self):
         children = self.state.get_children()
 
         # statement nodes
@@ -166,7 +166,7 @@ class CFGGenerator:
         info = f'{control_variable} traversal {range_value}'
         return info
 
-    def on_traversal_statement(self):
+    def build_from_traversal_statement(self):
         children = self.state.get_children()
         info = [self.get_traversal_statement_info(children[0], children[1])]
 
@@ -192,7 +192,7 @@ class CFGGenerator:
         info = f'repeat {var} times'
         return info
 
-    def on_repeat_times_statement(self):
+    def build_from_repeat_times_statement(self):
         children = self.state.get_children()
 
         # repeat node
@@ -210,7 +210,7 @@ class CFGGenerator:
             exit_block.add_adjacent(node)
         self.cfg = CFG(node, [node])
 
-    def on_iterate_stop_statement(self):
+    def build_from_iterate_stop_statement(self):
         children = self.state.get_children()
 
         pass
