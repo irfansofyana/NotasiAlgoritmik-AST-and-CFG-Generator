@@ -3,8 +3,8 @@ import json
 from tkinter import messagebox
 from src.frontend.pages.start_page import NotalSrcDir
 from src.api.functions import *
-from src.api.visualize_ast import visualize_ast
-from src.api.visualize_cfg import visualize_cfg
+from src.api.visualize_ast import *
+from src.api.visualize_cfg import *
 from PIL import Image
 
 
@@ -197,8 +197,11 @@ class BasicGenerator(tk.Frame, NotalSrcDir):
     def fill_result_area_and_generate_cfg_image(self, cfg):
         self.res_area.configure(state='normal')
         self.res_area.delete(1.0, tk.END)
+
         output_path = "../output/cfg.gv"
-        cfg_gv = visualize_cfg(cfg, output_path)
+        cfg_gv = convert_cfg_to_graphviz(cfg)
+        visualize_cfg(cfg_gv, is_graphviz=True, output_path=output_path)
+
         self.res_area.insert(tk.END, str(cfg_gv))
         self.res_area.configure(state='disabled')
 

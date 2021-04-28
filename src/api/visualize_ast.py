@@ -3,9 +3,14 @@ from src.api.functions import *
 
 
 def visualize_ast(ast, output_path='test-output/result.gv'):
+    graph = convert_ast_to_graphviz(ast)
+    graph.render(output_path, format='png', view=False)
+
+
+def convert_ast_to_graphviz(ast):
     graph = Graph(comment="AST result")
     traverse_ast(ast, graph)
-    graph.render(output_path, format='png', view=False)
+    return graph
 
 
 def get_node_label(node):

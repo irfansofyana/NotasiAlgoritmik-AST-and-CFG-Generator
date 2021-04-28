@@ -2,10 +2,17 @@ from graphviz import Digraph
 from src.api.functions import *
 
 
-def visualize_cfg(cfg, output_path='test-output/result.gv'):
+def visualize_cfg(cfg, is_graphviz=False, output_path='test-output/result.gv'):
+    if not is_graphviz:
+        graph = convert_cfg_to_graphviz(cfg)
+    else:
+        graph = cfg
+    graph.render(output_path, format='png', view=False)
+
+
+def convert_cfg_to_graphviz(cfg):
     graph = Digraph(comment="CFG result")
     traverse_cfg(cfg, graph)
-    graph.render(output_path, format='png', view=False)
     return graph
 
 
