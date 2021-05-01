@@ -7,6 +7,7 @@ def visualize_cfg(cfg, is_graphviz=False, output_path='test-output/result.gv'):
         graph = convert_cfg_to_graphviz(cfg)
     else:
         graph = cfg
+    graph.node_attr['fontname'] = 'consolas'
     graph.render(output_path, format='png', view=False)
 
 

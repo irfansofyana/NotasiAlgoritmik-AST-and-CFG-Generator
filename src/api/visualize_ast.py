@@ -4,6 +4,7 @@ from src.api.functions import *
 
 def visualize_ast(ast, output_path='test-output/result.gv'):
     graph = convert_ast_to_graphviz(ast)
+    graph.node_attr['fontname'] = 'consolas'
     graph.render(output_path, format='png', view=False)
 
 
