@@ -512,13 +512,13 @@ class NotalParser(object):
         p[0] = p[1]
 
     def p_depend_on_statement(self, p):
-        """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_statement_list_list DEDENT
+        """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_action_list DEDENT
         """
         p[0] = AST("depend_on_statement", [p[4], p[7]])
 
-    def p_depend_on_statement_list_list(self, p):
-        """depend_on_statement_list_list    :   depend_on_statement_list_list S_SEMI_COLON depend_on_statement_list
-                                            |   depend_on_statement_list
+    def p_depend_on_action_list(self, p):
+        """depend_on_action_list    :   depend_on_action_list S_SEMI_COLON depend_on_action
+                                            |   depend_on_action
         """
         if len(p) == 2:
             p[0] = AST("depend_on_action_list", [p[1]])
@@ -526,8 +526,8 @@ class NotalParser(object):
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
             p[0] = AST("depend_on_action_list", [*curr_children, p[3]])
 
-    def p_depend_on_statement_list(self, p):
-        """depend_on_statement_list :   expression S_COLON statement
+    def p_depend_on_action(self, p):
+        """depend_on_action :   expression S_COLON statement
         """
         p[0] = AST("depend_on_action", [p[1], p[3]])
 
