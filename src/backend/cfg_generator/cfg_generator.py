@@ -213,7 +213,27 @@ class CFGGenerator:
     def build_from_iterate_stop_statement(self):
         children = self.state.get_children()
 
-        pass
+        # first action nodes
+        child = CFGGenerator(children[0])
+        cfg_child = child.get_cfg()
+
+        # conditional node
+        node_label = self.get_label_now()
+        info = [self.get_boolean_expression('stop', children[1])]
+        node = CFGNode(node_label, info)
+
+        # second action nodes
+        child_2 = CFGGenerator(children[2])
+        cfg_child_2 = child_2.get_cfg()
+
+        # connecting the nodes
+        for exit_node in cfg_child.get_exit_block():
+            exit_node.add_adjacent(node)
+        node.add_adjacent(cfg_child_2.get_entry_block())
+        for exit_node in cfg_child_2.get_exit_block():
+            exit_node.add_adjacent(cfg_child.get_entry_block())
+
+        self.cfg = CFG(cfg_child.get_entry_block(), [node])
 
 
 def write_graph(graph):
