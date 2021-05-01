@@ -1,0 +1,9 @@
+PROGRAM ekspresi
+
+KAMUS
+ x, y: integer
+
+ALGORITMA
+ x <- 12 * 4 + 10 / 2 - 10
+ y <- x + 10
+ output(x+y)

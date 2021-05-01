@@ -1,0 +1,12 @@
+PROGRAM repeat_times
+KAMUS
+ i, n, sum: integer
+
+ALGORITMA
+ input(n)
+ sum <- 0
+ i <- 1
+ repeat n times
+  sum <- sum + i
+  i <- i + 1
+ output(sum)

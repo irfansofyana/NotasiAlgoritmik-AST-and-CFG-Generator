@@ -964,7 +964,7 @@ class NotalParser(object):
 
     def p_error(self, p):
         print("Syntax error on token: ", p)
-        exit()
+        return
 
     def p_empty(self, p):
         """empty    :

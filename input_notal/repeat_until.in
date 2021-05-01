@@ -1,0 +1,19 @@
+PROGRAM repeat_until
+KAMUS
+ i, j, n: integer
+
+ALGORITMA
+ input(n)
+ i <- 1
+ repeat
+  j <- 1
+  repeat
+   if (j mod 2 = 1) then
+    output('*')
+   else
+    output('+')
+   j <- j + 1
+  until (j > i + 1)
+  i <- i + 1
+ until (i > n + 1)
+ output("Done")

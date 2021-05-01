@@ -1,0 +1,12 @@
+PROGRAM iterate_stop
+KAMUS
+ N, i: integer
+
+ALGORITMA
+ input(N)
+ i <- 1
+ iterate
+  output(i)
+ stop (i = N)
+  i <- i + 1
+ output("Done")

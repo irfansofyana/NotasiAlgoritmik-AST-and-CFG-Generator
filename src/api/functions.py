@@ -9,12 +9,17 @@ def read_src(file_path):
 
 
 def get_ast(file_path, src=None):
-    parser = NotalParser()
-    if file_path is not None:
-        parse_result = parser.parse(read_src(file_path))
-    else:
-        parse_result = parser.parse(src)
-    return parse_result.get_ast_in_json()
+    try:
+        parser = NotalParser()
+        if file_path is not None:
+            parse_result = parser.parse(read_src(file_path))
+        else:
+            parse_result = parser.parse(src)
+        if parse_result is None:
+            raise Exception("There is error syntax in Notal file!")
+        return parse_result.get_ast_in_json()
+    except Exception as err:
+        raise err
 
 
 def get_algorithm_block(current_ast):
@@ -30,19 +35,25 @@ def get_algorithm_block(current_ast):
 
 
 def get_cfg(file_path):
-    ast = get_ast(file_path)
-    return get_cfg_from_ast(ast)
+    try:
+        ast = get_ast(file_path)
+        return get_cfg_from_ast(ast)
+    except Exception as err:
+        raise err
 
 
 def get_cfg_from_ast(ast_in_json):
     ast_parser = ASTParser(ast_dict=ast_in_json)
     algorithm_block = get_algorithm_block(ast_parser)
 
-    cfg_builder = CFGGenerator(algorithm_block)
-    generated_cfg = cfg_builder.get_cfg()
+    try:
+        cfg_builder = CFGGenerator(algorithm_block)
+        generated_cfg = cfg_builder.get_cfg()
 
-    generated_graph = generated_cfg.get_graph(cfg_builder.get_label_now())
-    return generated_graph
+        generated_graph = generated_cfg.get_graph(cfg_builder.get_label_now())
+        return generated_graph
+    except Exception as err:
+        raise err
 
 
 def write_graph(graph):
