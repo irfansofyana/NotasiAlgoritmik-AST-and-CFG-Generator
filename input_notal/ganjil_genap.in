@@ -1,9 +1,10 @@
 PROGRAM ganjil_genap
 KAMUS
-	n: integer
+    n: integer
+
 ALGORITMA
-	input(n)
-	if (n mod 2 = 1) then
-		output("ganjil")
-	else
-		output("genap")
+    input(n)
+    if (n mod 2 = 1) then
+        output("ganjil")
+    else
+        output("genap")

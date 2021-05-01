@@ -71,12 +71,18 @@ class BasicGenerator(tk.Frame, NotalSrcDir):
         self.visualize_cfg_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     def render_back_button(self):
+        def handle_back_button(parent):
+            NotalSrcDir.src_dir = ''
+            parent.src_area.delete(1.0, tk.END)
+            parent.res_area.delete(1.0, tk.END)
+            parent.controller.show_frame("StartPage")
+
         self.back_button = tk.Button(
             self,
             bg='white',
             fg='black',
             text='Back',
-            command=lambda: self.controller.show_frame("StartPage"),
+            command=lambda: handle_back_button(self),
             width=6,
             height=1,
         )
