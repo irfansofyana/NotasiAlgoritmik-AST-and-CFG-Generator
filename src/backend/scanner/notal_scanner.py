@@ -159,7 +159,7 @@ class NotalScanner(object):
             t.lexer.lineno += t.value.count('\n')
             t.lexer.begin('INITIAL')
 
-            return t
+            # return t
 
     def t_COMMENT_NONSPACE(self, t):
         r'[^\s\{\}\'\"]+'

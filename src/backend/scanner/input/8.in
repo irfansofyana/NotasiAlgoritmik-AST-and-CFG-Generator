@@ -1,0 +1,7 @@
+PROGRAM tes_comment
+KAMUS
+    a: integer
+
+ALGORITMA
+    a <- 10 { isi nilai a }
+    { mengisi nilai a dengan 10 {} }
