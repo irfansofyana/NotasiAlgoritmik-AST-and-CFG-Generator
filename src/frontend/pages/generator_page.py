@@ -70,19 +70,21 @@ class BasicGenerator(tk.Frame, NotalSrcDir):
         )
         self.visualize_cfg_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-    def render_back_button(self):
-        def handle_back_button(parent):
-            NotalSrcDir.src_dir = ''
-            parent.src_area.delete(1.0, tk.END)
-            parent.res_area.delete(1.0, tk.END)
-            parent.controller.show_frame("StartPage")
+    def handle_back_button(self):
+        NotalSrcDir.src_dir = ''
+        self.src_area.configure(state='normal')
+        self.src_area.delete(1.0, tk.END)
+        self.res_area.configure(state='normal')
+        self.res_area.delete(1.0, tk.END)
+        self.controller.show_frame("StartPage")
 
+    def render_back_button(self):
         self.back_button = tk.Button(
             self,
             bg='white',
             fg='black',
             text='Back',
-            command=lambda: handle_back_button(self),
+            command=lambda: self.handle_back_button(),
             width=6,
             height=1,
         )
@@ -223,6 +225,8 @@ class SpecificGenerator(BasicGenerator):
             width=15,
             height=1,
         )
+        self.res_area.delete(1.0, tk.END)
+        self.src_area.delete(1.0, tk.END)
         self.show_src_button.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
         self.src_area.configure(state='disabled')
 
