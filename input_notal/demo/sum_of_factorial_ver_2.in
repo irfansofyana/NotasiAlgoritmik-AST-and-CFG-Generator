@@ -1,0 +1,23 @@
+{ Menghasilkan 1! + 2! + 3! + ... + n! }
+
+PROGRAM sum_of_factorial_2
+
+KAMUS
+    n, i, j: integer
+    sum, faktorial: integer
+
+ALGORITMA
+    input(n)
+
+    i ← 1
+    sum ← 0
+
+    i traversal [1..n]
+        faktorial ← 1
+        j ← 1
+        while (j <= i) do
+            faktorial ← faktorial * j
+            j ← j + 1
+        sum ← sum + faktorial
+
+    output(sum)

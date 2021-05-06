@@ -1,0 +1,20 @@
+PROGRAM max3
+
+KAMUS
+    a, b, c: integer
+
+ALGORITMA
+    input(a, b, c)
+
+    if (a >= b) and (b >= c) then
+        output(a)
+    else if (a >= c) and (c >= b) then
+        output(a)
+    else if (b >= a) and (a >= c) then
+        output(b)
+    else if (b >= c) and (c >= a) then
+        output(a)
+    else if (c >= a) and (a >= b) then
+        output(c)
+    else if (c >= b) and (b >= a) then
+        output(c)
