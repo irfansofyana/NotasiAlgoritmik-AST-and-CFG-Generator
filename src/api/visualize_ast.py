@@ -1,11 +1,17 @@
-from graphviz import Digraph
+from graphviz import *
 from src.api.functions import *
 
 
 def visualize_ast(ast, output_path='test-output/result.gv'):
-    graph = Digraph(comment="AST result")
-    traverse_ast(ast, graph)
+    graph = convert_ast_to_graphviz(ast)
+    graph.node_attr['fontname'] = 'consolas'
     graph.render(output_path, format='png', view=False)
+
+
+def convert_ast_to_graphviz(ast):
+    graph = Graph(comment="AST result")
+    traverse_ast(ast, graph)
+    return graph
 
 
 def get_node_label(node):

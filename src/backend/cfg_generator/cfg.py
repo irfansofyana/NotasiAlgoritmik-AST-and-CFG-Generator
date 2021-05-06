@@ -4,7 +4,6 @@ class CFG:
         self.entry_block = entry_block
         self.exit_block = exit_block
 
-
     def get_entry_block(self):
         return self.entry_block
 

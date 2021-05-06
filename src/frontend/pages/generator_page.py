@@ -2,13 +2,12 @@ import tkinter as tk
 import json
 from tkinter import messagebox
 from src.frontend.pages.start_page import NotalSrcDir
-from src.api.functions import *
-from src.api.visualize_ast import visualize_ast
-from src.api.visualize_cfg import visualize_cfg
+from src.api.visualize_ast import *
+from src.api.visualize_cfg import *
 from PIL import Image
 
 
-class WriteFile(tk.Frame, NotalSrcDir):
+class BasicGenerator(tk.Frame, NotalSrcDir):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -71,13 +70,21 @@ class WriteFile(tk.Frame, NotalSrcDir):
         )
         self.visualize_cfg_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
+    def handle_back_button(self):
+        NotalSrcDir.src_dir = ''
+        self.src_area.configure(state='normal')
+        self.src_area.delete(1.0, tk.END)
+        self.res_area.configure(state='normal')
+        self.res_area.delete(1.0, tk.END)
+        self.controller.show_frame("StartPage")
+
     def render_back_button(self):
         self.back_button = tk.Button(
             self,
             bg='white',
             fg='black',
             text='Back',
-            command=lambda: self.controller.show_frame("StartPage"),
+            command=lambda: self.handle_back_button(),
             width=6,
             height=1,
         )
@@ -197,13 +204,16 @@ class WriteFile(tk.Frame, NotalSrcDir):
     def fill_result_area_and_generate_cfg_image(self, cfg):
         self.res_area.configure(state='normal')
         self.res_area.delete(1.0, tk.END)
+
         output_path = "../output/cfg.gv"
-        cfg_gv = visualize_cfg(cfg, output_path)
+        cfg_gv = convert_cfg_to_graphviz(cfg)
+        visualize_cfg(cfg_gv, is_graphviz=True, output_path=output_path)
+
         self.res_area.insert(tk.END, str(cfg_gv))
         self.res_area.configure(state='disabled')
 
 
-class UploadFile(WriteFile):
+class SpecificGenerator(BasicGenerator):
     def __init__(self, parent, controller):
         super().__init__(parent, controller)
         self.show_src_button = tk.Button(
@@ -215,6 +225,8 @@ class UploadFile(WriteFile):
             width=15,
             height=1,
         )
+        self.res_area.delete(1.0, tk.END)
+        self.src_area.delete(1.0, tk.END)
         self.show_src_button.place(relx=0.5, rely=0.1, anchor=tk.CENTER)
         self.src_area.configure(state='disabled')
 

@@ -103,9 +103,13 @@ class NotalParser(object):
         p[0] = AST("procedure_implementation", [p[1], p[2]])
 
     def p_procedure_implementation_block(self, p):
-        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT block_1
+        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT block_1 block_2 block_3 block_4 block_5
         """
-        p[0] = AST("procedure_implementation_algorithm", [p[4]])
+        children = []
+        for i in range(4, len(p)):
+            if p[i]:
+                children.append(p[i])
+        p[0] = AST("procedure_implementation_algorithm", children)
 
     def p_function_implementation_list(self, p):
         """function_implementation_list :   function_implementation_list function_implementation
@@ -123,9 +127,13 @@ class NotalParser(object):
         p[0] = AST("function_implementation", [p[1], p[2]])
 
     def p_function_implementation_block(self, p):
-        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT block_1
+        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT block_1 block_2 block_3 block_4 block_5
         """
-        p[0] = AST("function_implementation_algorithm", [p[4]])
+        children = []
+        for i in range(4, len(p)):
+            if p[i]:
+                children.append(p[i])
+        p[0] = AST("function_implementation_algorithm", children)
 
     def p_type_denoter(self, p):
         """type_denoter :   ordinal_type
@@ -289,12 +297,12 @@ class NotalParser(object):
         p[0] = p[1]
 
     def p_procedure_declaration(self, p):
-        """procedure_declaration    :  procedure_identification formal_parameter_list
+        """procedure_declaration    :  procedure_identifier formal_parameter_list
         """
         p[0] = AST("procedure_declaration", [p[1], p[2]])
 
-    def p_procedure_identification(self, p):
-        """procedure_identification :   RW_PROCEDURE identifier
+    def p_procedure_identifier(self, p):
+        """procedure_identifier :   RW_PROCEDURE identifier
         """
         p[0] = AST("procedure_identifier", [p[2]])
 
@@ -504,13 +512,13 @@ class NotalParser(object):
         p[0] = p[1]
 
     def p_depend_on_statement(self, p):
-        """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_statement_list_list DEDENT
+        """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_action_list DEDENT
         """
         p[0] = AST("depend_on_statement", [p[4], p[7]])
 
-    def p_depend_on_statement_list_list(self, p):
-        """depend_on_statement_list_list    :   depend_on_statement_list_list S_SEMI_COLON depend_on_statement_list
-                                            |   depend_on_statement_list
+    def p_depend_on_action_list(self, p):
+        """depend_on_action_list    :   depend_on_action_list S_SEMI_COLON depend_on_action
+                                            |   depend_on_action
         """
         if len(p) == 2:
             p[0] = AST("depend_on_action_list", [p[1]])
@@ -518,8 +526,8 @@ class NotalParser(object):
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
             p[0] = AST("depend_on_action_list", [*curr_children, p[3]])
 
-    def p_depend_on_statement_list(self, p):
-        """depend_on_statement_list :   expression S_COLON statement
+    def p_depend_on_action(self, p):
+        """depend_on_action :   expression S_COLON statement
         """
         p[0] = AST("depend_on_action", [p[1], p[3]])
 
@@ -555,6 +563,7 @@ class NotalParser(object):
 
     def p_repeat_times_statement(self, p):
         """repeat_times_statement   :   RW_REPEAT control_variable RW_TIMES structured_statement
+                                    |   RW_REPEAT integer_constant RW_TIMES structured_statement
         """
         p[0] = AST("repeat_times_statement", [p[2], p[4]])
 
@@ -581,7 +590,7 @@ class NotalParser(object):
     def p_traversal_range_value(self, p):
         """traversal_range_value    :   S_LEFT_SQUARE_BRACKET subrange_type S_RIGHT_SQUARE_BRACKET
         """
-        p[0] = p[2]
+        p[0] = AST("traversal_range_value", [p[2]])
 
     def p_control_variable(self, p):
         """control_variable :   identifier
@@ -955,7 +964,7 @@ class NotalParser(object):
 
     def p_error(self, p):
         print("Syntax error on token: ", p)
-        exit()
+        return
 
     def p_empty(self, p):
         """empty    :
@@ -971,13 +980,15 @@ class NotalParser(object):
         p[0] = AST("identifier", None, info)
 
     def __init__(self):
-        self.lexer = NotalScanner()
-        self.lexer = IndentLexer(self.lexer)
         self.parser = yacc.yacc(module=self)
 
     def get_cleaner_source(self, source):
         return re.sub(r"\n{2,}", "\n", source)
 
     def parse(self, source):
-        self.source = self.get_cleaner_source(source)
-        return self.parser.parse(self.source, self.lexer)
+        source = self.get_cleaner_source(source)
+
+        lexer = NotalScanner()
+        lexer = IndentLexer(lexer)
+
+        return self.parser.parse(source, lexer)

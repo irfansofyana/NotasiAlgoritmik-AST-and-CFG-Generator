@@ -1,0 +1,13 @@
+PROGRAM traversal_simple
+KAMUS
+ i, j, n: integer
+
+ALGORITMA
+ input(n)
+ i traversal [1..n]
+  j traversal [1..n]
+   if (j mod 2 = 1) then
+    output('*')
+   else
+    output('+')
+ output("done")

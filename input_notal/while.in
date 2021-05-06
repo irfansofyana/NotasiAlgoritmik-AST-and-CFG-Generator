@@ -1,0 +1,17 @@
+PROGRAM tangga
+KAMUS
+ i, j, n: integer
+
+ALGORITMA
+ input(n)
+ i <- 1
+ while (i <= n) do
+  j <- 1
+  while (j <= i) do
+   if (j mod 2 = 1) then
+    output('*')
+   else
+    output('+')
+   j <- j + 1
+  i <- i + 1
+ output("Done")

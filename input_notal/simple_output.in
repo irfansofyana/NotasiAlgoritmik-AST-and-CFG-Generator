@@ -1,0 +1,14 @@
+PROGRAM contoh
+
+KAMUS
+ constant MAXN : integer = 100
+ constant NAMA : string = "irfan"
+
+ type ii : integer
+ type ss : string
+
+ n, m: integer
+ nama, nim: string
+
+ALGORITMA
+ output("Tes")
