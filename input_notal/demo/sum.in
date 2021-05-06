@@ -1,0 +1,13 @@
+PROGRAM SUM
+
+KAMUS
+    n, i, sum: integer
+
+ALGORITMA
+    input(n)
+
+    i <- 1
+    while (i <= n) do
+        sum <- sum + i
+        i <- i + 1
+    output(sum)
