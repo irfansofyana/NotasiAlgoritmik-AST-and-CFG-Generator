@@ -2,19 +2,22 @@ PROGRAM max3
 
 KAMUS
     a, b, c: integer
+    maks: integer
 
 ALGORITMA
     input(a, b, c)
 
     if (a >= b) and (b >= c) then
-        output(a)
+        maks <- a
     else if (a >= c) and (c >= b) then
-        output(a)
+        maks <- a
     else if (b >= a) and (a >= c) then
-        output(b)
+        maks <- b
     else if (b >= c) and (c >= a) then
-        output(a)
+        maks <- b
     else if (c >= a) and (a >= b) then
-        output(c)
+        maks <- c
     else if (c >= b) and (b >= a) then
-        output(c)
+        maks <- c
+
+    output(maks)
