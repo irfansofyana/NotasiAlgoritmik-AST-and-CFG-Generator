@@ -21,6 +21,8 @@ class CFGGenerator:
         return f()
 
     def build_from_algorithm_block(self):
+        global label
+        label = 0
         children = self.state.get_children()
         child_builder = CFGGenerator(children[0])
         self.cfg = child_builder.get_cfg()

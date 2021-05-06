@@ -1,3 +1,6 @@
+from src.backend.cfg_generator.cfg_node import *
+
+
 class CFG:
     def __init__(self, entry_block, exit_block):
         # entry_block -> CFGNode, exit_block -> [CFGNode], entry_block -> exit_block must be connected
@@ -20,7 +23,17 @@ class CFG:
         self.exit_block = cfg.get_exit_block()
 
     def get_graph(self, num_node):
-        is_visited = [False for i in range(0, num_node + 1)]
+        is_visited = [False for i in range(0, num_node + 3)]
         graph = {}
         self.entry_block.traverse(is_visited, graph)
+
+        start_node = CFGNode(label=num_node+1, info=['start_algorithm'])
+        end_node = CFGNode(label=num_node+2, info=['end_algorithm'])
+
+        graph[start_node] = [self.entry_block]
+        graph[end_node] = []
+        for exit_node in self.exit_block:
+            graph[exit_node] = []
+            graph[exit_node].append(end_node)
+
         return graph

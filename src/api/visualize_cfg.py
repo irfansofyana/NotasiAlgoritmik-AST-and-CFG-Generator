@@ -20,8 +20,7 @@ def convert_cfg_to_graphviz(cfg):
 def traverse_cfg(cfg, graph):
     for node in cfg:
         graph.node(str(node.get_label()), node.get_info_str())
-        adj_nodes = node.get_adjacent()
-        for adj_node in adj_nodes:
+        for adj_node in cfg[node]:
             graph.edge(str(node.get_label()), str(adj_node.get_label()))
 
 
