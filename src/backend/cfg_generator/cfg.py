@@ -33,7 +33,6 @@ class CFG:
         graph[start_node] = [self.entry_block]
         graph[end_node] = []
         for exit_node in self.exit_block:
-            graph[exit_node] = []
             graph[exit_node].append(end_node)
 
         return graph
