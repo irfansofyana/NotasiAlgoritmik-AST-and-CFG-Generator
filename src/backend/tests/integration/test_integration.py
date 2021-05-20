@@ -2,7 +2,7 @@ import unittest
 import os
 import json
 from src.api.functions import *
-from src.api.visualize_cfg import convert_cfg_to_graphviz
+from src.api.visualize_cfg import convert_cfg_to_graphviz, convert_cfg_json_to_graphviz
 
 
 class Integration(unittest.TestCase):
@@ -21,7 +21,7 @@ class Integration(unittest.TestCase):
     @staticmethod
     def read_expected_cfg(file_name):
         with open(file_name, encoding='utf-8') as f:
-            expected_cfg = f.read()
+            expected_cfg = json.load(f)
         return expected_cfg
 
     def test_ast(self):
@@ -47,13 +47,14 @@ class Integration(unittest.TestCase):
         for input_file_name in input_files:
             # Read generated CFG
             generated_cfg = get_cfg(f'{input_folder_dir}/{input_file_name}')
-            generated_cfg = str(convert_cfg_to_graphviz(generated_cfg))
+            generated_cfg_in_graphviz = convert_cfg_to_graphviz(generated_cfg).source
 
             # Read expected CFG
-            output_file_name = f'{output_folder_dir}/{re.sub(".in", ".out", input_file_name)}'
-            expected_result = self.read_expected_cfg(output_file_name)
+            output_file_name = f'{output_folder_dir}/{re.sub(".in", ".json", input_file_name)}'
+            expected_cfg_in_json = self.read_expected_cfg(output_file_name)
+            expected_cfg_in_graphviz = convert_cfg_json_to_graphviz(expected_cfg_in_json).source
 
-            self.assertEqual(generated_cfg, expected_result)
+            self.assertEqual(generated_cfg_in_graphviz, expected_cfg_in_graphviz)
 
 
 if __name__ == '__main__':

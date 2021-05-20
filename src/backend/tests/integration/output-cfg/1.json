@@ -1,0 +1,42 @@
+{
+   "nodes":[
+      {
+         "label":1,
+         "statements":[
+            "input(A,B)"
+         ]
+      },
+      {
+         "label":2,
+         "statements": [
+            "output(A + B)"
+         ]
+      },
+      {
+         "label": 3,
+         "statements": [
+            "start_algorithm"
+         ]
+      },
+      {
+         "label": 4,
+         "statements": [
+            "end_algorithm"
+         ]
+      }
+   ],
+   "edges":[
+      {
+         "start_node_label":1,
+         "end_node_label":2
+      },
+      {
+         "start_node_label": 2,
+         "end_node_label": 4
+      },
+      {
+         "start_node_label": 3,
+         "end_node_label": 1
+      }
+   ]
+}
