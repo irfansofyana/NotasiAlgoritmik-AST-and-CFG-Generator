@@ -13,16 +13,10 @@ class Integration(unittest.TestCase):
         return input_src
 
     @staticmethod
-    def read_expected_ast(file_name):
+    def read_output(file_name):
         with open(file_name, encoding='utf-8') as f:
             expected_tokens = json.load(f)
         return expected_tokens
-
-    @staticmethod
-    def read_expected_cfg(file_name):
-        with open(file_name, encoding='utf-8') as f:
-            expected_cfg = json.load(f)
-        return expected_cfg
 
     def test_ast(self):
         input_folder_dir = "input"
@@ -35,7 +29,7 @@ class Integration(unittest.TestCase):
 
             # Read expected AST
             output_file_name = f'{output_folder_dir}/{re.sub(".in", ".json", input_file_name)}'
-            expected_result = self.read_expected_ast(output_file_name)
+            expected_result = self.read_output(output_file_name)
 
             self.assertEqual(generated_ast, expected_result)
 
@@ -51,7 +45,7 @@ class Integration(unittest.TestCase):
 
             # Read expected CFG
             output_file_name = f'{output_folder_dir}/{re.sub(".in", ".json", input_file_name)}'
-            expected_cfg_in_json = self.read_expected_cfg(output_file_name)
+            expected_cfg_in_json = self.read_output(output_file_name)
             expected_cfg_in_graphviz = convert_cfg_json_to_graphviz(expected_cfg_in_json).source
 
             self.assertEqual(generated_cfg_in_graphviz, expected_cfg_in_graphviz)
