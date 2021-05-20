@@ -1,0 +1,11 @@
+PROGRAM contoh_boolean
+
+KAMUS
+    bool_var: boolean
+
+ALGORITMA
+    bool_var <- True
+    if (bool_var) then
+        output("Benar")
+    else
+        output("Salah")
