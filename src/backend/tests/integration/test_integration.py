@@ -1,7 +1,6 @@
 import unittest
 import os
 import json
-import re
 from src.api.functions import *
 
 
