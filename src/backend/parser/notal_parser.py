@@ -29,7 +29,7 @@ class NotalParser(object):
             p[0] = AST("identifier_list", [*curr_children, p[3]])
 
     def p_block(self, p):
-        """block    :   RW_KAMUS INDENT block_1 block_2 block_3 block_4 block_5 block_6
+        """block    :   RW_KAMUS INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block procedure_and_function_implementation_block
         """
         children = []
         for i in range(3, len(p)):
@@ -37,45 +37,45 @@ class NotalParser(object):
                 children.append(p[i])
         p[0] = AST("program_block", children)
 
-    def p_block_1(self, p):
-        """block_1  : empty
+    def p_constant_declaration_block(self, p):
+        """constant_declaration_block  : empty
                     | constant_declaration
         """
         if p[1]:
             curr_children = p[1].get_children_or_itself()
             p[0] = AST("constant_declaration_block", [*curr_children])
 
-    def p_block_2(self, p):
-        """block_2  :   empty
+    def p_type_declaration_block(self, p):
+        """type_declaration_block  :   empty
                     |   type_declaration
         """
         if p[1]:
             curr_children = p[1].get_children_or_itself()
             p[0] = AST("type_declaration_block",[*curr_children])
 
-    def p_block_3(self, p):
-        """block_3  :   empty
+    def p_variable_declaration_block(self, p):
+        """variable_declaration_block  :   empty
                     |   variable_declaration
         """
         if p[1]:
             curr_children = p[1].get_children_or_itself()
             p[0] = AST("variable_declaration_block", [*curr_children])
 
-    def p_block_4(self, p):
-        """block_4  :   DEDENT
+    def p_procedure_and_function_declaration_block(self, p):
+        """procedure_and_function_declaration_block  :   DEDENT
                     |   procedure_and_function_declaration DEDENT
         """
         if len(p) == 3:
             curr_children = p[1].get_children_or_itself()
-            p[0] = AST("procedure_and_implementation_declaration_block", [*curr_children])
+            p[0] = AST("procedure_and_function_declaration_block", [*curr_children])
 
-    def p_block_5(self, p):
-        """block_5  :   RW_ALGORITMA statement_part
+    def p_algorithm_block(self, p):
+        """algorithm_block  :   RW_ALGORITMA statement_part
         """
         p[0] = AST("algorithm_block", [p[2]])
 
-    def p_block_6(self, p):
-        """block_6  :   empty
+    def p_procedure_and_function_implementation_block(self, p):
+        """procedure_and_function_implementation_block  :   empty
                     |   procedure_implementation_list
                     |   function_implementation_list
                     |   procedure_implementation_list function_implementation_list
@@ -103,7 +103,7 @@ class NotalParser(object):
         p[0] = AST("procedure_implementation", [p[1], p[2]])
 
     def p_procedure_implementation_block(self, p):
-        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT block_1 block_2 block_3 block_4 block_5
+        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block
         """
         children = []
         for i in range(4, len(p)):
@@ -127,7 +127,7 @@ class NotalParser(object):
         p[0] = AST("function_implementation", [p[1], p[2]])
 
     def p_function_implementation_block(self, p):
-        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT block_1 block_2 block_3 block_4 block_5
+        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block
         """
         children = []
         for i in range(4, len(p)):
