@@ -1,32 +1,43 @@
-# TODO: FIX output
-
 import unittest
 import os
 import json
 import re
-from src.backend.scanner.notal_scanner import NotalScanner
+from src.backend.scanner.notal_scanner import NotalScanner, IndentLexer
 
 
 class TestScanner(unittest.TestCase):
+    @staticmethod
+    def read_input(file_name):
+        with open(file_name, encoding='utf-8') as f:
+            input_src = f.read()
+        return input_src
+
+    @staticmethod
+    def read_expected_output(file_name):
+        with open(file_name, encoding='utf-8') as f:
+            expected_tokens = json.load(f)
+        return expected_tokens
+
     def test_result_of_scanning(self):
         """
         Test the result of process scanning
         """
-
         input_folder_dir = "input"
         output_folder_dir = "output"
 
         input_files = os.listdir(input_folder_dir)
         for input_file_name in input_files:
-            notal_scanner = NotalScanner()
-            with open(f"{input_folder_dir}/{input_file_name}", encoding='utf-8') as f:
-                input_src = f.read()
-            notal_scanner.scan_for_tokens(input_src)
-            generated_tokens = notal_scanner.get_tokens_in_json()
+            scanner = NotalScanner()
+            scanner = IndentLexer(scanner)
 
-            output_file_name = re.sub(".in", ".json", input_file_name)
-            with open(f"{output_folder_dir}/{output_file_name}", encoding='utf-8') as f:
-                expected_tokens = json.load(f)
+            # Find generated tokens
+            input_src = self.read_input(f'{input_folder_dir}/{input_file_name}')
+            scanner.scan_for_tokens(input_src)
+            generated_tokens = scanner.get_tokens_in_json()
+
+            # Read expected tokens
+            output_file_name = f'{output_folder_dir}/{re.sub(".in", ".json", input_file_name)}'
+            expected_tokens = self.read_expected_output(output_file_name)
 
             self.assertEqual(generated_tokens, expected_tokens)
 

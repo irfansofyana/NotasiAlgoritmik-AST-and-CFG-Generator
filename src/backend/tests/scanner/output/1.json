@@ -14,6 +14,13 @@
       "column_position":1
    },
    {
+      "type":"INDENT",
+      "value":"\n    ",
+      "line_position":3,
+      "lex_position":14,
+      "column_position":6
+   },
+   {
       "type":"IDENTIFIER",
       "value":"x",
       "line_position":4,
@@ -35,11 +42,25 @@
       "column_position":8
    },
    {
+      "type":"DEDENT",
+      "value":"\n",
+      "line_position":4,
+      "lex_position":29,
+      "column_position":15
+   },
+   {
       "type":"RW_ALGORITMA",
       "value":"ALGORITMA",
       "line_position":6,
       "lex_position":31,
       "column_position":1
+   },
+   {
+      "type":"INDENT",
+      "value":"\n    ",
+      "line_position":6,
+      "lex_position":40,
+      "column_position":10
    },
    {
       "type":"IDENTIFIER",
