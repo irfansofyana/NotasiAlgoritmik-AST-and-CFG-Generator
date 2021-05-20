@@ -1,0 +1,9 @@
+PROGRAM sum
+{ penjumlahan A+B }
+
+KAMUS
+    A, B: integer
+
+ALGORITMA
+    input(A, B)
+    output(A + B)
