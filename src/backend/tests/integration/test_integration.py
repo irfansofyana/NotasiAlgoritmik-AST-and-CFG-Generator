@@ -2,7 +2,7 @@ import unittest
 import os
 import json
 import re
-from src.backend.parser.notal_parser import NotalParser
+from src.api.functions import *
 
 
 class Integration(unittest.TestCase):
@@ -24,12 +24,8 @@ class Integration(unittest.TestCase):
 
         input_files = os.listdir(input_folder_dir)
         for input_file_name in input_files:
-            parser = NotalParser()
-
             # Read generated AST
-            input_src = self.read_input(f'{input_folder_dir}/{input_file_name}')
-            parsing_result = parser.parse(input_src)
-            generated_ast = parsing_result.get_ast_in_json()
+            generated_ast = get_ast(f'{input_folder_dir}/{input_file_name}')
 
             # Read expected AST
             output_file_name = f'{output_folder_dir}/{re.sub(".in", ".json", input_file_name)}'
