@@ -115,6 +115,49 @@ class CFGGenerator:
         # Build the CFG
         self.cfg = CFG(node, [*first_cfg_child.get_exit_block(), *second_cfg_child.get_exit_block()])
 
+    @staticmethod
+    def get_depend_on_info(ast):
+        return "DEPEND ON (" + ast.get_notal_src() + ")"
+
+    def build_from_depend_on_statement(self):
+        children = self.state.get_children()
+
+        # depend on node
+        node_label = self.get_label_now()
+        info = [self.get_depend_on_info(children[0])]
+        node = CFGNode(node_label, info)
+
+        # depend on action list
+        depend_on_actions = children[1].get_children()
+        exit_blocks = []
+
+        for i in range(len(depend_on_actions)):
+            cfg_child = CFGGenerator(depend_on_actions[i]).get_cfg()
+            exit_blocks += [*cfg_child.get_exit_block()]
+            node.add_adjacent(cfg_child.get_entry_block())
+
+        self.cfg = CFG(node, exit_blocks)
+
+    @staticmethod
+    def get_depend_on_action_expression(ast):
+        return ast.get_notal_src()
+
+    def build_from_depend_on_action(self):
+        children = self.state.get_children()
+
+        # expression node
+        node_label = self.get_label_now()
+        info = [self.get_depend_on_action_expression(children[0])]
+        node = CFGNode(node_label, info)
+        self.cfg = CFG(node, [node])
+
+        # statement nodes
+        child = CFGGenerator(children[1])
+        cfg_child = child.get_cfg()
+
+        # merge the cfg
+        self.cfg.merge_cfg(cfg_child)
+
     def build_from_while_statement(self):
         children = self.state.get_children()
 
