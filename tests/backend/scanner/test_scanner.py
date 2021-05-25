@@ -22,8 +22,9 @@ class TestScanner(unittest.TestCase):
         """
         Test the result of process scanning
         """
-        input_folder_dir = "input"
-        output_folder_dir = "output"
+        parent_dir = os.path.dirname(os.path.abspath(__file__))
+        input_folder_dir = os.path.join(parent_dir, "input")
+        output_folder_dir = os.path.join(parent_dir, "output")
 
         input_files = os.listdir(input_folder_dir)
         for input_file_name in input_files:
@@ -31,12 +32,12 @@ class TestScanner(unittest.TestCase):
             scanner = IndentLexer(scanner)
 
             # Find generated tokens
-            input_src = self.read_input(f'{input_folder_dir}/{input_file_name}')
+            input_src = self.read_input(os.path.join(input_folder_dir, input_file_name))
             scanner.scan_for_tokens(input_src)
             generated_tokens = scanner.get_tokens_in_json()
 
             # Read expected tokens
-            output_file_name = f'{output_folder_dir}/{re.sub(".in", ".json", input_file_name)}'
+            output_file_name = os.path.join(output_folder_dir, re.sub(".in", ".json", input_file_name))
             expected_tokens = self.read_expected_output(output_file_name)
 
             self.assertEqual(generated_tokens, expected_tokens)
