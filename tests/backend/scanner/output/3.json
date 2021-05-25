@@ -21,6 +21,13 @@
       "column_position":1
    },
    {
+      "type":"INDENT",
+      "value":"\n    ",
+      "line_position":3,
+      "lex_position":29,
+      "column_position":6
+   },
+   {
       "type":"IDENTIFIER",
       "value":"bool_var",
       "line_position":4,
@@ -42,11 +49,25 @@
       "column_position":15
    },
    {
+      "type":"DEDENT",
+      "value":"\n",
+      "line_position":4,
+      "lex_position":51,
+      "column_position":22
+   },
+   {
       "type":"RW_ALGORITMA",
       "value":"ALGORITMA",
       "line_position":6,
       "lex_position":53,
       "column_position":1
+   },
+   {
+      "type":"INDENT",
+      "value":"\n    ",
+      "line_position":6,
+      "lex_position":62,
+      "column_position":10
    },
    {
       "type":"IDENTIFIER",
@@ -105,6 +126,13 @@
       "column_position":19
    },
    {
+      "type":"INDENT",
+      "value":"\n        ",
+      "line_position":8,
+      "lex_position":106,
+      "column_position":23
+   },
+   {
       "type":"RW_OUTPUT",
       "value":"output",
       "line_position":9,
@@ -133,11 +161,25 @@
       "column_position":23
    },
    {
+      "type":"DEDENT",
+      "value":"\n    ",
+      "line_position":9,
+      "lex_position":130,
+      "column_position":24
+   },
+   {
       "type":"RW_ELSE",
       "value":"else",
       "line_position":10,
       "lex_position":135,
       "column_position":5
+   },
+   {
+      "type":"INDENT",
+      "value":"\n        ",
+      "line_position":10,
+      "lex_position":139,
+      "column_position":9
    },
    {
       "type":"RW_OUTPUT",

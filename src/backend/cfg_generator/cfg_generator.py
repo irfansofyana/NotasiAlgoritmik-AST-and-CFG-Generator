@@ -1,11 +1,9 @@
-from src.backend.cfg_generator.ast_parser import *
-from src.backend.cfg_generator.cfg_node import *
 from src.backend.cfg_generator.cfg import *
-
-label = 0
 
 
 class CFGGenerator:
+    label = 0
+
     def __init__(self, ast):
         # ast -> ASTParser, cfg -> CFG
         self.state = ast
@@ -21,8 +19,6 @@ class CFGGenerator:
         return f()
 
     def build_from_algorithm_block(self):
-        global label
-        label = 0
         children = self.state.get_children()
         child_builder = CFGGenerator(children[0])
         self.cfg = child_builder.get_cfg()
@@ -41,11 +37,9 @@ class CFGGenerator:
             else:
                 self.cfg.merge_cfg(child.get_cfg())
 
-    @staticmethod
-    def get_label_now():
-        global label
-        label += 1
-        return label
+    def get_label_now(self):
+        self.__class__.label += 1
+        return self.__class__.label
 
     def build_from_assignment_statement(self):
         node_label = self.get_label_now()
@@ -236,20 +230,3 @@ class CFGGenerator:
             exit_node.add_adjacent(cfg_child.get_entry_block())
 
         self.cfg = CFG(cfg_child.get_entry_block(), [node])
-
-
-def write_graph(graph):
-    for node in graph:
-        print('Node ', node.get_label(), node.get_info())
-        print('\tadjacent nodes:')
-        for i, adj_node in enumerate(node.get_adjacent()):
-            print(f'\t\tlabel_node: ', adj_node.get_label())
-
-
-if __name__ == "__main__":
-    notal_dict = {}
-    ast_parser = ASTParser(ast_dict=notal_dict)
-    builder = CFGGenerator(ast_parser)
-    cfg = builder.get_cfg()
-    graph = cfg.get_graph(label)
-    write_graph(graph)

@@ -27,8 +27,8 @@ class CFG:
         graph = {}
         self.entry_block.traverse(is_visited, graph)
 
-        start_node = CFGNode(label=num_node+1, info=['start_algorithm'])
-        end_node = CFGNode(label=num_node+2, info=['end_algorithm'])
+        start_node = CFGNode(label=num_node, info=['start_algorithm'])
+        end_node = CFGNode(label=num_node+1, info=['end_algorithm'])
 
         graph[start_node] = [self.entry_block]
         graph[end_node] = []
