@@ -499,7 +499,6 @@ class NotalParser(object):
         """
         p[0] = AST("output_statement_parameter", [p[1]])
 
-    # TODO: Improve depend on statement later
     def p_structured_statement(self, p):
         """structured_statement :   compound_statement
                                 |   structured_if_statement
@@ -517,19 +516,19 @@ class NotalParser(object):
         p[0] = AST("depend_on_statement", [p[4], p[7]])
 
     def p_depend_on_action_list(self, p):
-        """depend_on_action_list    :   depend_on_action_list S_SEMI_COLON depend_on_action
+        """depend_on_action_list    :   depend_on_action_list   depend_on_action
                                             |   depend_on_action
         """
         if len(p) == 2:
             p[0] = AST("depend_on_action_list", [p[1]])
         else:
             curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("depend_on_action_list", [*curr_children, p[3]])
+            p[0] = AST("depend_on_action_list", [*curr_children, p[2]])
 
     def p_depend_on_action(self, p):
-        """depend_on_action :   expression S_COLON statement
+        """depend_on_action :   expression S_COLON INDENT statement DEDENT
         """
-        p[0] = AST("depend_on_action", [p[1], p[3]])
+        p[0] = AST("depend_on_action", [p[1], p[4]])
 
     def p_structured_if_statement(self, p):
         """structured_if_statement  : RW_IF boolean_expression RW_THEN structured_statement RW_ELSE structured_statement
