@@ -16,8 +16,6 @@ def get_ast(file_path, src=None):
             parse_result = parser.parse(read_src(file_path))
         else:
             parse_result = parser.parse(src)
-        if parse_result is None:
-            raise Exception("There is error syntax in Notal file!")
         return parse_result.get_ast_in_json()
     except Exception as err:
         raise err
