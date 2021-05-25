@@ -526,7 +526,7 @@ class NotalParser(object):
             p[0] = AST("depend_on_action_list", [*curr_children, p[2]])
 
     def p_depend_on_action(self, p):
-        """depend_on_action :   expression S_COLON INDENT statement DEDENT
+        """depend_on_action :   expression S_COLON INDENT statement_sequence DEDENT
         """
         p[0] = AST("depend_on_action", [p[1], p[4]])
 
