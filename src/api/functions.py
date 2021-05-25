@@ -1,5 +1,6 @@
 from src.backend.parser.notal_parser import NotalParser
 from src.backend.cfg_generator.cfg_generator import *
+from src.backend.cfg_generator.ast_parser import *
 
 
 def read_src(file_path):
@@ -47,10 +48,11 @@ def get_cfg_from_ast(ast_in_json):
     algorithm_block = get_algorithm_block(ast_parser)
 
     try:
+        CFGGenerator.label = 0
         cfg_builder = CFGGenerator(algorithm_block)
         generated_cfg = cfg_builder.get_cfg()
 
-        generated_graph = generated_cfg.get_graph(cfg_builder.get_label_now())
+        generated_graph = generated_cfg.get_graph(CFGGenerator.label + 1)
         return generated_graph
     except Exception as err:
         raise err
