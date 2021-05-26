@@ -255,7 +255,7 @@ class ASTParser(AST):
 
     def on_function_actual_parameter(self):
         function_actual_parameter = '('
-        function_actual_parameter += self.get_children()
+        function_actual_parameter += self.get_children()[0].get_notal_src()
         function_actual_parameter += ')'
         return function_actual_parameter
 
@@ -552,7 +552,7 @@ class ASTParser(AST):
         function_call = ''
         for child in children:
             function_call += child.get_notal_src()
-        return children
+        return function_call
 
     def on_math_function_call(self):
         return self.get_children()[0].get_notal_src()
