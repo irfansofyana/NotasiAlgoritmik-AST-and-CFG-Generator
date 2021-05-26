@@ -1,0 +1,39 @@
+PROGRAM TC_2
+{ Test Case 2 }
+
+
+KAMUS
+    constant PI : real = 3.14
+    constant Ka : char = 'K'
+    constant Faktor : integer = 3
+    constant Benar : boolean = true
+
+    type Point: <X: real, Y: real>
+    type hari: (senin, selasa, rabu, kamis, jumat, sabtu, minggu)
+    type jam: <hh: integer, mm: integer, ss: integer>
+    type Dosen: string
+
+    NMax: integer
+    Found: boolean
+    P1, P2: Point
+    CC: character
+    nama: string
+    x1, y1, x2, y2, jarak: real
+
+    function jarak_dua_titik(p1, p2: Point) -> real
+    procedure tukar_bilangan(input/output x, y: integer)
+    procedure tulis_variable(input x: integer)
+
+
+ALGORITMA
+    input(x1, y1)
+    input(x2, y2)
+
+    P1.x <- x1; P1.y <- y1
+    P2.x <- x2
+    P2.y <- y2
+
+    output("Titik Pertama: ", P1.x, P1.y)
+    output("Titik Kedua: ", P2.x, P2.y)
+
+    jarak <- jarak_dua_titik(P1, P2)
