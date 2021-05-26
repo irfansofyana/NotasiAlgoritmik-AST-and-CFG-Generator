@@ -363,6 +363,11 @@ class NotalParser(object):
         """
         p[0] = AST("function_parameter_declaration", [p[2]])
 
+    def p_function_actual_parameter_list(self, p):
+        """function_actual_parameter_list   :   S_LEFT_BRACKET actual_parameter_list S_RIGHT_BRACKET
+        """
+        p[0] = AST("function_actual_parameter", [p[2]])
+
     def p_function_parameter_list_option(self, p):
         """function_parameter_list_option   :   function_parameter_list
                                             |   empty
@@ -847,7 +852,7 @@ class NotalParser(object):
         p[0] = p[1]
 
     def p_user_defined_function_call(self, p):
-        """user_defined_function_call    :   function_identification function_formal_parameter_list
+        """user_defined_function_call    :   identifier function_actual_parameter_list
         """
         p[0] = AST("user_defined_function_call", [p[1], p[2]])
 

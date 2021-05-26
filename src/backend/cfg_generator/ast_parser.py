@@ -253,6 +253,12 @@ class ASTParser(AST):
         function_parameter_declaration += ')'
         return function_parameter_declaration
 
+    def on_function_actual_parameter(self):
+        function_actual_parameter = '('
+        function_actual_parameter += self.get_children()
+        function_actual_parameter += ')'
+        return function_actual_parameter
+
     def on_function_parameter_list(self):
         function_parameter_list = ''
         for child in self.get_children():
