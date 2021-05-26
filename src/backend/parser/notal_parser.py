@@ -424,6 +424,7 @@ class NotalParser(object):
                             |   procedure_statement
                             |   simple_if_statement
                             |   simple_while_statement
+                            |   function_returned_statement
         """
         p[0] = p[1]
 
@@ -503,6 +504,11 @@ class NotalParser(object):
         """output_statement_parameter   :   expression
         """
         p[0] = AST("output_statement_parameter", [p[1]])
+
+    def p_function_returned_statement(self, p):
+        """function_returned_statement  :   S_RETURN expression
+        """
+        p[0] = AST("function_returned_statement", [p[2]])
 
     def p_structured_statement(self, p):
         """structured_statement :   compound_statement
