@@ -1,8 +1,29 @@
-PROGRAM sum
+PROGRAM test_fungsi
 
 KAMUS
-    A, B: integer
+ a, b, res: integer
+
+ function sum(a, b: integer) -> integer
+ procedure tulis_bilangan(input a: integer)
 
 ALGORITMA
-    input(A, B)
-    output(A + B)
+ input(a, b)
+ res <- sum(a, b)
+ output(sum(a,b))
+
+function sum(a, b: integer) -> integer
+
+KAMUS LOKAL
+ res: integer
+
+ALGORITMA
+ res <- a + b
+ -> res
+
+procedure tulis_bilangan(input a: integer)
+
+KAMUS LOKAL
+ res : integer
+
+ALGORITMA
+ output(a)
