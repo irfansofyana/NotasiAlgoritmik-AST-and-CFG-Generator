@@ -177,6 +177,7 @@ class NotalParser(object):
     def p_subrange_option(self, p):
         """subrange_option  :   identifier
                             |   constant
+                            |   function_designator
         """
         p[0] = AST("subrange_value", [p[1]])
 
