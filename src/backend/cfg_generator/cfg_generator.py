@@ -169,9 +169,13 @@ class CFGGenerator:
             return
 
         # conditional node
+        expression = children[0]
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression('if', children[0])]
+        info = [self.get_boolean_expression('if', expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
         self.cfg = CFG(node, [node])
 
         # statement nodes
@@ -187,8 +191,12 @@ class CFGGenerator:
 
         # conditional node
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression('if', children[0])]
+        expression = children[0]
+        info = [self.get_boolean_expression('if', expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
 
         # first statement nodes
         first_child = CFGGenerator(children[1])
@@ -237,8 +245,12 @@ class CFGGenerator:
 
         # expression node
         node_label = self.get_label_now()
-        info = [self.get_depend_on_action_expression(children[0])]
+        expression = children[0]
+        info = [self.get_depend_on_action_expression(expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
         self.cfg = CFG(node, [node])
 
         # statement nodes
