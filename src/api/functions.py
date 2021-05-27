@@ -43,11 +43,18 @@ def get_cfg(file_path):
 
 def get_cfg_from_ast(ast_in_json):
     ast_parser = ASTParser(ast_dict=ast_in_json)
-    algorithm_block = get_ast_block(ast_parser, 'algorithm_block')
+    main_program_ast = get_ast_block(ast_parser, 'algorithm_block')
+    subprogram_implementation_block_ast = get_ast_block(ast_parser, "procedure_and_function_implementation_block")
+    if subprogram_implementation_block_ast is not None:
+        subprograms_ast = get_ast_of_the_subprograms(subprogram_implementation_block_ast)
+    else:
+        subprograms_ast = None
 
     try:
         CFGGenerator.label = 0
-        cfg_builder = CFGGenerator(algorithm_block)
+        CFGGenerator.subprograms_ast = subprograms_ast
+
+        cfg_builder = CFGGenerator(main_program_ast)
         generated_cfg = cfg_builder.get_cfg()
 
         generated_graph = generated_cfg.get_graph(CFGGenerator.label + 1)

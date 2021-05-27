@@ -3,10 +3,11 @@ from src.backend.cfg_generator.cfg import *
 
 class CFGGenerator:
     label = 0
+    subprograms_ast = None
 
-    def __init__(self, ast):
+    def __init__(self, algorithm_block_ast):
         # ast -> ASTParser, cfg -> CFG
-        self.state = ast
+        self.state = algorithm_block_ast
         self.cfg = None
 
         self.build_cfg()
@@ -47,11 +48,35 @@ class CFGGenerator:
         node = CFGNode(node_label, info)
         self.cfg = CFG(node, [node])
 
+    @staticmethod
+    def get_subprogram_name(subprogram_call):
+        open_bracket_pos = subprogram_call.find('(')
+        if open_bracket_pos == -1:
+            return subprogram_call
+        return subprogram_call[:open_bracket_pos]
+
     def build_from_procedure_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
-        # TODO: Connect it to the implementation of the procedure itself
+        procedure_name = 'procedure ' + self.get_subprogram_name(self.state.get_notal_src())
+        subprogram_ast = self.__class__.subprograms_ast['procedure'][procedure_name]
+
         node = CFGNode(node_label, info)
+
+        # Subprogram_cfg
+        start_procedure_node = CFGNode(self.get_label_now(), ['start_procedure'])
+        end_procedure_node = CFGNode(self.get_label_now(), ['end_procedure'])
+        subprogram_generator = CFGGenerator(subprogram_ast)
+        subprogram_cfg = subprogram_generator.get_cfg()
+
+        node.add_adjacent(start_procedure_node)
+        start_procedure_node.add_adjacent(subprogram_cfg.get_entry_block())
+
+        subprogram_exit_blocks = subprogram_cfg.get_exit_block()
+        for exit_block in subprogram_exit_blocks:
+            exit_block.add_adjacent(end_procedure_node)
+        end_procedure_node.add_adjacent(node)
+
         self.cfg = CFG(node, [node])
 
     def build_from_output_statement(self):
