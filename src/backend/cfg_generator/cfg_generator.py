@@ -45,9 +45,8 @@ class CFGGenerator:
     @staticmethod
     def get_all_function_calls(expression_ast):
         if expression_ast.get_type() == "user_defined_function_call":
-            function_name_ast = expression_ast.get_children()[0]
-            function_name = function_name_ast.get_notal_src()
-            return [function_name]
+            function_call = expression_ast.get_notal_src()
+            return [function_call]
         if len(expression_ast.get_children()) == 0:
             return []
         function_calls = []
@@ -61,10 +60,11 @@ class CFGGenerator:
         cfg_exit_blocks = [parent_node]
 
         for function_call in function_calls:
-            start_function_node = CFGNode(self.get_label_now(), [f'start_function_{function_call}'])
-            end_function_node = CFGNode(self.get_label_now(), [f'end_function_{function_call}'])
+            function_name = self.get_subprogram_name(function_call)
+            start_function_node = CFGNode(self.get_label_now(), [f'start: {function_call}'])
+            end_function_node = CFGNode(self.get_label_now(), [f'end: {function_call}'])
 
-            function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_call]
+            function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name]
             function_cfg_generator = CFGGenerator(function_ast)
             function_cfg = function_cfg_generator.get_cfg()
 
@@ -74,8 +74,7 @@ class CFGGenerator:
             function_exit_blocks = function_cfg.get_exit_block()
             for exit_block in function_exit_blocks:
                 exit_block.add_adjacent(end_function_node)
-
-            cfg_exit_blocks += [end_function_node]
+            end_function_node.add_adjacent(parent_node)
         return cfg_exit_blocks
 
     def build_from_assignment_statement(self):
