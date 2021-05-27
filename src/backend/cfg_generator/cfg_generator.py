@@ -42,7 +42,50 @@ class CFGGenerator:
         self.__class__.label += 1
         return self.__class__.label
 
+    @staticmethod
+    def get_all_function_calls(expression_ast):
+        if expression_ast.get_type() == "user_defined_function_call":
+            function_name_ast = expression_ast.get_children()[0]
+            function_name = function_name_ast.get_notal_src()
+            return [function_name]
+        if len(expression_ast.get_children()) == 0:
+            return []
+        function_calls = []
+        for child in expression_ast.get_children():
+            target_block = CFGGenerator.get_all_function_calls(child)
+            function_calls += [*target_block]
+        return function_calls
+
     def build_from_assignment_statement(self):
+        children = self.state.get_children()
+        expression = children[1]
+        function_calls = CFGGenerator.get_all_function_calls(expression)
+
+        node_label = self.get_label_now()
+        info = [self.state.get_notal_src()]
+        node = CFGNode(node_label, info)
+
+        cfg_exit_blocks = [node]
+        for function_call in function_calls:
+            start_function_node = CFGNode(self.get_label_now(), [f'start_function_{function_call}'])
+            end_function_node = CFGNode(self.get_label_now(), [f'end_function_{function_call}'])
+
+            function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_call]
+            function_cfg_generator = CFGGenerator(function_ast)
+            function_cfg = function_cfg_generator.get_cfg()
+
+            node.add_adjacent(start_function_node)
+            start_function_node.add_adjacent(function_cfg.get_entry_block())
+
+            function_exit_blocks = function_cfg.get_exit_block()
+            for exit_block in function_exit_blocks:
+                exit_block.add_adjacent(end_function_node)
+
+            cfg_exit_blocks += [end_function_node]
+
+        self.cfg = CFG(node, cfg_exit_blocks)
+
+    def build_from_function_returned_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
