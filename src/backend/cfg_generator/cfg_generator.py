@@ -56,16 +56,10 @@ class CFGGenerator:
             function_calls += [*target_block]
         return function_calls
 
-    def build_from_assignment_statement(self):
-        children = self.state.get_children()
-        expression = children[1]
-        function_calls = CFGGenerator.get_all_function_calls(expression)
+    def connect_to_function_cfg(self, parent_node, expression_ast):
+        function_calls = CFGGenerator.get_all_function_calls(expression_ast)
+        cfg_exit_blocks = [parent_node]
 
-        node_label = self.get_label_now()
-        info = [self.state.get_notal_src()]
-        node = CFGNode(node_label, info)
-
-        cfg_exit_blocks = [node]
         for function_call in function_calls:
             start_function_node = CFGNode(self.get_label_now(), [f'start_function_{function_call}'])
             end_function_node = CFGNode(self.get_label_now(), [f'end_function_{function_call}'])
@@ -74,7 +68,7 @@ class CFGGenerator:
             function_cfg_generator = CFGGenerator(function_ast)
             function_cfg = function_cfg_generator.get_cfg()
 
-            node.add_adjacent(start_function_node)
+            parent_node.add_adjacent(start_function_node)
             start_function_node.add_adjacent(function_cfg.get_entry_block())
 
             function_exit_blocks = function_cfg.get_exit_block()
@@ -82,14 +76,29 @@ class CFGGenerator:
                 exit_block.add_adjacent(end_function_node)
 
             cfg_exit_blocks += [end_function_node]
+        return cfg_exit_blocks
 
-        self.cfg = CFG(node, cfg_exit_blocks)
+    def build_from_assignment_statement(self):
+        children = self.state.get_children()
+        expression = children[1]
 
-    def build_from_function_returned_statement(self):
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
-        self.cfg = CFG(node, [node])
+
+        cfg_exit_blocks = self.connect_to_function_cfg(node, expression)
+        self.cfg = CFG(node, cfg_exit_blocks)
+
+    def build_from_function_returned_statement(self):
+        children = self.state.get_children()
+        expression = children[0]
+
+        node_label = self.get_label_now()
+        info = [self.state.get_notal_src()]
+        node = CFGNode(node_label, info)
+
+        cfg_exit_blocks = self.connect_to_function_cfg(node, expression)
+        self.cfg = CFG(node, cfg_exit_blocks)
 
     @staticmethod
     def get_subprogram_name(subprogram_call):
