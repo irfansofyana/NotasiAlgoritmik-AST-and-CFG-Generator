@@ -352,6 +352,9 @@ class CFGGenerator:
         info = [self.get_repeat_times_info(children[0])]
         node = CFGNode(node_label, info)
 
+        # Handle function call
+        self.connect_to_function_cfg(node, children[0])
+
         # statement nodes
         child = CFGGenerator(children[1])
         cfg_child = child.get_cfg()
