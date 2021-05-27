@@ -332,6 +332,9 @@ class CFGGenerator:
         for exit_block in cfg_child.get_exit_block():
             exit_block.add_adjacent(node)
 
+        # Handle function call
+        self.connect_to_function_cfg(node, children[1])
+
         # build the cfg
         self.cfg = CFG(node, [node])
 
