@@ -265,8 +265,12 @@ class CFGGenerator:
 
         # while conditional node
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression('while', children[0])]
+        expression = children[0]
+        info = [self.get_boolean_expression('while', expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
 
         # statement nodes
         child = CFGGenerator(children[1])
