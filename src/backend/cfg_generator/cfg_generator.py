@@ -140,9 +140,14 @@ class CFGGenerator:
         self.cfg = CFG(node, [node])
 
     def build_from_output_statement(self):
+        children = self.state.get_children()
+        expression = children[0]
+
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
+
+        self.connect_to_function_cfg(node, expression)
         self.cfg = CFG(node, [node])
 
     def build_from_input_statement(self):
