@@ -377,6 +377,9 @@ class CFGGenerator:
         info = [self.get_boolean_expression('stop', children[1])]
         node = CFGNode(node_label, info)
 
+        # Handle function call
+        self.connect_to_function_cfg(node, children[1])
+
         # second action nodes
         child_2 = CFGGenerator(children[2])
         cfg_child_2 = child_2.get_cfg()
