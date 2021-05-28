@@ -63,12 +63,13 @@ class CFGGenerator:
             function_name = self.get_subprogram_name(function_call)
 
             if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
-                start_function_node = CFGNode(self.get_label_now(), [f'start: {function_call}'])
-                end_function_node = CFGNode(self.get_label_now(), [f'end: {function_call}'])
+                function_declaration = CFGGenerator.subprograms_ast['function']['function ' + function_name][0]
+                function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name][1]
+                start_function_node = CFGNode(self.get_label_now(), [f'start: {function_declaration}'])
+                end_function_node = CFGNode(self.get_label_now(), [f'end: {function_declaration}'])
 
                 CFGGenerator.visited_subprograms_ast['function ' + function_name] = start_function_node
 
-                function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name]
                 function_cfg_generator = CFGGenerator(function_ast)
                 function_cfg = function_cfg_generator.get_cfg()
 
@@ -131,12 +132,13 @@ class CFGGenerator:
 
         # Subprogram_cfg
         if 'procedure ' + procedure_name not in CFGGenerator.visited_subprograms_ast:
-            start_procedure_node = CFGNode(self.get_label_now(), [f'start: {procedure_name}'])
-            end_procedure_node = CFGNode(self.get_label_now(), [f'end: {procedure_name}'])
+            subprogram_declaration = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name][0]
+            subprogram_ast = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name][1]
+            start_procedure_node = CFGNode(self.get_label_now(), [f'start: {subprogram_declaration}'])
+            end_procedure_node = CFGNode(self.get_label_now(), [f'end: {subprogram_declaration}'])
 
             CFGGenerator.visited_subprograms_ast['procedure' + procedure_name] = start_procedure_node
 
-            subprogram_ast = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name]
             subprogram_generator = CFGGenerator(subprogram_ast)
             subprogram_cfg = subprogram_generator.get_cfg()
 
