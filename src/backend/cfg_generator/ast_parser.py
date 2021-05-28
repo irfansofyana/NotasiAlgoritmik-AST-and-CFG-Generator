@@ -292,6 +292,11 @@ class ASTParser(AST):
         assignment_statement += children[1].get_notal_src()
         return assignment_statement
 
+    def on_function_returned_statement(self):
+        children = self.get_children()
+        returned_statement = '->' + children[0].get_notal_src()
+        return returned_statement
+
     def on_procedure_statement(self):
         children = self.get_children()
         procedure_statement = ''

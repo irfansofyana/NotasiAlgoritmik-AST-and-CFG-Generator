@@ -3,10 +3,12 @@ from src.backend.cfg_generator.cfg import *
 
 class CFGGenerator:
     label = 0
+    subprograms_ast = None
+    visited_subprograms_ast = {}
 
-    def __init__(self, ast):
+    def __init__(self, algorithm_block_ast):
         # ast -> ASTParser, cfg -> CFG
-        self.state = ast
+        self.state = algorithm_block_ast
         self.cfg = None
 
         self.build_cfg()
@@ -41,23 +43,128 @@ class CFGGenerator:
         self.__class__.label += 1
         return self.__class__.label
 
+    @staticmethod
+    def get_all_function_calls(expression_ast):
+        if expression_ast.get_type() == "user_defined_function_call":
+            function_call = expression_ast.get_notal_src()
+            return [function_call]
+        if len(expression_ast.get_children()) == 0:
+            return []
+        function_calls = []
+        for child in expression_ast.get_children():
+            target_block = CFGGenerator.get_all_function_calls(child)
+            function_calls += [*target_block]
+        return function_calls
+
+    def connect_to_function_cfg(self, parent_node, expression_ast):
+        function_calls = CFGGenerator.get_all_function_calls(expression_ast)
+
+        for function_call in function_calls:
+            function_name = self.get_subprogram_name(function_call)
+
+            if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
+                function_declaration = CFGGenerator.subprograms_ast['function']['function ' + function_name][0]
+                function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name][1]
+                start_function_node = CFGNode(self.get_label_now(), [f'start: {function_declaration}'])
+                end_function_node = CFGNode(self.get_label_now(), [f'end: {function_declaration}'])
+
+                CFGGenerator.visited_subprograms_ast['function ' + function_name] = start_function_node
+
+                function_cfg_generator = CFGGenerator(function_ast)
+                function_cfg = function_cfg_generator.get_cfg()
+
+                parent_node.add_adjacent(start_function_node)
+                start_function_node.add_adjacent(function_cfg.get_entry_block())
+
+                function_exit_blocks = function_cfg.get_exit_block()
+                for exit_block in function_exit_blocks:
+                    exit_block.add_adjacent(end_function_node)
+                end_function_node.add_adjacent(parent_node)
+            else:
+                start_function_node = CFGGenerator.visited_subprograms_ast['function ' + function_name]
+                parent_node.add_adjacent(start_function_node)
+
     def build_from_assignment_statement(self):
+        children = self.state.get_children()
+        expression = children[1]
+
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
+
+        self.connect_to_function_cfg(node, expression)
         self.cfg = CFG(node, [node])
 
-    def build_from_procedure_statement(self):
+    def build_from_function_returned_statement(self):
+        children = self.state.get_children()
+        expression = children[0]
+
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
-        # TODO: Connect it to the implementation of the procedure itself
         node = CFGNode(node_label, info)
+
+        self.connect_to_function_cfg(node, expression)
+        self.cfg = CFG(node, [node])
+
+    @staticmethod
+    def get_subprogram_name(subprogram_call):
+        open_bracket_pos = subprogram_call.find('(')
+        if open_bracket_pos == -1:
+            return subprogram_call
+        return subprogram_call[:open_bracket_pos]
+
+    def build_from_procedure_statement(self):
+        children = self.state.get_children()
+        if len(children) > 1:
+            expression = children[1]
+        else:
+            expression = None
+
+        node_label = self.get_label_now()
+        info = [self.state.get_notal_src()]
+        procedure_name = self.get_subprogram_name(self.state.get_notal_src())
+
+        node = CFGNode(node_label, info)
+
+        # Handle function call
+        if expression is not None:
+            self.connect_to_function_cfg(node, expression)
+
+        # Subprogram_cfg
+        if 'procedure ' + procedure_name not in CFGGenerator.visited_subprograms_ast:
+            subprogram_declaration = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name][0]
+            subprogram_ast = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name][1]
+            start_procedure_node = CFGNode(self.get_label_now(), [f'start: {subprogram_declaration}'])
+            end_procedure_node = CFGNode(self.get_label_now(), [f'end: {subprogram_declaration}'])
+
+            CFGGenerator.visited_subprograms_ast['procedure' + procedure_name] = start_procedure_node
+
+            subprogram_generator = CFGGenerator(subprogram_ast)
+            subprogram_cfg = subprogram_generator.get_cfg()
+
+            node.add_adjacent(start_procedure_node)
+            start_procedure_node.add_adjacent(subprogram_cfg.get_entry_block())
+
+            subprogram_exit_blocks = subprogram_cfg.get_exit_block()
+            for exit_block in subprogram_exit_blocks:
+                exit_block.add_adjacent(end_procedure_node)
+            end_procedure_node.add_adjacent(node)
+
+        else:
+            start_procedure_node = CFGGenerator.visited_subprograms_ast['procedure' + procedure_name]
+            node.add_adjacent(start_procedure_node)
+
         self.cfg = CFG(node, [node])
 
     def build_from_output_statement(self):
+        children = self.state.get_children()
+        expression = children[0]
+
         node_label = self.get_label_now()
         info = [self.state.get_notal_src()]
         node = CFGNode(node_label, info)
+
+        self.connect_to_function_cfg(node, expression)
         self.cfg = CFG(node, [node])
 
     def build_from_input_statement(self):
@@ -79,9 +186,13 @@ class CFGGenerator:
             return
 
         # conditional node
+        expression = children[0]
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression('if', children[0])]
+        info = [self.get_boolean_expression('if', expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
         self.cfg = CFG(node, [node])
 
         # statement nodes
@@ -97,8 +208,12 @@ class CFGGenerator:
 
         # conditional node
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression('if', children[0])]
+        expression = children[0]
+        info = [self.get_boolean_expression('if', expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
 
         # first statement nodes
         first_child = CFGGenerator(children[1])
@@ -147,8 +262,12 @@ class CFGGenerator:
 
         # expression node
         node_label = self.get_label_now()
-        info = [self.get_depend_on_action_expression(children[0])]
+        expression = children[0]
+        info = [self.get_depend_on_action_expression(expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
         self.cfg = CFG(node, [node])
 
         # statement nodes
@@ -163,8 +282,12 @@ class CFGGenerator:
 
         # while conditional node
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression('while', children[0])]
+        expression = children[0]
+        info = [self.get_boolean_expression('while', expression)]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
 
         # statement nodes
         child = CFGGenerator(children[1])
@@ -187,13 +310,17 @@ class CFGGenerator:
 
         # until statement
         node_label = self.get_label_now()
-        info = [self.get_boolean_expression('until', children[1])]
+        expression = children[1]
+        info = [self.get_boolean_expression('until', expression)]
         node = CFGNode(node_label, info)
 
         # connect statement nodes to until node
         for exit_block in cfg_child.get_exit_block():
             exit_block.add_adjacent(node)
         node.add_adjacent(cfg_child.get_entry_block())
+
+        # Handle function call
+        self.connect_to_function_cfg(node, expression)
 
         # build the CFG
         self.cfg = CFG(cfg_child.get_entry_block(), [node])
@@ -222,6 +349,9 @@ class CFGGenerator:
         for exit_block in cfg_child.get_exit_block():
             exit_block.add_adjacent(node)
 
+        # Handle function call
+        self.connect_to_function_cfg(node, children[1])
+
         # build the cfg
         self.cfg = CFG(node, [node])
 
@@ -238,6 +368,9 @@ class CFGGenerator:
         node_label = self.get_label_now()
         info = [self.get_repeat_times_info(children[0])]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, children[0])
 
         # statement nodes
         child = CFGGenerator(children[1])
@@ -260,6 +393,9 @@ class CFGGenerator:
         node_label = self.get_label_now()
         info = [self.get_boolean_expression('stop', children[1])]
         node = CFGNode(node_label, info)
+
+        # Handle function call
+        self.connect_to_function_cfg(node, children[1])
 
         # second action nodes
         child_2 = CFGGenerator(children[2])
