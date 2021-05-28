@@ -12,9 +12,15 @@ def visualize_cfg(cfg, is_graphviz=False, output_path='test-output/result.gv'):
 
 
 def convert_cfg_to_graphviz(cfg):
-    graph = Digraph(comment="CFG result")
-    traverse_cfg(cfg, graph)
-    return graph
+    cfg_graphviz = get_cfg_in_graphviz(cfg)
+    cfg_json = convert_cfg_to_cfg_json(cfg)
+    print(cfg_json)
+    return cfg_graphviz
+
+
+def convert_cfg_to_cfg_json(cfg):
+    cfg_json = get_cfg_in_json(cfg)
+    return cfg_json
 
 
 def convert_cfg_json_to_graphviz(cfg_json):
@@ -36,7 +42,8 @@ def convert_cfg_json_to_graphviz(cfg_json):
     return graph
 
 
-def traverse_cfg(cfg, graph):
+def get_cfg_in_graphviz(cfg):
+    graph = Digraph(comment="CFG result")
     for node in cfg:
         graph.node(str(node.get_label()), node.get_info_str())
 
@@ -44,6 +51,25 @@ def traverse_cfg(cfg, graph):
         for adj_node in cfg[node]:
             graph.edge(str(node.get_label()), str(adj_node.get_label()))
 
+    return graph
+
+
+def get_cfg_in_json(cfg):
+    cfg_json = {'nodes': [], 'edges': []}
+    for node in cfg:
+        cfg_json['nodes'].append({
+            'label': int(node.get_label()),
+            'statements': node.get_info()
+        })
+
+    for node in cfg:
+        for adj_node in cfg[node]:
+            cfg_json['edges'].append({
+                'start_node_label': int(node.get_label()),
+                'end_node_label': int(adj_node.get_label())
+            })
+
+    return cfg_json
 
 if __name__=="__main__":
     file_path = '../backend/parser/input/6.in'
