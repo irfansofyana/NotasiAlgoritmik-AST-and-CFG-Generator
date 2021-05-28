@@ -875,38 +875,32 @@ class NotalParser(object):
         p[0] = AST("math_function_call", [p[1]])
 
     def p_abs_function(self, p):
-        """abs_function : RW_ABS S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
-                        | RW_ABS S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """abs_function : RW_ABS S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("abs_function", [p[3]])
 
     def p_sin_function(self, p):
-        """sin_function :   RW_SIN S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
-                        | RW_SIN S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """sin_function :   RW_SIN S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("sin_function", [p[3]])
 
     def p_cos_function(self, p):
-        """cos_function :   RW_COS S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
-                        | RW_COS S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """cos_function :   RW_COS S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("cos_function", [p[3]])
 
     def p_tan_function(self, p):
-        """tan_function :   RW_TAN S_LEFT_BRACKET non_string_constant S_RIGHT_BRACKET
-                        | RW_TAN S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """tan_function :   RW_TAN S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("tan_function", [p[3]])
 
     def p_succ_function(self, p):
-        """succ_function    :   RW_SUCC S_LEFT_BRACKET integer_constant S_RIGHT_BRACKET
-                            | RW_SUCC S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """succ_function    :   RW_SUCC S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("succ_function", [p[3]])
 
     def p_pred_function(self, p):
-        """pred_function    :   RW_PRED S_LEFT_BRACKET integer_constant S_RIGHT_BRACKET
-                            | RW_PRED S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """pred_function    :   RW_PRED S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("pred_function ", [p[3]])
 
@@ -921,38 +915,32 @@ class NotalParser(object):
         p[0] = AST("string_function_call", [p[1]])
 
     def p_awal_function(self, p):
-        """awal_function    :   RW_AWAL S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
-                            | RW_AWAL S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """awal_function    :   RW_AWAL S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("awal_function", [p[3]])
 
     def p_akhir_function(self, p):
-        """akhir_function    :   RW_AKHIR S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
-                            | RW_AKHIR S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """akhir_function    :   RW_AKHIR S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("akhir_function", [p[3]])
 
     def p_firstchar_function(self, p):
-        """firstchar_function    :   RW_FIRSTCHAR S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
-                                | RW_FIRSTCHAR S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """firstchar_function    :   RW_FIRSTCHAR S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("firstchar_function ", [p[3]])
 
     def p_lastchar_function(self, p):
-        """lastchar_function    :   RW_LASTCHAR S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
-                                | RW_LASTCHAR S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """lastchar_function    :   RW_LASTCHAR S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("lastchar_function", [p[3]])
 
     def p_long_function(self, p):
-        """long_function    :   RW_LONG S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
-                            | RW_LONG S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """long_function    :   RW_LONG S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("long_function", [p[3]])
 
     def p_iskosong_function(self, p):
-        """iskosong_function    :   RW_ISKOSONG S_LEFT_BRACKET string_constant S_RIGHT_BRACKET
-                                | RW_ISKOSONG S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """iskosong_function    :   RW_ISKOSONG S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("iskosong_function", [p[3]])
 
@@ -963,14 +951,12 @@ class NotalParser(object):
         p[0] = AST("converter_function_call", [p[1]])
 
     def p_integer_to_real(self, p):
-        """integer_to_real  :   RW_INTEGERTOREAL S_LEFT_BRACKET integer_constant S_RIGHT_BRACKET
-                            | RW_INTEGERTOREAL S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """integer_to_real  :   RW_INTEGERTOREAL S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("integer_to_real_converter", [p[3]])
 
     def p_real_to_integer(self, p):
-        """real_to_integer  :   RW_REALTOINTEGER S_LEFT_BRACKET real_constant S_RIGHT_BRACKET
-                            |   RW_REALTOINTEGER S_LEFT_BRACKET variable_access S_RIGHT_BRACKET
+        """real_to_integer  :   RW_REALTOINTEGER S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
         p[0] = AST("real_to_integer_converter", [p[3]])
 
