@@ -4,6 +4,7 @@ from src.backend.cfg_generator.cfg import *
 class CFGGenerator:
     label = 0
     subprograms_ast = None
+    visited_subprograms_ast = {}
 
     def __init__(self, algorithm_block_ast):
         # ast -> ASTParser, cfg -> CFG
@@ -60,20 +61,27 @@ class CFGGenerator:
 
         for function_call in function_calls:
             function_name = self.get_subprogram_name(function_call)
-            start_function_node = CFGNode(self.get_label_now(), [f'start: {function_call}'])
-            end_function_node = CFGNode(self.get_label_now(), [f'end: {function_call}'])
 
-            function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name]
-            function_cfg_generator = CFGGenerator(function_ast)
-            function_cfg = function_cfg_generator.get_cfg()
+            if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
+                start_function_node = CFGNode(self.get_label_now(), [f'start: {function_call}'])
+                end_function_node = CFGNode(self.get_label_now(), [f'end: {function_call}'])
 
-            parent_node.add_adjacent(start_function_node)
-            start_function_node.add_adjacent(function_cfg.get_entry_block())
+                CFGGenerator.visited_subprograms_ast['function ' + function_name] = start_function_node
 
-            function_exit_blocks = function_cfg.get_exit_block()
-            for exit_block in function_exit_blocks:
-                exit_block.add_adjacent(end_function_node)
-            end_function_node.add_adjacent(parent_node)
+                function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name]
+                function_cfg_generator = CFGGenerator(function_ast)
+                function_cfg = function_cfg_generator.get_cfg()
+
+                parent_node.add_adjacent(start_function_node)
+                start_function_node.add_adjacent(function_cfg.get_entry_block())
+
+                function_exit_blocks = function_cfg.get_exit_block()
+                for exit_block in function_exit_blocks:
+                    exit_block.add_adjacent(end_function_node)
+                end_function_node.add_adjacent(parent_node)
+            else:
+                start_function_node = CFGGenerator.visited_subprograms_ast['function ' + function_name]
+                parent_node.add_adjacent(start_function_node)
 
     def build_from_assignment_statement(self):
         children = self.state.get_children()
@@ -122,20 +130,27 @@ class CFGGenerator:
             self.connect_to_function_cfg(node, expression)
 
         # Subprogram_cfg
-        subprogram_ast = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name]
-        start_procedure_node = CFGNode(self.get_label_now(), [f'start: {procedure_name}'])
-        end_procedure_node = CFGNode(self.get_label_now(), [f'end: {procedure_name}'])
+        if 'procedure ' + procedure_name not in CFGGenerator.visited_subprograms_ast:
+            start_procedure_node = CFGNode(self.get_label_now(), [f'start: {procedure_name}'])
+            end_procedure_node = CFGNode(self.get_label_now(), [f'end: {procedure_name}'])
 
-        subprogram_generator = CFGGenerator(subprogram_ast)
-        subprogram_cfg = subprogram_generator.get_cfg()
+            CFGGenerator.visited_subprograms_ast['procedure' + procedure_name] = start_procedure_node
 
-        node.add_adjacent(start_procedure_node)
-        start_procedure_node.add_adjacent(subprogram_cfg.get_entry_block())
+            subprogram_ast = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name]
+            subprogram_generator = CFGGenerator(subprogram_ast)
+            subprogram_cfg = subprogram_generator.get_cfg()
 
-        subprogram_exit_blocks = subprogram_cfg.get_exit_block()
-        for exit_block in subprogram_exit_blocks:
-            exit_block.add_adjacent(end_procedure_node)
-        end_procedure_node.add_adjacent(node)
+            node.add_adjacent(start_procedure_node)
+            start_procedure_node.add_adjacent(subprogram_cfg.get_entry_block())
+
+            subprogram_exit_blocks = subprogram_cfg.get_exit_block()
+            for exit_block in subprogram_exit_blocks:
+                exit_block.add_adjacent(end_procedure_node)
+            end_procedure_node.add_adjacent(node)
+
+        else:
+            start_procedure_node = CFGGenerator.visited_subprograms_ast['procedure' + procedure_name]
+            node.add_adjacent(start_procedure_node)
 
         self.cfg = CFG(node, [node])
 

@@ -53,6 +53,7 @@ def get_cfg_from_ast(ast_in_json):
     try:
         CFGGenerator.label = 0
         CFGGenerator.subprograms_ast = subprograms_ast
+        CFGGenerator.visited_subprograms_ast = {}
 
         cfg_builder = CFGGenerator(main_program_ast)
         generated_cfg = cfg_builder.get_cfg()
