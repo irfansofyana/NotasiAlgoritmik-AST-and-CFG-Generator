@@ -1,7 +1,6 @@
 PROGRAM TC_2
 { Test Case 2 }
 
-
 KAMUS
     constant PI : real = 3.14
     constant Ka : char = 'K'
@@ -20,9 +19,9 @@ KAMUS
     nama: string
     x1, y1, x2, y2, jarak: real
 
-    function jarak_dua_titik(p1, p2: Point) -> real
-    procedure tukar_bilangan(input/output x, y: integer)
-    procedure tulis_variable(input x: integer)
+    function jarak_manhattan(p1, p2: Point) -> real
+    procedure tukar_bilangan(input/output x, y: real)
+    procedure tulis_variable(input x: real)
 
 
 ALGORITMA
@@ -36,4 +35,36 @@ ALGORITMA
     output("Titik Pertama: ", P1.x, P1.y)
     output("Titik Kedua: ", P2.x, P2.y)
 
-    jarak <- jarak_dua_titik(P1, P2)
+    tukar_bilangan(P1.x, P1.y)
+    tukar_bilangan(P2.x, P2.y)
+
+    jarak <- jarak_manhattan(P1, P2)
+    tulis(jarak)
+
+function jarak_manhattan(p1, p2: Point) -> real
+
+KAMUS LOKAL
+    jarak: real
+
+ALGORITMA
+    jarak <- abs(p1.x - p2.x) + abs(p1.y - p2.y)
+    -> jarak
+
+procedure tukar_bilangan(input/output x, y: real)
+
+KAMUS LOKAL
+    tmp: integer
+
+ALGORITMA
+    tmp <- x
+    x <- y
+    y <- tmp
+
+procedure tulis(input x:real)
+
+KAMUS LOKAL
+    y: integer
+
+ALGORITMA
+    y <- x
+    output(y)
