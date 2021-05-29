@@ -105,13 +105,13 @@
       {
          "label":18,
          "statements":[
-            "start_algorithm"
+            "start: main"
          ]
       },
       {
          "label":19,
          "statements":[
-            "end_algorithm"
+            "end: main"
          ]
       }
    ],
