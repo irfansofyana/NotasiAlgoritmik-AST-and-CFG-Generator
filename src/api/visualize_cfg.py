@@ -71,6 +71,7 @@ def get_cfg_in_json(cfg):
 
     return cfg_json
 
+
 if __name__=="__main__":
     file_path = '../backend/parser/input/6.in'
     cfg = get_cfg(file_path)
