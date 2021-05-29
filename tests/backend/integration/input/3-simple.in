@@ -1,0 +1,23 @@
+PROGRAM HITUNG_FIBONACCI
+
+KAMUS
+    n: integer
+
+    function fibonacci(n: integer) -> integer
+
+ALGORITMA
+    input(n)
+    output(fibonacci(n))
+
+function fibonacci(n: integer) -> integer
+
+KAMUS LOKAL
+    tmp: integer
+
+ALGORITMA
+    if (n = 1) or (n = 2) then
+        -> 1
+    else
+        tmp <- fibonacci(n-1)
+        tmp <- tmp + fibonacci(n-2)
+        -> tmp
