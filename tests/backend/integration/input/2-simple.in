@@ -1,0 +1,32 @@
+PROGRAM max_3_function
+
+KAMUS
+    a, b, c, max_3: integer
+
+    function find_max_3(a, b, c: integer) -> integer
+
+ALGORITMA
+    input(a, b, c)
+    max_3 <- find_max_3(a, b, c)
+    output(max_3)
+
+function find_max_3(a, b, c: integer) -> integer
+
+KAMUS LOKAL
+    max_3: integer
+
+ALGORITMA
+    depend on (a, b, c)
+        a > b > c :
+            max_3 <- a
+        a > c > b :
+            max_3 <- a
+        b > c > a :
+            max_3 <- b
+        b > a > c :
+            max_3 <- b
+        c > a > b :
+            max_3 <- c
+        c > b > a :
+            max_3 <- c
+    -> max_3
