@@ -1,0 +1,130 @@
+{
+   "nodes":[
+      {
+         "label":1,
+         "statements":[
+            "input(n)"
+         ]
+      },
+      {
+         "label":2,
+         "statements":[
+            "jumlah_kuadrat <- 0"
+         ]
+      },
+      {
+         "label":3,
+         "statements":[
+            "i <- 1"
+         ]
+      },
+      {
+         "label":4,
+         "statements":[
+            "repeat n times"
+         ]
+      },
+      {
+         "label":5,
+         "statements":[
+            "j <- 1"
+         ]
+      },
+      {
+         "label":6,
+         "statements":[
+            "while (j <= i)"
+         ]
+      },
+      {
+         "label":7,
+         "statements":[
+            "jumlah_kuadrat <- jumlah_kuadrat + i"
+         ]
+      },
+      {
+         "label":8,
+         "statements":[
+            "j <- j + 1"
+         ]
+      },
+      {
+         "label":9,
+         "statements":[
+            "i <- i + 1"
+         ]
+      },
+      {
+         "label":10,
+         "statements":[
+            "output(jumlah_kuadrat)"
+         ]
+      },
+      {
+         "label":11,
+         "statements":[
+            "start: main"
+         ]
+      },
+      {
+         "label":12,
+         "statements":[
+            "end: main"
+         ]
+      }
+   ],
+   "edges":[
+      {
+         "start_node_label":1,
+         "end_node_label":2
+      },
+      {
+         "start_node_label":2,
+         "end_node_label":3
+      },
+      {
+         "start_node_label":3,
+         "end_node_label":4
+      },
+      {
+         "start_node_label":4,
+         "end_node_label":5
+      },
+      {
+         "start_node_label":4,
+         "end_node_label":10
+      },
+      {
+         "start_node_label":5,
+         "end_node_label":6
+      },
+      {
+         "start_node_label":6,
+         "end_node_label":7
+      },
+      {
+         "start_node_label":6,
+         "end_node_label":9
+      },
+      {
+         "start_node_label":7,
+         "end_node_label":8
+      },
+      {
+         "start_node_label":8,
+         "end_node_label":6
+      },
+      {
+         "start_node_label":9,
+         "end_node_label":4
+      },
+      {
+         "start_node_label":10,
+         "end_node_label":12
+      },
+      {
+         "start_node_label":11,
+         "end_node_label":1
+      }
+   ]
+}
