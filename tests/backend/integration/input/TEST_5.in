@@ -1,0 +1,34 @@
+PROGRAM Lingkaran
+
+KAMUS
+ constant PI: real = 3.14
+ type Lingkaran: <jari_jari: real>
+
+ l: Lingkaran
+
+ procedure input_lingkaran(input/output l: lingkaran)
+ procedure output_info_lingkaran(input l: lingkaran)
+
+ALGORITMA
+ input_lingkaran(l)
+ output_info_lingkaran(l)
+
+procedure input_lingkaran(input/output l: lingkaran)
+KAMUS LOKAL
+ jari_jari: real
+
+ALGORITMA
+ input(jari_jari)
+ l.jari_jari <- jari_jari
+
+
+procedure output_info_lingkaran(input l: lingkaran)
+KAMUS LOKAL
+ luas, keliling: real
+
+ALGORITMA
+ output("Jari-jari lingkaran: ", l.jari_jari)
+ keliling <- 2 * PI * l.jari_jari
+ luas <- PI * l.jari_jari
+ output("Keliling Lingkaran: ", keliling)
+ output("Luas Lingkaran: ", keliling)
