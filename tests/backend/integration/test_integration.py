@@ -15,8 +15,8 @@ class Integration(unittest.TestCase):
     @staticmethod
     def read_output(file_name):
         with open(file_name, encoding='utf-8') as f:
-            expected_tokens = json.load(f)
-        return expected_tokens
+            expected_output = json.load(f)
+        return expected_output
 
     def test_ast(self):
         parent_dir = os.path.dirname(os.path.abspath(__file__))
