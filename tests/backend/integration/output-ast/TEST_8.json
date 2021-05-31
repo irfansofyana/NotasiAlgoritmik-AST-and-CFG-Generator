@@ -185,40 +185,22 @@
                                                    "info":null,
                                                    "children":[
                                                       {
-                                                         "type":"user_defined_function_call",
+                                                         "type":"converter_function_call",
                                                          "info":null,
                                                          "children":[
                                                             {
-                                                               "type":"identifier",
-                                                               "info":{
-                                                                  "identifier_name":"IntegerToReal"
-                                                               }
-                                                            },
-                                                            {
-                                                               "type":"function_actual_parameter",
+                                                               "type":"integer_to_real_converter",
                                                                "info":null,
                                                                "children":[
                                                                   {
-                                                                     "type":"actual_parameter_list",
+                                                                     "type":"variable",
                                                                      "info":null,
                                                                      "children":[
                                                                         {
-                                                                           "type":"actual_parameter",
-                                                                           "info":null,
-                                                                           "children":[
-                                                                              {
-                                                                                 "type":"variable",
-                                                                                 "info":null,
-                                                                                 "children":[
-                                                                                    {
-                                                                                       "type":"identifier",
-                                                                                       "info":{
-                                                                                          "identifier_name":"bilangan_bulat"
-                                                                                       }
-                                                                                    }
-                                                                                 ]
-                                                                              }
-                                                                           ]
+                                                                           "type":"identifier",
+                                                                           "info":{
+                                                                              "identifier_name":"bilangan_bulat"
+                                                                           }
                                                                         }
                                                                      ]
                                                                   }
@@ -291,7 +273,7 @@
                                                          "info":null,
                                                          "children":[
                                                             {
-                                                               "type":"pred_function ",
+                                                               "type":"pred_function",
                                                                "info":null,
                                                                "children":[
                                                                   {
