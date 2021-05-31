@@ -41,9 +41,3 @@ def traverse_ast(ast, graph, parent_counter=None):
 
     for i, child in enumerate(ast['children']):
         traverse_ast(child, graph, now_counter)
-
-
-if __name__ == "__main__":
-    file_path = '../backend/parser/input/4.in'
-    ast = get_ast(file_path)
-    visualize_ast(ast)

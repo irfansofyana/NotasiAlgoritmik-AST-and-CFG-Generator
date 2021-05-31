@@ -41,10 +41,3 @@ class CFGNode:
         for adj in self.adjacent:
             if not is_visited[adj.get_label()]:
                 adj.traverse(is_visited, graph)
-
-
-if __name__ == "__main__":
-    a = CFGNode(label='1')
-    b = CFGNode(label='2')
-    a.add_adjacent(b)
-    print(a.get_adjacent())

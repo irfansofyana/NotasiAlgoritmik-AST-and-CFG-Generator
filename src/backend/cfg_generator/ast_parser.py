@@ -616,27 +616,3 @@ class ASTParser(AST):
     def on_real_to_integer_converter(self):
         return self.on_function('realToInteger')
 
-
-if __name__ == "__main__":
-    notal_dict = {
-        "type": "identifier_list",
-        "info": None,
-        "children": [
-            {
-                "type": "identifier",
-                "info": {
-                    "identifier_name": "x"
-                }
-            },
-            {
-                "type": "identifier",
-                "info": {
-                    "identifier_name": "y"
-                }
-            }
-        ]
-    }
-    # notal_dict =
-    parser = ASTParser(ast_dict=notal_dict)
-    print(parser.get_notal_src())
-    pass
