@@ -902,7 +902,7 @@ class NotalParser(object):
     def p_pred_function(self, p):
         """pred_function    :   RW_PRED S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
-        p[0] = AST("pred_function ", [p[3]])
+        p[0] = AST("pred_function", [p[3]])
 
     def p_string_function_call(self, p):
         """string_function_call :   awal_function
