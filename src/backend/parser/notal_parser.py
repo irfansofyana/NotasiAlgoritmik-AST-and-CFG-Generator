@@ -927,7 +927,7 @@ class NotalParser(object):
     def p_firstchar_function(self, p):
         """firstchar_function    :   RW_FIRSTCHAR S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
-        p[0] = AST("firstchar_function ", [p[3]])
+        p[0] = AST("firstchar_function", [p[3]])
 
     def p_lastchar_function(self, p):
         """lastchar_function    :   RW_LASTCHAR S_LEFT_BRACKET expression S_RIGHT_BRACKET
