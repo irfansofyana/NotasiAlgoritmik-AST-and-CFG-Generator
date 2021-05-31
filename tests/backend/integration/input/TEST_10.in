@@ -1,0 +1,34 @@
+PROGRAM max_3_recursive
+
+KAMUS
+    a, b, c: integer
+
+    function max_2(a, b: integer) -> integer
+    function max_3(a, b, c: integer) -> integer
+
+ALGORITMA
+    input(a, b, c)
+    output(max_3(a, b, c))
+
+function max_2(a, b: integer) -> integer
+
+KAMUS LOKAL
+    maks: integer
+
+ALGORITMA
+    depend on (a, b)
+        a >= b :
+            maks <- a
+        b > a  :
+            maks <- b
+    -> maks
+
+function max_3(a, b, c: integer) -> integer
+
+KAMUS LOKAL
+    maks: integer
+
+ALGORITMA
+    maks <- max_2(a, b)
+    maks <- max_2(maks, c)
+    -> maks
