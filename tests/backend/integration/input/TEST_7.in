@@ -1,0 +1,22 @@
+Program Segitiga
+{ membuat pola segitiga
+  contoh:
+  n = 1 -> *
+  n = 2 -> *
+           **
+  n = 3 -> *
+           **
+           *** }
+
+KAMUS
+    n, i, j: integer
+
+ALGORITMA
+    input(n)
+
+    i traversal [1..n]
+        j <- 1
+        repeat
+            output('*')
+            j <- j + 1
+        until (j > i)
