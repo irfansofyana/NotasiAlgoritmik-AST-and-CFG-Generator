@@ -98,6 +98,14 @@
       },
       {
          "start_node_label":4,
+         "end_node_label":7
+      },
+      {
+         "start_node_label":4,
+         "end_node_label":8
+      },
+      {
+         "start_node_label":4,
          "end_node_label":2
       },
       {

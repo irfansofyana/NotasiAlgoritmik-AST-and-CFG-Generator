@@ -61,18 +61,6 @@
          ]
       },
       {
-         "label":11,
-         "statements":[
-            "b > a"
-         ]
-      },
-      {
-         "label":12,
-         "statements":[
-            "maks <- b"
-         ]
-      },
-      {
          "label":14,
          "statements":[
             "maks <- max_2(maks,c)"
@@ -88,6 +76,18 @@
          "label":4,
          "statements":[
             "end: function max_3(a,b,c: integer) -> integer"
+         ]
+      },
+      {
+         "label":11,
+         "statements":[
+            "b > a"
+         ]
+      },
+      {
+         "label":12,
+         "statements":[
+            "maks <- b"
          ]
       },
       {
@@ -157,12 +157,8 @@
          "end_node_label":5
       },
       {
-         "start_node_label":11,
-         "end_node_label":12
-      },
-      {
-         "start_node_label":12,
-         "end_node_label":13
+         "start_node_label":7,
+         "end_node_label":14
       },
       {
          "start_node_label":14,
@@ -179,6 +175,14 @@
       {
          "start_node_label":4,
          "end_node_label":2
+      },
+      {
+         "start_node_label":11,
+         "end_node_label":12
+      },
+      {
+         "start_node_label":12,
+         "end_node_label":13
       },
       {
          "start_node_label":16,
