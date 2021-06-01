@@ -63,6 +63,8 @@ class CFGGenerator:
             function_name = self.get_subprogram_name(function_call)
 
             if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
+                if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
+                    raise Exception(f"Function {function_name} can't be found")
                 function_declaration = CFGGenerator.subprograms_ast['function']['function ' + function_name][0]
                 function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name][1]
                 start_function_node = CFGNode(self.get_label_now(), [f'start: {function_declaration}'])
