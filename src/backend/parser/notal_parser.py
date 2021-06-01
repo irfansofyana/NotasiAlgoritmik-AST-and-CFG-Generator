@@ -961,7 +961,7 @@ class NotalParser(object):
         p[0] = AST("real_to_integer_converter", [p[3]])
 
     def p_error(self, p):
-        raise Exception(f"Syntax error on token: {p}")
+        raise Exception(f"Syntax error at token: {p}")
 
     def p_empty(self, p):
         """empty    :
