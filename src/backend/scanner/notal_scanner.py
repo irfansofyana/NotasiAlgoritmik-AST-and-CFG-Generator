@@ -330,7 +330,7 @@ class IndentLexer(object):
 
             # check for new indent/dedent
             whitespace = token.value[1:]  # strip \n
-            change = self._calc_indent(whitespace)
+            change = self._calc_indent(whitespace, token)
             if change:
                 break
 
@@ -351,7 +351,7 @@ class IndentLexer(object):
 
         return token
 
-    def _calc_indent(self, whitespace):
+    def _calc_indent(self, whitespace, token):
         "returns a number representing indents added or removed"
         n = len(whitespace)  # number of spaces
         indents = self.indents  # stack of space numbers
@@ -368,7 +368,7 @@ class IndentLexer(object):
         while n < indents[-1]:
             indents.pop()
             if n > indents[-1]:
-                raise SyntaxError("wrong indentation level")
+                raise SyntaxError(f"Wrong indentation level at line: {token.lineno}")
             i -= 1
         return i
 
