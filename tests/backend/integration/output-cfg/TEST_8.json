@@ -27,23 +27,47 @@
       {
          "label":5,
          "statements":[
-            "output(succ(bilangan_bulat))"
+            "output(sin(bilangan_real))"
          ]
       },
       {
          "label":6,
          "statements":[
-            "output(pred(bilangan_bulat))"
+            "output(cos(bilangan_real))"
          ]
       },
       {
          "label":7,
          "statements":[
-            "start: main"
+            "output(tan(bilangan_real))"
          ]
       },
       {
          "label":8,
+         "statements":[
+            "output(abs(bilangan_bulat))"
+         ]
+      },
+      {
+         "label":9,
+         "statements":[
+            "output(succ(bilangan_bulat))"
+         ]
+      },
+      {
+         "label":10,
+         "statements":[
+            "output(pred(bilangan_bulat))"
+         ]
+      },
+      {
+         "label":11,
+         "statements":[
+            "start: main"
+         ]
+      },
+      {
+         "label":12,
          "statements":[
             "end: main"
          ]
@@ -72,10 +96,26 @@
       },
       {
          "start_node_label":6,
-         "end_node_label":8
+         "end_node_label":7
       },
       {
          "start_node_label":7,
+         "end_node_label":8
+      },
+      {
+         "start_node_label":8,
+         "end_node_label":9
+      },
+      {
+         "start_node_label":9,
+         "end_node_label":10
+      },
+      {
+         "start_node_label":10,
+         "end_node_label":12
+      },
+      {
+         "start_node_label":11,
          "end_node_label":1
       }
    ]

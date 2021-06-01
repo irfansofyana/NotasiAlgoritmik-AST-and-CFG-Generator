@@ -14,6 +14,18 @@ ALGORITMA
     { konversi bilangan integer ke real }
     output(IntToReal(bilangan_bulat))
 
+    { Menghasilkan nilai sinus }
+    output(sin(bilangan_real))
+
+    { Menghasilkan nilai cosinus }
+    output(cos(bilangan_real))
+
+    { Menghasilkan nilai tan }
+    output(tan(bilangan_real))
+
+    { Menghasilkan sebuah nilai absolut }
+    output(abs(bilangan_bulat))
+
     { suksesor bilangan_bulat -> menghasilkan bilangan_bulat + 1 }
     output(Succ(bilangan_bulat))
 
