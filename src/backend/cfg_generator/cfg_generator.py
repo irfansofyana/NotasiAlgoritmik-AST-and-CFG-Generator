@@ -63,14 +63,17 @@ class CFGGenerator:
             function_name = self.get_subprogram_name(function_call)
 
             if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
-                if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
+                if 'function ' + function_name not in CFGGenerator.subprograms_ast['function']:
                     raise Exception(f"Function {function_name} can't be found")
                 function_declaration = CFGGenerator.subprograms_ast['function']['function ' + function_name][0]
                 function_ast = CFGGenerator.subprograms_ast['function']['function ' + function_name][1]
                 start_function_node = CFGNode(self.get_label_now(), [f'start: {function_declaration}'])
                 end_function_node = CFGNode(self.get_label_now(), [f'end: {function_declaration}'])
 
-                CFGGenerator.visited_subprograms_ast['function ' + function_name] = start_function_node
+                CFGGenerator.visited_subprograms_ast['function ' + function_name] = (
+                    start_function_node,
+                    end_function_node
+                )
 
                 function_cfg_generator = CFGGenerator(function_ast)
                 function_cfg = function_cfg_generator.get_cfg()
@@ -83,8 +86,9 @@ class CFGGenerator:
                     exit_block.add_adjacent(end_function_node)
                 end_function_node.add_adjacent(parent_node)
             else:
-                start_function_node = CFGGenerator.visited_subprograms_ast['function ' + function_name]
+                start_function_node, end_function_node = CFGGenerator.visited_subprograms_ast['function ' + function_name]
                 parent_node.add_adjacent(start_function_node)
+                end_function_node.add_adjacent(parent_node)
 
     def build_from_assignment_statement(self):
         children = self.state.get_children()
@@ -134,12 +138,17 @@ class CFGGenerator:
 
         # Subprogram_cfg
         if 'procedure ' + procedure_name not in CFGGenerator.visited_subprograms_ast:
-            subprogram_declaration = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name][0]
-            subprogram_ast = self.__class__.subprograms_ast['procedure']['procedure ' + procedure_name][1]
+            if 'procedure ' + procedure_name not in CFGGenerator.subprograms_ast['procedure']:
+                raise Exception(f"Procedure {procedure_name} can't be found")
+            subprogram_declaration = CFGGenerator.subprograms_ast['procedure']['procedure ' + procedure_name][0]
+            subprogram_ast = CFGGenerator.subprograms_ast['procedure']['procedure ' + procedure_name][1]
             start_procedure_node = CFGNode(self.get_label_now(), [f'start: {subprogram_declaration}'])
             end_procedure_node = CFGNode(self.get_label_now(), [f'end: {subprogram_declaration}'])
 
-            CFGGenerator.visited_subprograms_ast['procedure' + procedure_name] = start_procedure_node
+            CFGGenerator.visited_subprograms_ast['procedure' + procedure_name] = (
+                start_procedure_node,
+                end_procedure_node
+            )
 
             subprogram_generator = CFGGenerator(subprogram_ast)
             subprogram_cfg = subprogram_generator.get_cfg()
@@ -153,8 +162,9 @@ class CFGGenerator:
             end_procedure_node.add_adjacent(node)
 
         else:
-            start_procedure_node = CFGGenerator.visited_subprograms_ast['procedure' + procedure_name]
+            start_procedure_node, end_procedure_node = CFGGenerator.visited_subprograms_ast['procedure' + procedure_name]
             node.add_adjacent(start_procedure_node)
+            end_procedure_node.add_adjacent(start_procedure_node)
 
         self.cfg = CFG(node, [node])
 
