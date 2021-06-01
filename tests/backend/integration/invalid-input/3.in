@@ -1,0 +1,9 @@
+PROGRAM Fail_3
+KAMUS
+    a: integer
+
+    function f(a: integer) -> integer
+
+ALGORITMA
+    input(a)
+    output(f(a))
