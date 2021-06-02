@@ -15,13 +15,13 @@
       {
          "label": 3,
          "statements": [
-            "start_algorithm"
+            "start: main"
          ]
       },
       {
          "label": 4,
          "statements": [
-            "end_algorithm"
+            "end: main"
          ]
       }
    ],

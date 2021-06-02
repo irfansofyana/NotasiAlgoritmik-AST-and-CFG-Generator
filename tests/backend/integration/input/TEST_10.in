@@ -1,0 +1,15 @@
+PROGRAM Menentukan_Jenis_Bilangan
+
+KAMUS
+    x: integer
+
+ALGORITMA
+    input(x)
+
+    if (x ≥ 0) then
+        output(x, " adalah bilangan positif")
+    else
+        if (x < 0) then
+            output(x, " adalah bilangan negatif")
+        else
+            output(x, " adalah nol")

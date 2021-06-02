@@ -1,0 +1,5 @@
+PROGRAM Fail_1
+KAMUS
+    a: integer
+ALGORITMA
+    a = 12

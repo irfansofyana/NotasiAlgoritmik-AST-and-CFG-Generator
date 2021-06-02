@@ -1,0 +1,19 @@
+PROGRAM Hitung_Jumlah_Kuadrat
+{ Menghasilkan penjumlahan 1^2 + 2^2 + ... + n^2 dengan looping dua kali}
+
+KAMUS
+    jumlah_kuadrat: integer
+    n, i, j: integer
+
+ALGORITMA
+    input(n)
+
+    jumlah_kuadrat <- 0
+    i <- 1
+    repeat n times
+        j <- 1
+        while (j <= i) do
+            jumlah_kuadrat <- jumlah_kuadrat + i
+            j <- j + 1
+        i <- i + 1
+    output(jumlah_kuadrat)

@@ -1,0 +1,33 @@
+PROGRAM Fungsi_Fungsi_Primitif_Bilangan
+
+KAMUS
+    bilangan_bulat: integer
+    bilangan_real: real
+
+ALGORITMA
+    bilangan_bulat <- 100
+    bilangan_real <- 78.912
+
+    { konversi bilangan real ke integer }
+    output(RealToInteger(bilangan_real))
+
+    { konversi bilangan integer ke real }
+    output(IntToReal(bilangan_bulat))
+
+    { Menghasilkan nilai sinus }
+    output(sin(bilangan_real))
+
+    { Menghasilkan nilai cosinus }
+    output(cos(bilangan_real))
+
+    { Menghasilkan nilai tan }
+    output(tan(bilangan_real))
+
+    { Menghasilkan sebuah nilai absolut }
+    output(abs(bilangan_bulat))
+
+    { suksesor bilangan_bulat -> menghasilkan bilangan_bulat + 1 }
+    output(Succ(bilangan_bulat))
+
+    { predesesor bilangan bulat -> menghasilkan bilangan_bulat - 1 }
+    output(Pred(bilangan_bulat))

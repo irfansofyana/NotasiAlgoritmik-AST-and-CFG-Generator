@@ -1,0 +1,6 @@
+PROGRAM Fail_2
+KAMUS
+    a: integer
+ALGORITMA
+      input(a)
+     output(a)

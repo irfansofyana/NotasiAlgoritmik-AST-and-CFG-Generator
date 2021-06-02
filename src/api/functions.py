@@ -92,18 +92,3 @@ def get_ast_of_the_subprogram(subprogram_implementation_list_ast):
             get_ast_block(subprogram_implementation, 'algorithm_block')
         )
     return collected_ast
-
-
-if __name__ == "__main__":
-    ast = get_ast('../backend/parser/input/dummy.in')
-    ast_parser = ASTParser(ast_dict=ast)
-    tmp = get_ast_block(ast_parser, "procedure_and_function_implementation_block")
-    ast_subprograms = get_ast_of_the_subprograms(tmp)
-    for type in ast_subprograms.keys():
-        subprograms = ast_subprograms[type]
-        for subprogram_name in subprograms.keys():
-            print('NAME: ', subprogram_name)
-            print(subprograms[subprogram_name].get_ast_in_json())
-
-    # graph = get_cfg_from_ast(ast)
-    # write_graph(graph)

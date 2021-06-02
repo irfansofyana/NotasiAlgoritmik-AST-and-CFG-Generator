@@ -902,7 +902,7 @@ class NotalParser(object):
     def p_pred_function(self, p):
         """pred_function    :   RW_PRED S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
-        p[0] = AST("pred_function ", [p[3]])
+        p[0] = AST("pred_function", [p[3]])
 
     def p_string_function_call(self, p):
         """string_function_call :   awal_function
@@ -927,7 +927,7 @@ class NotalParser(object):
     def p_firstchar_function(self, p):
         """firstchar_function    :   RW_FIRSTCHAR S_LEFT_BRACKET expression S_RIGHT_BRACKET
         """
-        p[0] = AST("firstchar_function ", [p[3]])
+        p[0] = AST("firstchar_function", [p[3]])
 
     def p_lastchar_function(self, p):
         """lastchar_function    :   RW_LASTCHAR S_LEFT_BRACKET expression S_RIGHT_BRACKET
@@ -961,7 +961,7 @@ class NotalParser(object):
         p[0] = AST("real_to_integer_converter", [p[3]])
 
     def p_error(self, p):
-        raise Exception(f"Syntax error on token: {p}")
+        raise Exception(f"Syntax error at token: {p}")
 
     def p_empty(self, p):
         """empty    :

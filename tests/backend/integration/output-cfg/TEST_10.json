@@ -1,0 +1,90 @@
+{
+   "nodes":[
+      {
+         "label":1,
+         "statements":[
+            "input(x)"
+         ]
+      },
+      {
+         "label":2,
+         "statements":[
+            "if (x ≥ 0)"
+         ]
+      },
+      {
+         "label":3,
+         "statements":[
+            "output(x,\" adalah bilangan positif\")"
+         ]
+      },
+      {
+         "label":4,
+         "statements":[
+            "if (x < 0)"
+         ]
+      },
+      {
+         "label":5,
+         "statements":[
+            "output(x,\" adalah bilangan negatif\")"
+         ]
+      },
+      {
+         "label":6,
+         "statements":[
+            "output(x,\" adalah nol\")"
+         ]
+      },
+      {
+         "label":7,
+         "statements":[
+            "start: main"
+         ]
+      },
+      {
+         "label":8,
+         "statements":[
+            "end: main"
+         ]
+      }
+   ],
+   "edges":[
+      {
+         "start_node_label":1,
+         "end_node_label":2
+      },
+      {
+         "start_node_label":2,
+         "end_node_label":3
+      },
+      {
+         "start_node_label":2,
+         "end_node_label":4
+      },
+      {
+         "start_node_label":3,
+         "end_node_label":8
+      },
+      {
+         "start_node_label":4,
+         "end_node_label":5
+      },
+      {
+         "start_node_label":4,
+         "end_node_label":6
+      },
+      {
+         "start_node_label":5,
+         "end_node_label":8
+      },
+      {
+         "start_node_label":6,
+         "end_node_label":8
+      },
+      {
+         "start_node_label":7,
+         "end_node_label":1
+      }
+   ]
+}

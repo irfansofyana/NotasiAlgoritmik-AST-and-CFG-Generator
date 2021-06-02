@@ -1,0 +1,25 @@
+PROGRAM Fungsi_Fungsi_Primitif_String
+
+KAMUS
+    s: string
+
+ALGORITMA
+    input(s)
+
+    { Menghasilkan sisa string s tanpa karakter terakhir }
+    output(AWAL(s))
+
+    { Menghasilkan sisa sting s tanpa karakter pertama }
+    output(AKHIR(s))
+
+    { Menghasilkan karakter pertama dari string s }
+    output(FIRSTCHAR(s))
+
+    { Menghasilkan karakter terakhir dari string s }
+    output(LASTCHAR(s))
+
+    { Menghasilkan panjang string s }
+    output(LONG(s))
+
+    { Menghasilkan true jika S adalah string kosong }
+    output(IsKOSONG(s))
