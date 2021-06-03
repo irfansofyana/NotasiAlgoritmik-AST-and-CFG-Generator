@@ -18,10 +18,10 @@ class Integration(unittest.TestCase):
             expected_output = json.load(f)
         return expected_output
 
-    def test_ast(self):
+    def test_ast_resurrected_successfully(self):
         parent_dir = os.path.dirname(os.path.abspath(__file__))
-        input_folder_dir = os.path.join(parent_dir, "input")
-        output_folder_dir = os.path.join(parent_dir, "output-ast")
+        input_folder_dir = os.path.join(parent_dir, "input-valid")
+        output_folder_dir = os.path.join(parent_dir, "output-ast-valid")
 
         input_files = os.listdir(input_folder_dir)
         for input_file_name in input_files:
@@ -34,10 +34,10 @@ class Integration(unittest.TestCase):
 
             self.assertEqual(generated_ast, expected_result)
 
-    def test_cfg(self):
+    def test_cfg_resurrected_successfully(self):
         parent_dir = os.path.dirname(os.path.abspath(__file__))
-        input_folder_dir = os.path.join(parent_dir, "input")
-        output_folder_dir = os.path.join(parent_dir, "output-cfg")
+        input_folder_dir = os.path.join(parent_dir, "input-valid")
+        output_folder_dir = os.path.join(parent_dir, "output-cfg-valid")
 
         input_files = os.listdir(input_folder_dir)
         for input_file_name in input_files:
@@ -51,6 +51,24 @@ class Integration(unittest.TestCase):
             expected_cfg_in_graphviz = convert_cfg_json_to_graphviz(expected_cfg_in_json).source
 
             self.assertEqual(generated_cfg_in_graphviz, expected_cfg_in_graphviz)
+
+    def test_ast_failed_to_resurrect(self):
+        parent_dir = os.path.dirname(os.path.abspath(__file__))
+        invalid_input_dir = os.path.join(parent_dir, "input-ast-failed-to-resurrect")
+
+        invalid_input_files = os.listdir(invalid_input_dir)
+        for invalid_input_file in invalid_input_files:
+            with self.assertRaises(Exception):
+                get_ast(os.path.join(invalid_input_dir, invalid_input_file))
+
+    def test_cfg_failed_to_resurrect(self):
+        parent_dir = os.path.dirname(os.path.abspath(__file__))
+        invalid_input_dir = os.path.join(parent_dir, "input-cfg-failed-to-resurrect")
+
+        invalid_input_files = os.listdir(invalid_input_dir)
+        for invalid_input_file in invalid_input_files:
+            with self.assertRaises(Exception):
+                get_cfg(os.path.join(invalid_input_dir, invalid_input_file))
 
 
 if __name__ == '__main__':
