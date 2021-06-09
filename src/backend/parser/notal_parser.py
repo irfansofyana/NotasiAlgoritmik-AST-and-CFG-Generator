@@ -30,9 +30,11 @@ class NotalParser(object):
 
     def p_block(self, p):
         """block    :   RW_KAMUS INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block procedure_and_function_implementation_block
+                    | RW_KAMUS algorithm_block procedure_and_function_implementation_block
         """
         children = []
-        for i in range(3, len(p)):
+        start_index = 2 if len(p) == 4 else 3
+        for i in range(start_index, len(p)):
             if p[i]:
                 children.append(p[i])
         p[0] = AST("program_block", children)
@@ -76,26 +78,27 @@ class NotalParser(object):
 
     def p_procedure_and_function_implementation_block(self, p):
         """procedure_and_function_implementation_block  :   empty
-                    |   procedure_implementation_list
-                    |   function_implementation_list
-                    |   procedure_implementation_list function_implementation_list
-                    |   function_implementation_list procedure_implementation_list
+                    |   subprogram_implementation_list
         """
         if len(p) == 2:
             if p[1] is not None:
-                p[0] = AST("procedure_and_function_implementation_block", [p[1]])
-        else:
-            p[0] = AST("procedure_and_function_implementation_block", [p[1], p[2]])
+                p[0] = p[1]
 
-    def p_procedure_implementation_list(self, p):
-        """procedure_implementation_list    :   procedure_implementation_list procedure_implementation
-                                            |   procedure_implementation
+    def p_subprogram_implementation_list(self, p):
+        """subprogram_implementation_list : subprogram_implementation_list subprogram_implementation
+                                        | subprogram_implementation
         """
         if len(p) == 2:
-            p[0] = AST("procedure_implementation_list", [p[1]])
+            p[0] = AST("procedure_and_function_implementation_block", [p[1]])
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("procedure_implementation_list", [*curr_children, p[2]])
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("procedure_and_function_implementation_block", [*curr_children, p[2]])
+
+    def p_subprogram_implementation(self, p):
+        """subprogram_implementation : procedure_implementation
+                                     | function_implementation
+        """
+        p[0] = p[1]
 
     def p_procedure_implementation(self, p):
         """procedure_implementation :   procedure_declaration   procedure_implementation_block
@@ -103,23 +106,15 @@ class NotalParser(object):
         p[0] = AST("procedure_implementation", [p[1], p[2]])
 
     def p_procedure_implementation_block(self, p):
-        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block
+        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT algorithm_block
+                                            | RW_KAMUS RW_LOKAL algorithm_block
         """
         children = []
-        for i in range(4, len(p)):
-            if p[i]:
+        start_index = 3 if len(p) == 4 else 4
+        for i in range(start_index, len(p)):
+            if p[i] and i != 7:
                 children.append(p[i])
         p[0] = AST("procedure_implementation_algorithm", children)
-
-    def p_function_implementation_list(self, p):
-        """function_implementation_list :   function_implementation_list function_implementation
-                                        |   function_implementation
-        """
-        if len(p) == 2:
-            p[0] = AST("function_implementation_list", [p[1]])
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("function_implementation_list", [*curr_children, p[2]])
 
     def p_function_implementation(self, p):
         """function_implementation  :   function_declaration function_implementation_block
@@ -127,11 +122,13 @@ class NotalParser(object):
         p[0] = AST("function_implementation", [p[1], p[2]])
 
     def p_function_implementation_block(self, p):
-        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block
+        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT  algorithm_block
+                                            | RW_KAMUS RW_LOKAL algorithm_block
         """
         children = []
-        for i in range(4, len(p)):
-            if p[i]:
+        start_index = 3 if len(p) == 4 else 4
+        for i in range(start_index, len(p)):
+            if p[i] and i != 7:
                 children.append(p[i])
         p[0] = AST("function_implementation_algorithm", children)
 
@@ -415,17 +412,15 @@ class NotalParser(object):
             p[0] = AST("statement_sequence", [*curr_children, p[3]])
 
     def p_statement(self, p):
-        """statement    :   simple_statement
-                        |   structured_statement
-        """
-        p[0] = p[1]
-
-    def p_simple_statement(self, p):
-        """simple_statement :   assignment_statement
-                            |   procedure_statement
-                            |   simple_if_statement
-                            |   simple_while_statement
-                            |   function_returned_statement
+        """statement    : assignment_statement
+                        | procedure_statement
+                        | function_returned_statement
+                        |   if_statement
+                        | depend_on_statement
+                        | while_statement
+                        | traversal_statement
+                        |   repeat_statement
+                        |   iterate_stop_statement
         """
         p[0] = p[1]
 
@@ -511,17 +506,6 @@ class NotalParser(object):
         """
         p[0] = AST("function_returned_statement", [p[2]])
 
-    def p_structured_statement(self, p):
-        """structured_statement :   compound_statement
-                                |   structured_if_statement
-                                |   repeat_statement
-                                |   structured_while_statement
-                                |   iterate_stop_statement
-                                |   traversal_statement
-                                |   depend_on_statement
-        """
-        p[0] = p[1]
-
     def p_depend_on_statement(self, p):
         """depend_on_statement  :   RW_DEPEND RW_ON S_LEFT_BRACKET input_statement_parameter_list S_RIGHT_BRACKET INDENT depend_on_action_list DEDENT
         """
@@ -542,14 +526,9 @@ class NotalParser(object):
         """
         p[0] = AST("depend_on_action", [p[1], p[4]])
 
-    def p_structured_if_statement(self, p):
-        """structured_if_statement  : RW_IF boolean_expression RW_THEN structured_statement RW_ELSE structured_statement
-        """
-        p[0] = AST("if_statement", [p[2], p[4], p[6]])
-
-    def p_simple_if_statement(self, p):
-        """simple_if_statement  :   RW_IF boolean_expression RW_THEN statement
-                                |   RW_IF boolean_expression RW_THEN structured_statement RW_ELSE simple_statement
+    def p_if_statement(self, p):
+        """if_statement : RW_IF boolean_expression RW_THEN compound_statement
+                        | RW_IF boolean_expression RW_THEN compound_statement RW_ELSE compound_statement
         """
         if len(p) == 5:
             p[0] = AST("if_statement", [p[2], p[4]])
@@ -568,34 +547,29 @@ class NotalParser(object):
         p[0] = p[1]
 
     def p_repeat_until_statement(self, p):
-        """repeat_until_statement   :   RW_REPEAT statement_sequence RW_UNTIL boolean_expression
+        """repeat_until_statement   :   RW_REPEAT compound_statement RW_UNTIL boolean_expression
         """
         p[0] = AST("repeat_until_statement", [p[2], p[4]])
 
     def p_repeat_times_statement(self, p):
-        """repeat_times_statement   :   RW_REPEAT variable_access RW_TIMES structured_statement
-                                    |   RW_REPEAT integer_constant RW_TIMES structured_statement
-                                    |   RW_REPEAT function_designator RW_TIMES structured_statement
+        """repeat_times_statement   :   RW_REPEAT variable_access RW_TIMES compound_statement
+                                    |   RW_REPEAT integer_constant RW_TIMES compound_statement
+                                    |   RW_REPEAT function_designator RW_TIMES compound_statement
         """
         p[0] = AST("repeat_times_statement", [p[2], p[4]])
 
-    def p_structured_while_statement(self, p):
-        """structured_while_statement   :   RW_WHILE boolean_expression RW_DO structured_statement
-        """
-        p[0] = AST("while_statement", [p[2], p[4]])
-
-    def p_simple_while_statement(self, p):
-        """simple_while_statement   :   RW_WHILE boolean_expression RW_DO simple_statement
+    def p_while_statement(self, p):
+        """while_statement   :   RW_WHILE boolean_expression RW_DO compound_statement
         """
         p[0] = AST("while_statement", [p[2], p[4]])
 
     def p_iterate_stop_statement(self, p):
-        """iterate_stop_statement   :   RW_ITERATE structured_statement RW_STOP boolean_expression structured_statement
+        """iterate_stop_statement   :   RW_ITERATE compound_statement RW_STOP boolean_expression compound_statement
         """
         p[0] = AST("iterate_stop_statement", [p[2], p[4], p[5]])
 
     def p_traversal_statement(self, p):
-        """traversal_statement  :   control_variable RW_TRAVERSAL traversal_range_value structured_statement
+        """traversal_statement  :   control_variable RW_TRAVERSAL traversal_range_value compound_statement
         """
         p[0] = AST("traversal_statement", [p[1], p[3], p[4]])
 

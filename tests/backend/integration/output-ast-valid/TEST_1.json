@@ -1,180 +1,180 @@
 {
-   "type":"notal_file",
-   "info":null,
-   "children":[
-      {
-         "type":"program_declaration",
-         "info":null,
-         "children":[
+  "type": "notal_file",
+  "info": null,
+  "children": [
+    {
+      "type": "program_declaration",
+      "info": null,
+      "children": [
+        {
+          "type": "identifier",
+          "info": {
+            "identifier_name": "sum"
+          }
+        },
+        {
+          "type": "program_block",
+          "info": null,
+          "children": [
             {
-               "type":"identifier",
-               "info":{
-                  "identifier_name":"sum"
-               }
+              "type": "variable_declaration_block",
+              "info": null,
+              "children": [
+                {
+                  "type": "variable_declaration",
+                  "info": null,
+                  "children": [
+                    {
+                      "type": "identifier_list",
+                      "info": null,
+                      "children": [
+                        {
+                          "type": "identifier",
+                          "info": {
+                            "identifier_name": "A"
+                          }
+                        },
+                        {
+                          "type": "identifier",
+                          "info": {
+                            "identifier_name": "B"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "type_denoter",
+                      "info": {
+                        "type_name": "integer"
+                      }
+                    }
+                  ]
+                }
+              ]
             },
             {
-               "type":"program_block",
-               "info":null,
-               "children":[
-                  {
-                     "type":"variable_declaration_block",
-                     "info":null,
-                     "children":[
+              "type": "algorithm_block",
+              "info": null,
+              "children": [
+                {
+                  "type": "compound_statement",
+                  "info": null,
+                  "children": [
+                    {
+                      "type": "statement_sequence",
+                      "info": null,
+                      "children": [
                         {
-                           "type":"variable_declaration",
-                           "info":null,
-                           "children":[
-                              {
-                                 "type":"identifier_list",
-                                 "info":null,
-                                 "children":[
+                          "type": "input_statement",
+                          "info": null,
+                          "children": [
+                            {
+                              "type": "input_statement_parameter_list",
+                              "info": null,
+                              "children": [
+                                {
+                                  "type": "input_statement_parameter",
+                                  "info": null,
+                                  "children": [
                                     {
-                                       "type":"identifier",
-                                       "info":{
-                                          "identifier_name":"A"
-                                       }
-                                    },
-                                    {
-                                       "type":"identifier",
-                                       "info":{
-                                          "identifier_name":"B"
-                                       }
+                                      "type": "variable",
+                                      "info": null,
+                                      "children": [
+                                        {
+                                          "type": "identifier",
+                                          "info": {
+                                            "identifier_name": "A"
+                                          }
+                                        }
+                                      ]
                                     }
-                                 ]
-                              },
-                              {
-                                 "type":"type_denoter",
-                                 "info":{
-                                    "type_name":"integer"
-                                 }
-                              }
-                           ]
-                        }
-                     ]
-                  },
-                  {
-                     "type":"algorithm_block",
-                     "info":null,
-                     "children":[
+                                  ]
+                                },
+                                {
+                                  "type": "input_statement_parameter",
+                                  "info": null,
+                                  "children": [
+                                    {
+                                      "type": "variable",
+                                      "info": null,
+                                      "children": [
+                                        {
+                                          "type": "identifier",
+                                          "info": {
+                                            "identifier_name": "B"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
                         {
-                           "type":"compound_statement",
-                           "info":null,
-                           "children":[
-                              {
-                                 "type":"statement_sequence",
-                                 "info":null,
-                                 "children":[
+                          "type": "output_statement",
+                          "info": null,
+                          "children": [
+                            {
+                              "type": "output_statement_parameter_list",
+                              "info": null,
+                              "children": [
+                                {
+                                  "type": "output_statement_parameter",
+                                  "info": null,
+                                  "children": [
                                     {
-                                       "type":"input_statement",
-                                       "info":null,
-                                       "children":[
-                                          {
-                                             "type":"input_statement_parameter_list",
-                                             "info":null,
-                                             "children":[
-                                                {
-                                                   "type":"input_statement_parameter",
-                                                   "info":null,
-                                                   "children":[
-                                                      {
-                                                         "type":"variable",
-                                                         "info":null,
-                                                         "children":[
-                                                            {
-                                                               "type":"identifier",
-                                                               "info":{
-                                                                  "identifier_name":"A"
-                                                               }
-                                                            }
-                                                         ]
-                                                      }
-                                                   ]
-                                                },
-                                                {
-                                                   "type":"input_statement_parameter",
-                                                   "info":null,
-                                                   "children":[
-                                                      {
-                                                         "type":"variable",
-                                                         "info":null,
-                                                         "children":[
-                                                            {
-                                                               "type":"identifier",
-                                                               "info":{
-                                                                  "identifier_name":"B"
-                                                               }
-                                                            }
-                                                         ]
-                                                      }
-                                                   ]
-                                                }
-                                             ]
+                                      "type": "additive_expression",
+                                      "info": null,
+                                      "children": [
+                                        {
+                                          "type": "variable",
+                                          "info": null,
+                                          "children": [
+                                            {
+                                              "type": "identifier",
+                                              "info": {
+                                                "identifier_name": "A"
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "operator",
+                                          "info": {
+                                            "name": "+"
                                           }
-                                       ]
-                                    },
-                                    {
-                                       "type":"output_statement",
-                                       "info":null,
-                                       "children":[
-                                          {
-                                             "type":"output_statement_parameter_list",
-                                             "info":null,
-                                             "children":[
-                                                {
-                                                   "type":"output_statement_parameter",
-                                                   "info":null,
-                                                   "children":[
-                                                      {
-                                                         "type":"additive_expression",
-                                                         "info":null,
-                                                         "children":[
-                                                            {
-                                                               "type":"variable",
-                                                               "info":null,
-                                                               "children":[
-                                                                  {
-                                                                     "type":"identifier",
-                                                                     "info":{
-                                                                        "identifier_name":"A"
-                                                                     }
-                                                                  }
-                                                               ]
-                                                            },
-                                                            {
-                                                               "type":"operator",
-                                                               "info":{
-                                                                  "name":"+"
-                                                               }
-                                                            },
-                                                            {
-                                                               "type":"variable",
-                                                               "info":null,
-                                                               "children":[
-                                                                  {
-                                                                     "type":"identifier",
-                                                                     "info":{
-                                                                        "identifier_name":"B"
-                                                                     }
-                                                                  }
-                                                               ]
-                                                            }
-                                                         ]
-                                                      }
-                                                   ]
-                                                }
-                                             ]
-                                          }
-                                       ]
+                                        },
+                                        {
+                                          "type": "variable",
+                                          "info": null,
+                                          "children": [
+                                            {
+                                              "type": "identifier",
+                                              "info": {
+                                                "identifier_name": "B"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
                                     }
-                                 ]
-                              }
-                           ]
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         }
-                     ]
-                  }
-               ]
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
-         ]
-      }
-   ]
+          ]
+        }
+      ]
+    }
+  ]
 }

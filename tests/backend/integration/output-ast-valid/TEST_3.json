@@ -369,87 +369,111 @@
                      "info":null,
                      "children":[
                         {
-                           "type":"function_implementation_list",
+                           "type":"function_implementation",
                            "info":null,
                            "children":[
                               {
-                                 "type":"function_implementation",
+                                 "type":"function_declaration",
                                  "info":null,
                                  "children":[
                                     {
-                                       "type":"function_declaration",
+                                       "type":"function_identifier",
                                        "info":null,
                                        "children":[
                                           {
-                                             "type":"function_identifier",
-                                             "info":null,
-                                             "children":[
-                                                {
-                                                   "type":"identifier",
-                                                   "info":{
-                                                      "identifier_name":"find_max_3"
-                                                   }
-                                                }
-                                             ]
-                                          },
+                                             "type":"identifier",
+                                             "info":{
+                                                "identifier_name":"find_max_3"
+                                             }
+                                          }
+                                       ]
+                                    },
+                                    {
+                                       "type":"function_parameter_declaration",
+                                       "info":null,
+                                       "children":[
                                           {
-                                             "type":"function_parameter_declaration",
+                                             "type":"function_parameter_list",
                                              "info":null,
                                              "children":[
                                                 {
-                                                   "type":"function_parameter_list",
+                                                   "type":"function_parameter",
                                                    "info":null,
                                                    "children":[
                                                       {
-                                                         "type":"function_parameter",
+                                                         "type":"variable_declaration",
                                                          "info":null,
                                                          "children":[
                                                             {
-                                                               "type":"variable_declaration",
+                                                               "type":"identifier_list",
                                                                "info":null,
                                                                "children":[
                                                                   {
-                                                                     "type":"identifier_list",
-                                                                     "info":null,
-                                                                     "children":[
-                                                                        {
-                                                                           "type":"identifier",
-                                                                           "info":{
-                                                                              "identifier_name":"a"
-                                                                           }
-                                                                        },
-                                                                        {
-                                                                           "type":"identifier",
-                                                                           "info":{
-                                                                              "identifier_name":"b"
-                                                                           }
-                                                                        },
-                                                                        {
-                                                                           "type":"identifier",
-                                                                           "info":{
-                                                                              "identifier_name":"c"
-                                                                           }
-                                                                        }
-                                                                     ]
+                                                                     "type":"identifier",
+                                                                     "info":{
+                                                                        "identifier_name":"a"
+                                                                     }
                                                                   },
                                                                   {
-                                                                     "type":"type_denoter",
+                                                                     "type":"identifier",
                                                                      "info":{
-                                                                        "type_name":"integer"
+                                                                        "identifier_name":"b"
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     "type":"identifier",
+                                                                     "info":{
+                                                                        "identifier_name":"c"
                                                                      }
                                                                   }
                                                                ]
+                                                            },
+                                                            {
+                                                               "type":"type_denoter",
+                                                               "info":{
+                                                                  "type_name":"integer"
+                                                               }
                                                             }
                                                          ]
                                                       }
                                                    ]
                                                 }
                                              ]
-                                          },
+                                          }
+                                       ]
+                                    },
+                                    {
+                                       "type":"return_type",
+                                       "info":null,
+                                       "children":[
                                           {
-                                             "type":"return_type",
+                                             "type":"type_denoter",
+                                             "info":{
+                                                "type_name":"integer"
+                                             }
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              },
+                              {
+                                 "type":"function_implementation_algorithm",
+                                 "info":null,
+                                 "children":[
+                                    {
+                                       "type":"variable_declaration_block",
+                                       "info":null,
+                                       "children":[
+                                          {
+                                             "type":"variable_declaration",
                                              "info":null,
                                              "children":[
+                                                {
+                                                   "type":"identifier",
+                                                   "info":{
+                                                      "identifier_name":"max_3"
+                                                   }
+                                                },
                                                 {
                                                    "type":"type_denoter",
                                                    "info":{
@@ -461,57 +485,135 @@
                                        ]
                                     },
                                     {
-                                       "type":"function_implementation_algorithm",
+                                       "type":"algorithm_block",
                                        "info":null,
                                        "children":[
                                           {
-                                             "type":"variable_declaration_block",
+                                             "type":"compound_statement",
                                              "info":null,
                                              "children":[
                                                 {
-                                                   "type":"variable_declaration",
+                                                   "type":"statement_sequence",
                                                    "info":null,
                                                    "children":[
                                                       {
-                                                         "type":"identifier",
-                                                         "info":{
-                                                            "identifier_name":"max_3"
-                                                         }
-                                                      },
-                                                      {
-                                                         "type":"type_denoter",
-                                                         "info":{
-                                                            "type_name":"integer"
-                                                         }
-                                                      }
-                                                   ]
-                                                }
-                                             ]
-                                          },
-                                          {
-                                             "type":"algorithm_block",
-                                             "info":null,
-                                             "children":[
-                                                {
-                                                   "type":"compound_statement",
-                                                   "info":null,
-                                                   "children":[
-                                                      {
-                                                         "type":"statement_sequence",
+                                                         "type":"depend_on_statement",
                                                          "info":null,
                                                          "children":[
                                                             {
-                                                               "type":"depend_on_statement",
+                                                               "type":"input_statement_parameter_list",
                                                                "info":null,
                                                                "children":[
                                                                   {
-                                                                     "type":"input_statement_parameter_list",
+                                                                     "type":"input_statement_parameter",
                                                                      "info":null,
                                                                      "children":[
                                                                         {
-                                                                           "type":"input_statement_parameter",
+                                                                           "type":"variable",
                                                                            "info":null,
                                                                            "children":[
+                                                                              {
+                                                                                 "type":"identifier",
+                                                                                 "info":{
+                                                                                    "identifier_name":"a"
+                                                                                 }
+                                                                              }
+                                                                           ]
+                                                                        }
+                                                                     ]
+                                                                  },
+                                                                  {
+                                                                     "type":"input_statement_parameter",
+                                                                     "info":null,
+                                                                     "children":[
+                                                                        {
+                                                                           "type":"variable",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"identifier",
+                                                                                 "info":{
+                                                                                    "identifier_name":"b"
+                                                                                 }
+                                                                              }
+                                                                           ]
+                                                                        }
+                                                                     ]
+                                                                  },
+                                                                  {
+                                                                     "type":"input_statement_parameter",
+                                                                     "info":null,
+                                                                     "children":[
+                                                                        {
+                                                                           "type":"variable",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"identifier",
+                                                                                 "info":{
+                                                                                    "identifier_name":"c"
+                                                                                 }
+                                                                              }
+                                                                           ]
+                                                                        }
+                                                                     ]
+                                                                  }
+                                                               ]
+                                                            },
+                                                            {
+                                                               "type":"depend_on_action_list",
+                                                               "info":null,
+                                                               "children":[
+                                                                  {
+                                                                     "type":"depend_on_action",
+                                                                     "info":null,
+                                                                     "children":[
+                                                                        {
+                                                                           "type":"expression",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"expression",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"a"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"operator",
+                                                                                       "info":{
+                                                                                          "name":">"
+                                                                                       }
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"b"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              },
+                                                                              {
+                                                                                 "type":"operator",
+                                                                                 "info":{
+                                                                                    "name":">"
+                                                                                 }
+                                                                              },
                                                                               {
                                                                                  "type":"variable",
                                                                                  "info":null,
@@ -519,7 +621,7 @@
                                                                                     {
                                                                                        "type":"identifier",
                                                                                        "info":{
-                                                                                          "identifier_name":"a"
+                                                                                          "identifier_name":"c"
                                                                                        }
                                                                                     }
                                                                                  ]
@@ -527,9 +629,93 @@
                                                                            ]
                                                                         },
                                                                         {
-                                                                           "type":"input_statement_parameter",
+                                                                           "type":"statement_sequence",
                                                                            "info":null,
                                                                            "children":[
+                                                                              {
+                                                                                 "type":"assignment_statement",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"max_3"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"a"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              }
+                                                                           ]
+                                                                        }
+                                                                     ]
+                                                                  },
+                                                                  {
+                                                                     "type":"depend_on_action",
+                                                                     "info":null,
+                                                                     "children":[
+                                                                        {
+                                                                           "type":"expression",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"expression",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"a"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"operator",
+                                                                                       "info":{
+                                                                                          "name":">"
+                                                                                       }
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"c"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              },
+                                                                              {
+                                                                                 "type":"operator",
+                                                                                 "info":{
+                                                                                    "name":">"
+                                                                                 }
+                                                                              },
                                                                               {
                                                                                  "type":"variable",
                                                                                  "info":null,
@@ -545,9 +731,195 @@
                                                                            ]
                                                                         },
                                                                         {
-                                                                           "type":"input_statement_parameter",
+                                                                           "type":"statement_sequence",
                                                                            "info":null,
                                                                            "children":[
+                                                                              {
+                                                                                 "type":"assignment_statement",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"max_3"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"a"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              }
+                                                                           ]
+                                                                        }
+                                                                     ]
+                                                                  },
+                                                                  {
+                                                                     "type":"depend_on_action",
+                                                                     "info":null,
+                                                                     "children":[
+                                                                        {
+                                                                           "type":"expression",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"expression",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"b"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"operator",
+                                                                                       "info":{
+                                                                                          "name":">"
+                                                                                       }
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"c"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              },
+                                                                              {
+                                                                                 "type":"operator",
+                                                                                 "info":{
+                                                                                    "name":">"
+                                                                                 }
+                                                                              },
+                                                                              {
+                                                                                 "type":"variable",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"identifier",
+                                                                                       "info":{
+                                                                                          "identifier_name":"a"
+                                                                                       }
+                                                                                    }
+                                                                                 ]
+                                                                              }
+                                                                           ]
+                                                                        },
+                                                                        {
+                                                                           "type":"statement_sequence",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"assignment_statement",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"max_3"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"b"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              }
+                                                                           ]
+                                                                        }
+                                                                     ]
+                                                                  },
+                                                                  {
+                                                                     "type":"depend_on_action",
+                                                                     "info":null,
+                                                                     "children":[
+                                                                        {
+                                                                           "type":"expression",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"expression",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"b"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"operator",
+                                                                                       "info":{
+                                                                                          "name":">"
+                                                                                       }
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"a"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              },
+                                                                              {
+                                                                                 "type":"operator",
+                                                                                 "info":{
+                                                                                    "name":">"
+                                                                                 }
+                                                                              },
                                                                               {
                                                                                  "type":"variable",
                                                                                  "info":null,
@@ -561,63 +933,57 @@
                                                                                  ]
                                                                               }
                                                                            ]
+                                                                        },
+                                                                        {
+                                                                           "type":"statement_sequence",
+                                                                           "info":null,
+                                                                           "children":[
+                                                                              {
+                                                                                 "type":"assignment_statement",
+                                                                                 "info":null,
+                                                                                 "children":[
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"max_3"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    },
+                                                                                    {
+                                                                                       "type":"variable",
+                                                                                       "info":null,
+                                                                                       "children":[
+                                                                                          {
+                                                                                             "type":"identifier",
+                                                                                             "info":{
+                                                                                                "identifier_name":"b"
+                                                                                             }
+                                                                                          }
+                                                                                       ]
+                                                                                    }
+                                                                                 ]
+                                                                              }
+                                                                           ]
                                                                         }
                                                                      ]
                                                                   },
                                                                   {
-                                                                     "type":"depend_on_action_list",
+                                                                     "type":"depend_on_action",
                                                                      "info":null,
                                                                      "children":[
                                                                         {
-                                                                           "type":"depend_on_action",
+                                                                           "type":"expression",
                                                                            "info":null,
                                                                            "children":[
                                                                               {
                                                                                  "type":"expression",
                                                                                  "info":null,
                                                                                  "children":[
-                                                                                    {
-                                                                                       "type":"expression",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"a"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"operator",
-                                                                                             "info":{
-                                                                                                "name":">"
-                                                                                             }
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"b"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          }
-                                                                                       ]
-                                                                                    },
-                                                                                    {
-                                                                                       "type":"operator",
-                                                                                       "info":{
-                                                                                          "name":">"
-                                                                                       }
-                                                                                    },
                                                                                     {
                                                                                        "type":"variable",
                                                                                        "info":null,
@@ -627,192 +993,6 @@
                                                                                              "info":{
                                                                                                 "identifier_name":"c"
                                                                                              }
-                                                                                          }
-                                                                                       ]
-                                                                                    }
-                                                                                 ]
-                                                                              },
-                                                                              {
-                                                                                 "type":"statement_sequence",
-                                                                                 "info":null,
-                                                                                 "children":[
-                                                                                    {
-                                                                                       "type":"assignment_statement",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"max_3"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"a"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          }
-                                                                                       ]
-                                                                                    }
-                                                                                 ]
-                                                                              }
-                                                                           ]
-                                                                        },
-                                                                        {
-                                                                           "type":"depend_on_action",
-                                                                           "info":null,
-                                                                           "children":[
-                                                                              {
-                                                                                 "type":"expression",
-                                                                                 "info":null,
-                                                                                 "children":[
-                                                                                    {
-                                                                                       "type":"expression",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"a"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"operator",
-                                                                                             "info":{
-                                                                                                "name":">"
-                                                                                             }
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"c"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          }
-                                                                                       ]
-                                                                                    },
-                                                                                    {
-                                                                                       "type":"operator",
-                                                                                       "info":{
-                                                                                          "name":">"
-                                                                                       }
-                                                                                    },
-                                                                                    {
-                                                                                       "type":"variable",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"identifier",
-                                                                                             "info":{
-                                                                                                "identifier_name":"b"
-                                                                                             }
-                                                                                          }
-                                                                                       ]
-                                                                                    }
-                                                                                 ]
-                                                                              },
-                                                                              {
-                                                                                 "type":"statement_sequence",
-                                                                                 "info":null,
-                                                                                 "children":[
-                                                                                    {
-                                                                                       "type":"assignment_statement",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"max_3"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"a"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          }
-                                                                                       ]
-                                                                                    }
-                                                                                 ]
-                                                                              }
-                                                                           ]
-                                                                        },
-                                                                        {
-                                                                           "type":"depend_on_action",
-                                                                           "info":null,
-                                                                           "children":[
-                                                                              {
-                                                                                 "type":"expression",
-                                                                                 "info":null,
-                                                                                 "children":[
-                                                                                    {
-                                                                                       "type":"expression",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"b"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"operator",
-                                                                                             "info":{
-                                                                                                "name":">"
-                                                                                             }
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"c"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
                                                                                           }
                                                                                        ]
                                                                                     },
@@ -837,92 +1017,44 @@
                                                                                  ]
                                                                               },
                                                                               {
-                                                                                 "type":"statement_sequence",
+                                                                                 "type":"operator",
+                                                                                 "info":{
+                                                                                    "name":">"
+                                                                                 }
+                                                                              },
+                                                                              {
+                                                                                 "type":"variable",
                                                                                  "info":null,
                                                                                  "children":[
                                                                                     {
-                                                                                       "type":"assignment_statement",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"max_3"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"b"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          }
-                                                                                       ]
+                                                                                       "type":"identifier",
+                                                                                       "info":{
+                                                                                          "identifier_name":"b"
+                                                                                       }
                                                                                     }
                                                                                  ]
                                                                               }
                                                                            ]
                                                                         },
                                                                         {
-                                                                           "type":"depend_on_action",
+                                                                           "type":"statement_sequence",
                                                                            "info":null,
                                                                            "children":[
                                                                               {
-                                                                                 "type":"expression",
+                                                                                 "type":"assignment_statement",
                                                                                  "info":null,
                                                                                  "children":[
                                                                                     {
-                                                                                       "type":"expression",
+                                                                                       "type":"variable",
                                                                                        "info":null,
                                                                                        "children":[
                                                                                           {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"b"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"operator",
+                                                                                             "type":"identifier",
                                                                                              "info":{
-                                                                                                "name":">"
+                                                                                                "identifier_name":"max_3"
                                                                                              }
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"a"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
                                                                                           }
                                                                                        ]
-                                                                                    },
-                                                                                    {
-                                                                                       "type":"operator",
-                                                                                       "info":{
-                                                                                          "name":">"
-                                                                                       }
                                                                                     },
                                                                                     {
                                                                                        "type":"variable",
@@ -937,47 +1069,17 @@
                                                                                        ]
                                                                                     }
                                                                                  ]
-                                                                              },
-                                                                              {
-                                                                                 "type":"statement_sequence",
-                                                                                 "info":null,
-                                                                                 "children":[
-                                                                                    {
-                                                                                       "type":"assignment_statement",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"max_3"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"b"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          }
-                                                                                       ]
-                                                                                    }
-                                                                                 ]
                                                                               }
                                                                            ]
-                                                                        },
+                                                                        }
+                                                                     ]
+                                                                  },
+                                                                  {
+                                                                     "type":"depend_on_action",
+                                                                     "info":null,
+                                                                     "children":[
                                                                         {
-                                                                           "type":"depend_on_action",
+                                                                           "type":"expression",
                                                                            "info":null,
                                                                            "children":[
                                                                               {
@@ -985,38 +1087,14 @@
                                                                                  "info":null,
                                                                                  "children":[
                                                                                     {
-                                                                                       "type":"expression",
+                                                                                       "type":"variable",
                                                                                        "info":null,
                                                                                        "children":[
                                                                                           {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"c"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"operator",
+                                                                                             "type":"identifier",
                                                                                              "info":{
-                                                                                                "name":">"
+                                                                                                "identifier_name":"c"
                                                                                              }
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"a"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
                                                                                           }
                                                                                        ]
                                                                                     },
@@ -1041,92 +1119,44 @@
                                                                                  ]
                                                                               },
                                                                               {
-                                                                                 "type":"statement_sequence",
+                                                                                 "type":"operator",
+                                                                                 "info":{
+                                                                                    "name":">"
+                                                                                 }
+                                                                              },
+                                                                              {
+                                                                                 "type":"variable",
                                                                                  "info":null,
                                                                                  "children":[
                                                                                     {
-                                                                                       "type":"assignment_statement",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"max_3"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"c"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          }
-                                                                                       ]
+                                                                                       "type":"identifier",
+                                                                                       "info":{
+                                                                                          "identifier_name":"a"
+                                                                                       }
                                                                                     }
                                                                                  ]
                                                                               }
                                                                            ]
                                                                         },
                                                                         {
-                                                                           "type":"depend_on_action",
+                                                                           "type":"statement_sequence",
                                                                            "info":null,
                                                                            "children":[
                                                                               {
-                                                                                 "type":"expression",
+                                                                                 "type":"assignment_statement",
                                                                                  "info":null,
                                                                                  "children":[
                                                                                     {
-                                                                                       "type":"expression",
+                                                                                       "type":"variable",
                                                                                        "info":null,
                                                                                        "children":[
                                                                                           {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"c"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"operator",
+                                                                                             "type":"identifier",
                                                                                              "info":{
-                                                                                                "name":">"
+                                                                                                "identifier_name":"max_3"
                                                                                              }
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"b"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
                                                                                           }
                                                                                        ]
-                                                                                    },
-                                                                                    {
-                                                                                       "type":"operator",
-                                                                                       "info":{
-                                                                                          "name":">"
-                                                                                       }
                                                                                     },
                                                                                     {
                                                                                        "type":"variable",
@@ -1135,44 +1165,8 @@
                                                                                           {
                                                                                              "type":"identifier",
                                                                                              "info":{
-                                                                                                "identifier_name":"a"
+                                                                                                "identifier_name":"c"
                                                                                              }
-                                                                                          }
-                                                                                       ]
-                                                                                    }
-                                                                                 ]
-                                                                              },
-                                                                              {
-                                                                                 "type":"statement_sequence",
-                                                                                 "info":null,
-                                                                                 "children":[
-                                                                                    {
-                                                                                       "type":"assignment_statement",
-                                                                                       "info":null,
-                                                                                       "children":[
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"max_3"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
-                                                                                          },
-                                                                                          {
-                                                                                             "type":"variable",
-                                                                                             "info":null,
-                                                                                             "children":[
-                                                                                                {
-                                                                                                   "type":"identifier",
-                                                                                                   "info":{
-                                                                                                      "identifier_name":"c"
-                                                                                                   }
-                                                                                                }
-                                                                                             ]
                                                                                           }
                                                                                        ]
                                                                                     }
@@ -1183,22 +1177,22 @@
                                                                      ]
                                                                   }
                                                                ]
-                                                            },
+                                                            }
+                                                         ]
+                                                      },
+                                                      {
+                                                         "type":"function_returned_statement",
+                                                         "info":null,
+                                                         "children":[
                                                             {
-                                                               "type":"function_returned_statement",
+                                                               "type":"variable",
                                                                "info":null,
                                                                "children":[
                                                                   {
-                                                                     "type":"variable",
-                                                                     "info":null,
-                                                                     "children":[
-                                                                        {
-                                                                           "type":"identifier",
-                                                                           "info":{
-                                                                              "identifier_name":"max_3"
-                                                                           }
-                                                                        }
-                                                                     ]
+                                                                     "type":"identifier",
+                                                                     "info":{
+                                                                        "identifier_name":"max_3"
+                                                                     }
                                                                   }
                                                                ]
                                                             }

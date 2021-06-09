@@ -73,22 +73,22 @@ def write_graph(graph):
 
 
 def get_ast_of_the_subprograms(procedure_and_function_implementation_block_ast):
-    collected_ast = {}
+    collected_ast = {'function': {}, 'procedure': {}}
     for child in procedure_and_function_implementation_block_ast.get_children():
-        ast_subprogram = get_ast_of_the_subprogram(child)
-        subprogram_type = 'function' if child.get_type() == 'function_implementation_list' else 'procedure'
-        collected_ast[subprogram_type] = ast_subprogram
+        subprogram_name, ast_subprogram = get_ast_info(child)
+        subprogram_type = 'function' if child.get_type() == 'function_implementation' else 'procedure'
+        collected_ast[subprogram_type][subprogram_name] = ast_subprogram
+
+    print(collected_ast)
     return collected_ast
 
 
-def get_ast_of_the_subprogram(subprogram_implementation_list_ast):
-    collected_ast = {}
-    for child in subprogram_implementation_list_ast.get_children():
-        subprogram_declaration = child.get_children()[0]
-        subprogram_name = subprogram_declaration.get_children()[0].get_notal_src()
-        subprogram_implementation = child.get_children()[1]
-        collected_ast[subprogram_name] = (
+def get_ast_info(subprogram_ast):
+    subprogram_declaration = subprogram_ast.get_children()[0]
+    subprogram_name = subprogram_declaration.get_children()[0].get_notal_src()
+    subprogram_implementation = subprogram_ast.get_children()[1]
+    collected_ast = (
             subprogram_declaration.get_notal_src(),
             get_ast_block(subprogram_implementation, 'algorithm_block')
-        )
-    return collected_ast
+    )
+    return subprogram_name, collected_ast
