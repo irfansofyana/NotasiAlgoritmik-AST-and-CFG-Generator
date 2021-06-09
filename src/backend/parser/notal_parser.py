@@ -78,26 +78,27 @@ class NotalParser(object):
 
     def p_procedure_and_function_implementation_block(self, p):
         """procedure_and_function_implementation_block  :   empty
-                    |   procedure_implementation_list
-                    |   function_implementation_list
-                    |   procedure_implementation_list function_implementation_list
-                    |   function_implementation_list procedure_implementation_list
+                    |   subprogram_implementation_list
         """
         if len(p) == 2:
             if p[1] is not None:
-                p[0] = AST("procedure_and_function_implementation_block", [p[1]])
-        else:
-            p[0] = AST("procedure_and_function_implementation_block", [p[1], p[2]])
+                p[0] = p[1]
 
-    def p_procedure_implementation_list(self, p):
-        """procedure_implementation_list    :   procedure_implementation_list procedure_implementation
-                                            |   procedure_implementation
+    def p_subprogram_implementation_list(self, p):
+        """subprogram_implementation_list : subprogram_implementation_list subprogram_implementation
+                                        | subprogram_implementation
         """
         if len(p) == 2:
-            p[0] = AST("procedure_implementation_list", [p[1]])
+            p[0] = AST("procedure_and_function_implementation_block", [p[1]])
         else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("procedure_implementation_list", [*curr_children, p[2]])
+            curr_children = p[1].get_children_or_itself()
+            p[0] = AST("procedure_and_function_implementation_block", [*curr_children, p[2]])
+
+    def p_subprogram_implementation(self, p):
+        """subprogram_implementation : procedure_implementation
+                                     | function_implementation
+        """
+        p[0] = p[1]
 
     def p_procedure_implementation(self, p):
         """procedure_implementation :   procedure_declaration   procedure_implementation_block
@@ -114,16 +115,6 @@ class NotalParser(object):
             if p[i] and i != 7:
                 children.append(p[i])
         p[0] = AST("procedure_implementation_algorithm", children)
-
-    def p_function_implementation_list(self, p):
-        """function_implementation_list :   function_implementation_list function_implementation
-                                        |   function_implementation
-        """
-        if len(p) == 2:
-            p[0] = AST("function_implementation_list", [p[1]])
-        else:
-            curr_children = [] if p[1] is None else p[1].get_children_or_itself()
-            p[0] = AST("function_implementation_list", [*curr_children, p[2]])
 
     def p_function_implementation(self, p):
         """function_implementation  :   function_declaration function_implementation_block
