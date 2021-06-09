@@ -30,9 +30,11 @@ class NotalParser(object):
 
     def p_block(self, p):
         """block    :   RW_KAMUS INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block procedure_and_function_implementation_block
+                    | RW_KAMUS algorithm_block procedure_and_function_implementation_block
         """
         children = []
-        for i in range(3, len(p)):
+        start_index = 2 if len(p) == 4 else 3
+        for i in range(start_index, len(p)):
             if p[i]:
                 children.append(p[i])
         p[0] = AST("program_block", children)
@@ -103,11 +105,13 @@ class NotalParser(object):
         p[0] = AST("procedure_implementation", [p[1], p[2]])
 
     def p_procedure_implementation_block(self, p):
-        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block
+        """procedure_implementation_block   :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT algorithm_block
+                                            | RW_KAMUS RW_LOKAL algorithm_block
         """
         children = []
-        for i in range(4, len(p)):
-            if p[i]:
+        start_index = 3 if len(p) == 4 else 4
+        for i in range(start_index, len(p)):
+            if p[i] and i != 7:
                 children.append(p[i])
         p[0] = AST("procedure_implementation_algorithm", children)
 
@@ -127,11 +131,13 @@ class NotalParser(object):
         p[0] = AST("function_implementation", [p[1], p[2]])
 
     def p_function_implementation_block(self, p):
-        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block procedure_and_function_declaration_block algorithm_block
+        """function_implementation_block    :   RW_KAMUS RW_LOKAL INDENT constant_declaration_block type_declaration_block variable_declaration_block DEDENT  algorithm_block
+                                            | RW_KAMUS RW_LOKAL algorithm_block
         """
         children = []
-        for i in range(4, len(p)):
-            if p[i]:
+        start_index = 3 if len(p) == 4 else 4
+        for i in range(start_index, len(p)):
+            if p[i] and i != 7:
                 children.append(p[i])
         p[0] = AST("function_implementation_algorithm", children)
 
