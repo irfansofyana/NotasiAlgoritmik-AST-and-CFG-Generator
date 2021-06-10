@@ -63,6 +63,8 @@ class CFGGenerator:
             function_name = self.get_subprogram_name(function_call)
 
             if 'function ' + function_name not in CFGGenerator.visited_subprograms_ast:
+                if CFGGenerator.subprograms_ast is None:
+                    raise Exception(f"Function {function_name} can't be found")
                 if 'function ' + function_name not in CFGGenerator.subprograms_ast['function']:
                     raise Exception(f"Function {function_name} can't be found")
                 function_declaration = CFGGenerator.subprograms_ast['function']['function ' + function_name][0]
@@ -138,6 +140,8 @@ class CFGGenerator:
 
         # Subprogram_cfg
         if 'procedure ' + procedure_name not in CFGGenerator.visited_subprograms_ast:
+            if CFGGenerator.subprograms_ast is None:
+                raise Exception(f"Procedure {procedure_name} can't be found")
             if 'procedure ' + procedure_name not in CFGGenerator.subprograms_ast['procedure']:
                 raise Exception(f"Procedure {procedure_name} can't be found")
             subprogram_declaration = CFGGenerator.subprograms_ast['procedure']['procedure ' + procedure_name][0]
