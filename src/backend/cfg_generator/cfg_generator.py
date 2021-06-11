@@ -149,7 +149,7 @@ class CFGGenerator:
             start_procedure_node = CFGNode(self.get_label_now(), [f'start: {subprogram_declaration}'])
             end_procedure_node = CFGNode(self.get_label_now(), [f'end: {subprogram_declaration}'])
 
-            CFGGenerator.visited_subprograms_ast['procedure' + procedure_name] = (
+            CFGGenerator.visited_subprograms_ast['procedure ' + procedure_name] = (
                 start_procedure_node,
                 end_procedure_node
             )
@@ -166,7 +166,7 @@ class CFGGenerator:
             end_procedure_node.add_adjacent(node)
 
         else:
-            start_procedure_node, end_procedure_node = CFGGenerator.visited_subprograms_ast['procedure' + procedure_name]
+            start_procedure_node, end_procedure_node = CFGGenerator.visited_subprograms_ast['procedure ' + procedure_name]
             node.add_adjacent(start_procedure_node)
             end_procedure_node.add_adjacent(start_procedure_node)
 
